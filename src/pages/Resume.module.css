@@ -1,0 +1,222 @@
+.resumePage {
+  position: relative;
+  padding: 2rem 0 4rem;
+  min-height: 100vh;
+  scroll-margin-top: 100px;
+}
+
+.resumeBackground {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg-color, #0f172a);
+  background-image: 
+    radial-gradient(at 20% 25%, rgba(99, 102, 241, 0.08) 0px, transparent 70%), 
+    radial-gradient(at 80% 80%, rgba(168, 85, 247, 0.08) 0px, transparent 70%);
+}
+
+.resumeContainer {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.resumeCta {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  text-align: center;
+}
+
+.ctaText {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-color, #ffffff);
+}
+
+.ctaButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.ctaPrimary {
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ctaPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+}
+
+.ctaSecondary {
+  padding: 0.8rem 1.5rem;
+  background: transparent;
+  color: var(--primary-color, #6366f1);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid var(--primary-color, #6366f1);
+  transition: background-color 0.3s ease;
+}
+
+.ctaSecondary:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* Updated sticky actions positioning */
+.stickyActions {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 90;
+}
+
+.stickyDownload,
+.stickyShare {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--primary-color, #6366f1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.stickyDownload:hover,
+.stickyShare:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+/* Ensure icon is clearly visible */
+.stickyShare svg,
+.stickyDownload svg {
+  min-width: 20px;
+  min-height: 20px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Mobile responsiveness with icon visibility fix */
+@media (max-width: 768px) {
+  .stickyActions {
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .stickyDownload,
+  .stickyShare {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: 50%;
+  }
+  
+  /* Hide text but keep icon visible */
+  .stickyDownload span:not(svg),
+  .stickyShare span:not(.shareIcon) {
+    display: none;
+  }
+  
+  /* Make icons larger and more visible on mobile */
+  .stickyShare svg,
+  .stickyDownload svg {
+    min-width: 24px;
+    min-height: 24px;
+    width: 24px;
+    height: 24px;
+    color: white;
+  }
+}
+
+/* Light theme overrides */
+[data-theme="light"] .resumeBackground {
+  background: var(--bg-color, #ffffff);
+  background-image: 
+    radial-gradient(at 20% 25%, rgba(79, 70, 229, 0.05) 0px, transparent 70%), 
+    radial-gradient(at 80% 80%, rgba(147, 51, 234, 0.05) 0px, transparent 70%);
+}
+
+[data-theme="light"] .resumeCta {
+  background: rgba(79, 70, 229, 0.03);
+  border: 1px solid rgba(79, 70, 229, 0.1);
+}
+
+[data-theme="light"] .ctaText {
+  color: var(--text-color, #1e293b);
+}
+
+[data-theme="light"] .ctaSecondary {
+  color: #4f46e5;
+  border-color: #4f46e5;
+}
+
+[data-theme="light"] .ctaSecondary:hover {
+  background: rgba(79, 70, 229, 0.08);
+}
+
+[data-theme="light"] .stickyDownload {
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .resumeContainer {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .stickyDownload span {
+    display: none;
+  }
+  
+  .stickyDownload {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .resumePage {
+    padding: 1rem 0 3rem;
+  }
+  
+  .ctaButtons {
+    flex-direction: column;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+  
+  .ctaText {
+    font-size: 1.1rem;
+  }
+  
+  .stickyDownload {
+    bottom: 20px;
+    right: 20px;
+  }
+}

@@ -1,0 +1,163 @@
+.notFoundContainer {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.content {
+  max-width: 600px;
+  text-align: center;
+  z-index: 10;
+}
+
+.errorCode {
+  font-size: 8rem;
+  font-weight: 900;
+  margin: 0;
+  background: linear-gradient(135deg, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 8px 16px rgba(99, 102, 241, 0.3));
+  line-height: 1;
+}
+
+.errorTitle {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-color, #ffffff);
+}
+
+.errorMessage {
+  font-size: 1.1rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryButton, 
+.secondaryButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.secondaryButton {
+  background: transparent;
+  color: var(--text-color, #ffffff);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.primaryButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(99, 102, 241, 0.4);
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-3px);
+}
+
+.buttonIcon {
+  font-size: 0.9rem;
+}
+
+/* Decorative elements */
+.decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.circle1, .circle2 {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.circle1 {
+  top: -10%;
+  right: -5%;
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle, var(--primary-color, #6366f1), transparent 70%);
+}
+
+.circle2 {
+  bottom: -15%;
+  left: -8%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, var(--secondary-color, #a855f7), transparent 70%);
+}
+
+/* Light theme overrides */
+[data-theme="light"] .errorTitle {
+  color: #1e293b;
+}
+
+[data-theme="light"] .errorMessage {
+  color: #64748b;
+}
+
+[data-theme="light"] .secondaryButton {
+  color: #1e293b;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .secondaryButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+  .errorCode {
+    font-size: 6rem;
+  }
+  
+  .errorTitle {
+    font-size: 1.8rem;
+  }
+  
+  .errorMessage {
+    font-size: 1rem;
+  }
+  
+  .buttonContainer {
+    flex-direction: column;
+  }
+  
+  .primaryButton, .secondaryButton {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,10 @@
+.projectsPage {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+} 

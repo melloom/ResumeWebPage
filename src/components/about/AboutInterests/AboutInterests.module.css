@@ -1,0 +1,61 @@
+.interestsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.interestItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(30, 41, 59, 0.5);
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.interestItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background: rgba(30, 41, 59, 0.7);
+}
+
+.interestIcon {
+  color: var(--primary-color, #6366f1);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.interestItem span {
+  color: var(--text-secondary, rgba(255, 255, 255, 0.8));
+  font-size: 0.95rem;
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] .interestItem {
+  background: rgba(248, 250, 252, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .interestItem:hover {
+  background: rgba(248, 250, 252, 1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .interestIcon {
+  color: #4f46e5;
+}
+
+[data-theme="light"] .interestItem span {
+  color: #64748b;
+}
+
+/* Responsive Styles */
+@media (max-width: 576px) {
+  .interestsContainer {
+    grid-template-columns: 1fr;
+  }
+}

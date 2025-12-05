@@ -1,0 +1,429 @@
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 0;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalContent {
+  background: var(--bg-color, #0f172a);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  max-height: 85vh;
+  position: relative;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  margin: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.closeIcon {
+  font-size: 1.2rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton:hover {
+  background: var(--primary-color, #6366f1);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3);
+}
+
+.closeButton:hover .closeIcon {
+  transform: rotate(90deg);
+}
+
+/* Job Detail Content */
+.jobDetailContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.jobDetailHeader {
+  padding: 45px 30px;
+  background: var(--primary-color, #6366f1);
+  color: white;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.headerTextContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.jobDetailTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.jobDetailCompany {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.jobDetailMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.jobDetailPeriod, .jobDetailLocation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.jobDetailBody {
+  padding: 30px;
+  overflow-y: auto;
+  flex-grow: 1;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+
+/* Job Overview */
+.jobOverview {
+  margin-bottom: 30px;
+}
+
+.jobOverview p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+}
+
+.detailSectionTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-color, #ffffff);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sectionIcon {
+  color: var(--primary-color, #6366f1);
+}
+
+/* Achievements Grid */
+.achievementsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.achievementCard {
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all 0.3s ease;
+  border-left: 3px solid var(--primary-color, #6366f1);
+}
+
+.achievementCard:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.achievementIcon {
+  color: var(--primary-color, #6366f1);
+  font-size: 1.1rem;
+  margin-top: 2px;
+}
+
+.achievementCard div {
+  font-size: 0.95rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  line-height: 1.6;
+}
+
+/* Highlights Box */
+.jobHighlight {
+  margin-bottom: 30px;
+}
+
+.highlightBox {
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 12px;
+  padding: 25px;
+  position: relative;
+  margin-bottom: 30px;
+  border-left: 3px solid var(--primary-color, #6366f1);
+}
+
+.quoteIcon {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: rgba(99, 102, 241, 0.2);
+  font-size: 1.5rem;
+}
+
+.highlightBox p {
+  font-size: 1.05rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  line-height: 1.7;
+  margin-left: 40px;
+}
+
+/* Skills Grid */
+.skillsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.skillItem {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color, #6366f1);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.skillItem:hover {
+  background: var(--primary-color, #6366f1);
+  color: white;
+}
+
+/* Expertise Note */
+.expertiseNote {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(99, 102, 241, 0.05);
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.expertiseIcon {
+  color: var(--primary-color, #6366f1);
+  font-size: 1.2rem;
+}
+
+.expertiseNote p {
+  font-size: 0.95rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  margin: 0;
+}
+
+/* Light Theme Styles */
+[data-theme="light"] .modalContent {
+  background: white;
+}
+
+[data-theme="light"] .achievementCard,
+[data-theme="light"] .highlightBox,
+[data-theme="light"] .expertiseNote {
+  background: rgba(79, 70, 229, 0.05);
+  border-left: 3px solid #4f46e5;
+}
+
+[data-theme="light"] .achievementCard div,
+[data-theme="light"] .highlightBox p,
+[data-theme="light"] .expertiseNote p,
+[data-theme="light"] .jobOverview p {
+  color: #64748b;
+}
+
+[data-theme="light"] .detailSectionTitle {
+  color: #1e293b;
+}
+
+[data-theme="light"] .sectionIcon,
+[data-theme="light"] .expertiseIcon,
+[data-theme="light"] .achievementIcon {
+  color: #4f46e5;
+}
+
+[data-theme="light"] .skillItem {
+  background: rgba(79, 70, 229, 0.1);
+  color: #4f46e5;
+}
+
+[data-theme="light"] .skillItem:hover {
+  background: #4f46e5;
+  color: white;
+}
+
+[data-theme="light"] .closeButton {
+  background: rgba(0, 0, 0, 0.1);
+  color: #1e293b;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .closeButton:hover {
+  background: var(--primary-color, #4f46e5);
+  color: white;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .achievementsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .jobDetailHeader {
+    padding: 40px 25px;
+  }
+
+  .jobDetailTitle {
+    font-size: 1.8rem;
+  }
+
+  .jobDetailBody {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modalContent {
+    max-height: 85vh;
+    border-radius: 15px;
+    width: 95%;
+    max-width: 95%;
+  }
+
+  .jobDetailHeader {
+    padding: 35px 20px;
+  }
+
+  .jobDetailTitle {
+    font-size: 1.6rem;
+  }
+
+  .jobDetailBody {
+    padding: 20px;
+  }
+
+  .achievementsGrid {
+    gap: 10px;
+  }
+
+  .detailSectionTitle {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .jobDetailMeta {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .detailSectionTitle {
+    font-size: 1.1rem;
+  }
+
+  .jobDetailBody {
+    padding: 20px 15px;
+  }
+
+  .modalContent {
+    max-height: 80vh;
+  }
+
+  .jobDetailHeader {
+    padding: 30px 20px;
+  }
+
+  .jobDetailTitle {
+    font-size: 1.4rem;
+  }
+
+  .achievementCard {
+    padding: 15px;
+  }
+
+  .highlightBox {
+    padding: 20px;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion) {
+  .modalOverlay,
+  .modalContent,
+  .closeButton:hover,
+  .skillItem:hover {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+
+  .closeButton:hover,
+  .closeButton:hover .closeIcon {
+    transform: none;
+    transition: none;
+  }
+}
