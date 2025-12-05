@@ -1,234 +1,267 @@
-# Melvin Peralta - Personal Resume Website
+# 👋 Hey, I'm Melvin
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/your-netlify-badge-id/deploy-status)](https://app.netlify.com/sites/melvinworks/deploys)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![React](https://img.shields.io/badge/React-18.2.0-blue)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-6.3.3-purple)](https://vitejs.dev/)
+**Full-Stack Developer** • **AI Integrator** • **Builder**
 
-![Website Preview](public/preview.png)
-
-## 🌟 Live Demo
-
-Visit my portfolio at [melvinworks.bio](https://melvinworks.bio)
-
-## 🚀 Overview
-
-A modern, responsive personal portfolio and resume website built with React. This project showcases my professional experience, education, skills, and provides multiple ways for potential employers and clients to contact me.
-
-## ✨ Features
-
-- **Responsive Design**: Fully responsive layout that works on desktop, tablets, and mobile devices
-- **Dark/Light Mode**: Toggle between dark and light themes with system preference detection
-- **Interactive UI**: Smooth animations and transitions powered by Framer Motion
-- **Progressive Web App**: Installable on mobile devices with offline capabilities
-- **Contact Form**: Built-in form with email integration using EmailJS
-- **Calendly Integration**: Schedule meetings directly from the website
-- **SEO Optimized**: Proper metadata and structured content for better search engine visibility
-- **Performance Optimized**: Lazy loading, code splitting, and optimized assets
-- **Accessibility**: WCAG 2.1 compliant with proper ARIA labels and keyboard navigation
-- **Analytics**: Built-in analytics tracking
-- **Social Sharing**: Easy sharing of portfolio sections
-- **Print-Friendly**: Optimized resume for printing
-
-## 🛠️ Technologies Used
-
-- **Frontend Framework**: React 18.2.0
-- **Build Tool**: Vite 6.3.3
-- **Styling**: 
-  - CSS Modules
-  - SASS
-  - Tailwind CSS
-- **Icons & UI**: 
-  - React Icons
-  - Font Awesome
-- **Animation**: Framer Motion
-- **Routing**: React Router v6
-- **Form Handling**: EmailJS
-- **PWA Support**: Vite PWA Plugin
-- **Development Tools**:
-  - ESLint
-  - Prettier
-  - TypeScript
-- **Deployment**: Netlify
-
-## 🏗️ Project Structure
-
-```
-my-resume-website/
-│
-├── public/              # Static assets and icons
-│   ├── icons/          # Favicon and app icons
-│   ├── images/         # Images used across the site
-│   └── offline.html    # Offline fallback page
-│
-├── src/
-│   ├── assets/         # Images, styles, and other assets
-│   │
-│   ├── components/     # Reusable UI components
-│   │   ├── about/      # Components for About page
-│   │   ├── common/     # Shared components
-│   │   ├── contact/    # Contact page components
-│   │   ├── home/       # Home page components
-│   │   ├── layout/     # Layout components (Header, Footer)
-│   │   ├── navigation/ # Navigation components
-│   │   └── resume/     # Resume page components
-│   │
-│   ├── config/         # Configuration files
-│   ├── data/           # Data files (experience, education)
-│   ├── pages/          # Page components
-│   ├── services/       # API and service functions
-│   ├── utils/          # Utility functions
-│   │
-│   ├── App.jsx         # Main application component
-│   ├── index.css       # Global styles
-│   └── main.jsx        # Entry point
-│
-├── scripts/            # Build scripts
-├── .env               # Environment variables
-├── package.json       # Dependencies and scripts
-└── vite.config.js     # Vite configuration
-```
-
-## 📋 Prerequisites
-
-- Node.js (v14.0.0 or higher)
-- npm or yarn
-- Git
-
-## 🔧 Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/melloom/my-resume-website.git
-   cd my-resume-website
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn
-   ```
-
-3. Create a `.env` file in the root directory and add your environment variables:
-   ```env
-   # Firebase Configuration
-   VITE_FIREBASE_API_KEY=your_firebase_api_key
-   VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
-   VITE_FIREBASE_PROJECT_ID=your_project_id
-   VITE_FIREBASE_STORAGE_BUCKET=your_project_id.firebasestorage.app
-   VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-   VITE_FIREBASE_APP_ID=your_app_id
-   VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
-   
-   # EmailJS Configuration
-   VITE_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
-   VITE_EMAILJS_SERVICE_ID=your_emailjs_service_id
-   ```
-   
-   **Note**: Copy `.env.example` to `.env` and fill in your actual values. See `MIGRATION_TO_ENV.md` for detailed instructions.
-
-4. Run the development server:
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-5. Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-## 🚢 Deployment
-
-### Netlify (Recommended)
-
-1. Push your code to GitHub
-2. Connect your repository to Netlify
-3. Set build command to `npm run build` and publish directory to `dist`
-4. Add environment variables in Netlify dashboard
-
-### Vercel
-
-1. Push your code to GitHub
-2. Import your repository to Vercel
-3. Set build command to `npm run build` and output directory to `dist`
-4. Add environment variables in Vercel dashboard
-
-### GitHub Pages
-
-1. Update `vite.config.js` with your base path:
-   ```javascript
-   export default defineConfig({
-     base: '/my-resume-website/',
-     // ...other config
-   })
-   ```
-2. Deploy using:
-   ```bash
-   npm run build
-   npm run deploy
-   ```
-
-## 🎨 Customization
-
-### Personal Information
-
-1. Update data files in `src/data/`:
-   - `experienceData.js`: Your work experience
-   - `educationData.js`: Your education history
-   - `skillsData.js`: Your skills and expertise
-
-2. Replace images:
-   - Profile picture: `public/images/profile.jpg`
-   - Project screenshots: `public/screenshots/`
-   - Favicon and app icons: `public/icons/`
-
-### Styling
-
-1. Theme colors: Edit CSS variables in `src/index.css`
-2. Typography: Update font imports in `index.html`
-3. Layout: Modify component styles in respective CSS modules
-
-### Features
-
-1. Contact Form: Update EmailJS configuration in `.env`
-2. Analytics: Add your tracking ID in `src/config/analytics.js`
-3. Social Links: Update in `src/config/social.js`
-
-## 📝 Available Scripts
-
-- `npm run dev`: Start development server
-- `npm run build`: Build for production
-- `npm run preview`: Preview production build
-- `npm run lint`: Run ESLint
-- `npm run push`: Build, commit, push to GitHub, and deploy to Netlify
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Icons by [React Icons](https://react-icons.github.io/react-icons/)
-- Animations powered by [Framer Motion](https://www.framer.com/motion/)
-- Font families from [Google Fonts](https://fonts.google.com/)
-- Build tool by [Vite](https://vitejs.dev/)
-- Hosting by [Netlify](https://www.netlify.com/)
-
-## 📞 Contact
-
-Melvin Peralta - [@melloom](https://github.com/melloom)
-
-Project Link: [https://github.com/melloom/my-resume-website](https://github.com/melloom/my-resume-website)
+A modern, responsive portfolio that screams "I code with vision, vibes, and velocity." Built from scratch because why use a template when you can build something uniquely yours? ✨
 
 ---
 
-Designed and developed by Melvin Peralta © 2024
+## 🌐 Live Site
+
+**👉 [melvinworks.bio](https://melvinworks.bio)**
+
+Check it out, break things, send feedback. I'm always down to chat.
+
+---
+
+## 🎯 What's This About?
+
+This isn't just another portfolio site. This is my digital home—a space where I showcase:
+
+- 💼 **My Work**: Real projects that solve real problems
+- 🚀 **My Skills**: The tools I use to build things fast
+- 🎨 **My Style**: Clean code, smooth animations, zero BS
+- 🤝 **My Story**: Who I am, what I've done, where I'm going
+
+Think of it as a resume that actually doesn't suck to read. Plus it's a PWA, so you can install it on your phone. Fancy, right? 📱
+
+---
+
+## ⚡ What Makes This Special?
+
+### Built for Speed
+- ⚡ **Vite-powered** - Lightning fast dev server and builds
+- 🚀 **Optimized Performance** - Lazy loading, code splitting, all that good stuff
+- 📱 **Progressive Web App** - Install it, use it offline, feel like a pro
+
+### Built for Users
+- 🌓 **Dark/Light Mode** - Because your eyes matter (and system preferences are cool)
+- ♿ **Accessible AF** - WCAG 2.1 compliant, keyboard navigation, screen reader friendly
+- 📱 **Fully Responsive** - Looks good on everything from a potato phone to a 4K monitor
+- 🎭 **Smooth Animations** - Framer Motion makes everything feel buttery smooth
+
+### Built for Real
+- 📧 **Contact Forms** - EmailJS integration (no backend needed, zero hassle)
+- 📅 **Calendly Integration** - Book meetings without the back-and-forth
+- 🔥 **Firebase Backend** - Dynamic project management, real-time updates
+- 📊 **Analytics Ready** - Track what matters, ignore what doesn't
+
+---
+
+## 🛠️ The Tech Stack (The Good Stuff)
+
+I'm not here to flex, but this stack is solid:
+
+- **React 18.2** - Because hooks are life
+- **Vite 6.3** - The build tool that makes Webpack cry
+- **Firebase** - Backend as a service done right
+- **Framer Motion** - Animations that don't make your laptop sound like a jet
+- **React Router** - Routing that actually makes sense
+- **EmailJS** - Contact forms without the backend headache
+- **PWA Plugin** - Offline-first, installable, modern web app
+
+**Styling?** CSS Modules + SASS + custom CSS variables. No framework bloat, just clean, maintainable styles.
+
+---
+
+## 🚀 Quick Start (Let's Build Something)
+
+### Prerequisites
+
+You'll need:
+- **Node.js** 14+ (but let's be real, use 18+)
+- **npm** or **yarn** (your call)
+- **Git** (obviously)
+
+### Installation
+
+```bash
+# Clone this bad boy
+git clone https://github.com/melloom/ResumeWebPage.git
+cd ResumeWebPage
+
+# Install the dependencies
+npm install
+
+# Set up your environment variables
+cp .env.example .env
+# Then edit .env with your actual keys (see below)
+
+# Start the dev server
+npm run dev
 ```
+
+Boom. Open [http://localhost:5173](http://localhost:5173) and watch the magic happen. ✨
+
+### Environment Variables
+
+You'll need to set these up in your `.env` file:
+
+```env
+# Firebase (get these from Firebase Console)
+VITE_FIREBASE_API_KEY=your_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+
+# EmailJS (get these from EmailJS dashboard)
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+VITE_EMAILJS_SERVICE_ID=your_service_id
+```
+
+**⚠️ Important:** Never commit your `.env` file. It's in `.gitignore` for a reason. Trust me on this one.
+
+---
+
+## 📦 Project Structure
+
+```
+my-resume-website/
+├── public/              # Static assets (icons, images, etc.)
+│   ├── icons/          # Favicons and PWA icons
+│   ├── screenshots/    # Project thumbnails
+│   └── Vocalix.png     # Featured project image 🎙️
+│
+├── src/
+│   ├── components/     # React components (organized by feature)
+│   │   ├── about/      # About page components
+│   │   ├── contact/    # Contact form & info
+│   │   ├── home/       # Home page sections
+│   │   ├── projects/   # Project showcase
+│   │   └── resume/     # Resume page
+│   │
+│   ├── config/         # Configuration (Firebase, EmailJS)
+│   ├── context/        # React Context (Auth, Theme)
+│   ├── data/           # Static data (experience, education)
+│   ├── pages/          # Page components
+│   ├── services/       # API services
+│   └── utils/          # Helper functions
+│
+├── scripts/            # Build scripts and utilities
+└── package.json        # Dependencies (obviously)
+```
+
+Clean, organized, easy to navigate. Just how I like it.
+
+---
+
+## 🎨 Customization (Make It Yours)
+
+### Personal Info
+
+1. **Experience & Education**: Edit `src/data/experienceData.js` and `src/data/educationData.js`
+2. **Projects**: Add your own in `src/components/projects/ProjectList/ProjectList.jsx`
+3. **Profile Images**: Drop your pics in `public/images/`
+4. **Screenshots**: Add project thumbnails to `public/screenshots/`
+
+### Styling
+
+- **Colors**: Edit CSS variables in `src/index.css`
+- **Fonts**: Update imports in `index.html`
+- **Components**: Each component has its own CSS module - go wild
+
+### Features
+
+Want to add something? Fork it, build it, make it better. That's the beauty of open source.
+
+---
+
+## 🚢 Deployment (Get It Live)
+
+### Netlify (Recommended - It's What I Use)
+
+1. Push to GitHub
+2. Connect repo to Netlify
+3. Set build command: `npm run build`
+4. Set publish directory: `dist`
+5. Add environment variables in Netlify dashboard
+6. Deploy. Done.
+
+### Vercel
+
+Same process, different platform. You do you.
+
+### GitHub Pages
+
+Possible but requires some config tweaks. Not recommended unless you're into that.
+
+---
+
+## 📝 Scripts
+
+```bash
+npm run dev      # Start dev server (port 3000)
+npm run build    # Build for production
+npm run preview  # Preview production build locally
+npm run lint     # Lint your code (don't skip this)
+npm run push     # Build, commit, push, and deploy (one command FTW)
+```
+
+---
+
+## 🔒 Security
+
+This repo is secure. No hardcoded secrets, all keys in environment variables, proper `.gitignore` setup. If you find a vulnerability, hit me up (responsibly, please).
+
+Check out `SECURITY.md` for more details.
+
+---
+
+## 🤝 Contributing
+
+Found a bug? Have an idea? Want to make it better?
+
+1. Fork it
+2. Create a branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Let's build something cool together.
+
+---
+
+## 📄 License
+
+MIT License - Use it, modify it, make it yours. Just give credit where credit is due.
+
+---
+
+## 💬 Let's Connect
+
+- **GitHub**: [@melloom](https://github.com/melloom)
+- **Portfolio**: [melvinworks.bio](https://melvinworks.bio)
+- **Projects**: Check out my other work in the Projects section
+
+---
+
+## 🙏 Shoutouts
+
+Big love to the open-source community and the tools that make this possible:
+
+- [React](https://reactjs.org/) - The library that changed everything
+- [Vite](https://vitejs.dev/) - The build tool that just works
+- [Framer Motion](https://www.framer.com/motion/) - Animations made easy
+- [Firebase](https://firebase.google.com/) - Backend without the backend
+- [Netlify](https://www.netlify.com/) - Hosting that's actually good
+
+---
+
+## ⭐ Show Some Love
+
+If you like what you see, give it a star. It makes my day. ⭐
+
+---
+
+<div align="center">
+
+**Built with ❤️ by Melvin Peralta**
+
+*"Code with vision, vibes, and velocity."*
+
+[🌐 Live Site](https://melvinworks.bio) • [💻 GitHub](https://github.com/melloom) • [📧 Contact](https://melvinworks.bio/contact)
+
+</div>
