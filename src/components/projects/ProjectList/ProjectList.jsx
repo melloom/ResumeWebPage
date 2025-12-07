@@ -15,7 +15,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       image: '/Vocalix.png',
       technologies: ['React', 'TypeScript', 'Vite', 'Supabase', 'Tailwind CSS', 'shadcn/ui', 'TanStack Query', 'React Router'],
       link: 'https://vocalix.netlify.app',
-      github: 'https://github.com/melloom/Echo-Garden'
+      github: 'https://github.com/melloom/Vocalix'
     },
     {
       id: 2,
