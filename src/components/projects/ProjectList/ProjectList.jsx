@@ -28,6 +28,15 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
     },
     {
       id: 3,
+      title: 'GhostInbox',
+      description: 'An anonymous venting platform where creators can receive anonymous messages from their audience. Features creator dashboards, message management, AI-powered reply templates, and theme summarization. Built with React, TypeScript, and Supabase.',
+      image: '/screenshots/ghostinbox-website.png',
+      technologies: ['React', 'TypeScript', 'Vite', 'Supabase', 'CSS', 'React Router'],
+      link: 'https://ghost-inbox.vercel.app',
+      github: 'https://github.com/melloom/GhostInbox'
+    },
+    {
+      id: 4,
       title: 'BrandSaaS',
       description: 'A modern, AI-powered SaaS Name Generator with domain checking, favorites, export, and more. Built with React, Vite, and TypeScript.',
       image: '/screenshots/BrandSaaS.png',
@@ -36,7 +45,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       github: 'https://github.com/melloom/BrandSaaS.co'
     },
     {
-      id: 4,
+      id: 5,
       title: 'Personal Portfolio',
       description: 'My personal portfolio website built with React, showcasing my skills, experience, and projects. Features a modern, responsive design with dark/light mode and smooth animations.',
       image: '/screenshots/portfolio-portfolio-thumbnail.png',
@@ -45,7 +54,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       github: 'https://github.com/melloom/my-resume-website'
     },
     {
-      id: 5,
+      id: 6,
       title: 'CloseLoop Training Platform',
       description: 'A comprehensive training platform for on-call phone backend and frontend support. Features include user authentication, training modules, and progress tracking.',
       image: '/screenshots/closeloop-portfolio-thumbnail.png',
@@ -54,7 +63,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       github: 'https://github.com/melloom/closeloop'
     },
     {
-      id: 6,
+      id: 7,
       title: 'Lockora Password Generator',
       description: 'A secure password generator and manager application. Features include password strength analysis, secure storage, and easy password generation.',
       image: '/screenshots/lockora-portfolio-thumbnail.png',
@@ -63,7 +72,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       github: 'https://github.com/melloom/lockora'
     },
     {
-      id: 7,
+      id: 8,
       title: 'MelHub Social Links',
       description: 'A centralized hub for all my social media and professional links. Features a clean, minimalist design with customizable themes and analytics.',
       image: '/screenshots/melhub-portfolio-thumbnail.png',
@@ -72,7 +81,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       github: 'https://github.com/melloom/melhub'
     },
     {
-      id: 8,
+      id: 9,
       title: 'NumixPro Calculator',
       description: 'An advanced calculator application with comprehensive mathematical functions and operations. Features a modern interface, scientific calculations, memory functions, and history tracking for complex mathematical computations.',
       image: '/screenshots/numix.png',
@@ -81,7 +90,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       github: 'https://github.com/melloom/Numix'
     },
     {
-      id: 9,
+      id: 10,
       title: 'Would You Rather Survival',
       description: 'A chilling local horror adventure game where an all-knowing AI tests your survival instincts through impossible choices. Features psychological horror, adaptive AI personalities, and multiple game modes.',
       image: '/screenshots/would-you-rather-survival-thumbnail.png',
@@ -90,7 +99,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       github: 'https://github.com/melloom/adventure-game'
     },
     {
-      id: 10,
+      id: 11,
       title: 'WiredLiving Blog',
       description: 'A personal blog about technology and modern living. Features fresh insights weekly, practical advice, and community-driven content about digital wellness and productivity.',
       image: '/screenshots/WIREDLIVING.png',
