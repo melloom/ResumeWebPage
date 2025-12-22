@@ -54,12 +54,12 @@ const Resume = () => {
       <SideNav />
       <BackToTop />
       <MobileNavDrawer />
-      
+
       {/* Action buttons - Download and Share Resume - Positioned at bottom right */}
       <div className={styles.stickyActions}>
-        <a 
-          href="/images/school/Resume/Resume.pdf" 
-          download="Melvin_Peralta_Resume.pdf"
+        <a
+          href="/images/school/Resume/Resume.pdf"
+          download="Melvin_Peralta_Resume_UPDATED_optimized.pdf"
           className={styles.stickyDownload}
           aria-label="Download Resume PDF"
           target="_blank"
@@ -68,11 +68,11 @@ const Resume = () => {
           <FaFileDownload />
           <span>Download CV</span>
         </a>
-        
+
         {/* Share Resume Button with explicit icon rendering */}
-        <ShareButton 
-          type="resume" 
-          className={styles.stickyShare} 
+        <ShareButton
+          type="resume"
+          className={styles.stickyShare}
           showLabel={true}
           title="Melvin Peralta | Professional Resume"
           text="Check out Melvin Peralta's professional resume!"
@@ -82,7 +82,7 @@ const Resume = () => {
 
       <main className={styles.resumePage} id="top">
         <div className={styles.resumeBackground}></div>
-        
+
         <div className="container">
           <motion.div
             className={styles.resumeContainer}
@@ -94,32 +94,32 @@ const Resume = () => {
             <motion.div variants={sectionVariants} id="resume-header">
               <ResumeHeader />
             </motion.div>
-            
+
             {/* Professional Summary Section - Ensure ID matches what SideNav expects */}
             <motion.div variants={sectionVariants} id="summary">
               <ProfessionalSummary />
             </motion.div>
-            
+
             {/* Experience Section - Ensure ID matches what SideNav expects */}
             <motion.div variants={sectionVariants} id="experience">
               <ResumeExperience />
             </motion.div>
-            
+
             {/* Skills Section - Ensure ID matches what SideNav expects */}
             <motion.div variants={sectionVariants} id="skills">
               <ResumeSkills />
             </motion.div>
-            
+
             {/* Education Section - Ensure ID matches what SideNav expects */}
             <motion.div variants={sectionVariants} id="education">
               <ResumeEducation />
             </motion.div>
-            
+
             {/* Certifications Section - Ensure ID matches what SideNav expects */}
             <motion.div variants={sectionVariants} id="certifications">
               <ResumeCertifications />
             </motion.div>
-            
+
             {/* Call to Action - Use a known ID */}
             <motion.div variants={sectionVariants} className={styles.resumeCta} id="contact">
               <p className={styles.ctaText}>
@@ -127,9 +127,9 @@ const Resume = () => {
               </p>
               <div className={styles.ctaButtons}>
                 <a href="/contact" className={styles.ctaPrimary}>Contact Me</a>
-                <a 
-                  href="/images/school/Resume/Resume.pdf" 
-                  download="Melvin_Peralta_Resume.pdf"
+                <a
+                  href="/images/school/Resume/Resume.pdf"
+                  download="Melvin_Peralta_Resume_UPDATED_optimized.pdf"
                   className={styles.ctaSecondary}
                   target="_blank"
                   rel="noopener noreferrer"
