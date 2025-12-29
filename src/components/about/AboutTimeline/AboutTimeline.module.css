@@ -1,0 +1,130 @@
+.timelineContainer {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.timelineTrack {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 2.5rem;
+  width: 50%;
+}
+
+.timelineItem:last-child {
+  margin-bottom: 0;
+}
+
+.timelineLeft {
+  left: 0;
+  padding-right: 2.5rem;
+}
+
+.timelineRight {
+  left: 50%;
+  padding-left: 2.5rem;
+}
+
+.timelineDot {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-color, #6366f1);
+  top: 20px;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+  z-index: 10;
+}
+
+.timelineLeft .timelineDot {
+  right: -8px;
+}
+
+.timelineRight .timelineDot {
+  left: -8px;
+}
+
+.timelineContent {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.timelineContent:hover {
+  transform: translateY(-5px);
+}
+
+.yearBadge {
+  display: inline-block;
+  background: var(--primary-color, #6366f1);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.eventTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color, #ffffff);
+  margin-bottom: 0.5rem;
+}
+
+.eventDescription {
+  font-size: 0.95rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  line-height: 1.6;
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] .timelineContent {
+  background: rgba(248, 250, 252, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .eventTitle {
+  color: #1e293b;
+}
+
+[data-theme="light"] .eventDescription {
+  color: #64748b;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .timelineTrack {
+    left: 16px;
+  }
+  
+  .timelineItem {
+    width: 100%;
+    padding-left: 2.5rem;
+  }
+  
+  .timelineLeft, .timelineRight {
+    left: 0;
+    padding-right: 0;
+  }
+  
+  .timelineLeft .timelineDot, .timelineRight .timelineDot {
+    left: 8px;
+    right: auto;
+  }
+}

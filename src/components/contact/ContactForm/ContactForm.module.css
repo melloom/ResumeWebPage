@@ -1,0 +1,287 @@
+.contactForm {
+  position: relative;
+  width: 100%;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formGroup label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color, #ffffff);
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+  padding: 0.9rem 1rem;
+  background: rgba(15, 23, 42, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: var(--text-color, #ffffff);
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  outline: none;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus,
+.formGroup select:focus {
+  border-color: var(--primary-color, #6366f1);
+  box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 99, 102, 241), 0.2);
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.errorInput {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 0.85rem;
+}
+
+.submitButton {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-shadow: 0 10px 20px rgba(var(--primary-rgb, 99, 102, 241), 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.submitButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s ease;
+}
+
+.submitButton:not(:disabled):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(var(--primary-rgb, 99, 102, 241), 0.4);
+}
+
+.submitButton:hover::before {
+  left: 100%;
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.submitIcon {
+  font-size: 1.2rem;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorMessage {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ef4444;
+  text-align: center;
+}
+
+.errorMessage svg {
+  font-size: 1.5rem;
+}
+
+.errorDirectContact {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.errorDirectContact a {
+  color: var(--primary-color, #6366f1);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.errorDirectContact a:hover {
+  color: var(--secondary-color, #a855f7);
+  text-decoration: underline;
+}
+
+.successMessage {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--text-color, #ffffff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.successMessage svg {
+  color: #10b981;
+  font-size: 3rem;
+}
+
+.successMessage h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.successMessage p {
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.resetButton {
+  padding: 0.8rem 1.5rem;
+  background: rgba(var(--primary-rgb, 99, 102, 241), 0.1);
+  color: var(--primary-color, #6366f1);
+  border: 1px solid rgba(var(--primary-rgb, 99, 102, 241), 0.2);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.resetButton:hover {
+  background: var(--primary-color, #6366f1);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(var(--primary-rgb, 99, 102, 241), 0.3);
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] .formGroup label {
+  color: #1e293b;
+}
+
+[data-theme="light"] .formGroup input,
+[data-theme="light"] .formGroup textarea,
+[data-theme="light"] .formGroup select {
+  background: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #1e293b;
+}
+
+[data-theme="light"] .formGroup input::placeholder,
+[data-theme="light"] .formGroup textarea::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .formGroup input:focus,
+[data-theme="light"] .formGroup textarea:focus,
+[data-theme="light"] .formGroup select:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+[data-theme="light"] .errorMessage {
+  color: #dc2626;
+}
+
+[data-theme="light"] .successMessage {
+  color: #1e293b;
+}
+
+[data-theme="light"] .successMessage p {
+  color: #64748b;
+}
+
+[data-theme="light"] .errorDirectContact {
+  color: #64748b;
+}
+
+[data-theme="light"] .errorDirectContact a {
+  color: #4f46e5;
+}
+
+[data-theme="light"] .resetButton {
+  background: rgba(79, 70, 229, 0.1);
+  color: #4f46e5;
+  border: 1px solid rgba(79, 70, 229, 0.2);
+}
+
+[data-theme="light"] .resetButton:hover {
+  background: #4f46e5;
+  color: white;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .submitButton {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  .submitButton::before,
+  .submitButton:hover {
+    transition: none;
+    transform: none;
+  }
+  
+  .spinner {
+    animation: none;
+  }
+}

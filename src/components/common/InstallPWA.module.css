@@ -1,0 +1,69 @@
+.installContainer {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  z-index: 100;
+  animation: slideIn 0.5s ease forwards;
+}
+
+.installButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(99, 102, 241, 0.95);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 30px;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.installButton:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+.installIcon {
+  font-size: 1.2rem;
+}
+
+.installText {
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+/* Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Light theme overrides */
+[data-theme="light"] .installButton {
+  background: rgba(79, 70, 229, 0.95);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .installContainer {
+    bottom: 80px;
+    right: 20px;
+  }
+  
+  .installButton {
+    padding: 10px 14px;
+  }
+  
+  .installText {
+    font-size: 0.85rem;
+  }
+}

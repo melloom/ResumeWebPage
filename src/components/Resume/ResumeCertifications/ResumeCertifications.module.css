@@ -1,0 +1,681 @@
+.certificationsSection {
+  margin-bottom: 3.5rem;
+  background: var(--card-bg, rgba(30, 41, 59, 0.85));
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: var(--text-color, #ffffff);
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--primary-color, #6366f1);
+  border-radius: 3px;
+}
+
+.titleIcon {
+  color: var(--primary-color, #6366f1);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.certificationCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 25px;
+  margin-bottom: 2.5rem;
+}
+
+.certCard {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 3px solid var(--primary-color, #6366f1);
+}
+
+.certCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.cardHeader {
+  padding: 1.5rem;
+  background: var(--primary-color, #6366f1);
+  color: white;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.cardIcon {
+  font-size: 2.5rem;
+  color: white;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+}
+
+.cardIcon svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.statusBadge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cardContent {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.certTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-color, #ffffff);
+  margin-bottom: 0.8rem;
+}
+
+.certMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+}
+
+.metaIcon {
+  color: var(--primary-color, #6366f1);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.certDescription {
+  margin-bottom: 1.2rem;
+}
+
+.certDescription p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+}
+
+.skillsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.skillTag {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color, #6366f1);
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.skillTag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Professional Development Section */
+.profDevSection {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profDevTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color, #ffffff);
+  margin-bottom: 1rem;
+}
+
+.profDevIntro {
+  font-size: 1.05rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.learningPathsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.learningPath {
+  display: flex;
+  gap: 15px;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 12px;
+  padding: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.learningPath:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background: rgba(30, 41, 59, 0.7);
+}
+
+.pathIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.pathContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pathTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color, #ffffff);
+  margin-bottom: 0.5rem;
+}
+
+.pathDesc {
+  font-size: 0.9rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  line-height: 1.5;
+}
+
+/* New Tech Learning Focus Section */
+.techFocusSection {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.techFocusTitle {
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.8rem;
+}
+
+.techFocusTitle::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  border-radius: 3px;
+}
+
+.techFocusIcon {
+  color: var(--primary-color, #6366f1);
+  font-size: 1.3rem;
+}
+
+.techFocusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.techFocusCard {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.techFocusCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background: rgba(30, 41, 59, 0.7);
+}
+
+.focusIconWrapper {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color, #6366f1);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.focusContent {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.focusTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: var(--text-color, #ffffff);
+}
+
+.focusDescription {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  margin-bottom: 1.2rem;
+}
+
+.progressWrapper {
+  margin-top: auto;
+}
+
+.progressLabel {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+}
+
+.progressPercentage {
+  font-weight: 600;
+  color: var(--primary-color, #6366f1);
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(to right, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  border-radius: 3px;
+  transition: width 1.5s ease-in-out;
+}
+
+/* Planned Certifications Section */
+.plannedCertsSection {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.plannedCertsTitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color, #ffffff);
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.8rem;
+}
+
+.plannedCertsTitle::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  border-radius: 3px;
+}
+
+.plannedCertsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.plannedCertCard {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  align-items: flex-start;
+}
+
+.plannedCertCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background: rgba(30, 41, 59, 0.7);
+}
+
+.plannedCertIcon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.plannedCertContent {
+  flex-grow: 1;
+}
+
+.plannedCertTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: var(--text-color, #ffffff);
+  line-height: 1.3;
+}
+
+.plannedCertInfo {
+  margin-bottom: 1rem;
+}
+
+.plannedCertIssuer, .plannedCertDate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Category title styling */
+.categoryTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.4rem;
+  margin: 2rem 0 1.5rem;
+  color: var(--text-color, #ffffff);
+  position: relative;
+  padding-bottom: 0.8rem;
+}
+
+.categoryTitle::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 2px;
+  background: var(--primary-color, #6366f1);
+  border-radius: 3px;
+}
+
+.categoryIcon {
+  color: var(--primary-color, #6366f1);
+  font-size: 1.3rem;
+}
+
+/* Business Focus Section Styles */
+.businessFocusSection {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.businessFocusTitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color, #ffffff);
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.8rem;
+}
+
+.businessFocusTitle::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #44BBA4, #E94F37);
+  border-radius: 3px;
+}
+
+.businessFocusIcon {
+  color: #44BBA4;
+  font-size: 1.3rem;
+}
+
+.businessFocusCard {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.businessFocusCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.businessIconWrapper {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  background: rgba(68, 187, 164, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #44BBA4;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.businessProgressFill {
+  height: 100%;
+  background: linear-gradient(to right, #44BBA4, #E94F37);
+  border-radius: 3px;
+  transition: width 1.5s ease-in-out;
+}
+
+/* Light theme overrides */
+[data-theme="light"] .certificationsSection {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .sectionTitle, 
+[data-theme="light"] .profDevTitle,
+[data-theme="light"] .certTitle,
+[data-theme="light"] .pathTitle,
+[data-theme="light"] .techFocusTitle,
+[data-theme="light"] .plannedCertsTitle,
+[data-theme="light"] .focusTitle,
+[data-theme="light"] .plannedCertTitle {
+  color: #1e293b;
+}
+
+[data-theme="light"] .certCard,
+[data-theme="light"] .techFocusCard,
+[data-theme="light"] .plannedCertCard {
+  background: rgba(248, 250, 252, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .learningPath {
+  background: rgba(248, 250, 252, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .learningPath:hover {
+  background: rgba(248, 250, 252, 1);
+}
+
+[data-theme="light"] .certDescription p,
+[data-theme="light"] .profDevIntro,
+[data-theme="light"] .metaItem,
+[data-theme="light"] .pathDesc,
+[data-theme="light"] .focusDescription,
+[data-theme="light"] .progressLabel,
+[data-theme="light"] .plannedCertIssuer,
+[data-theme="light"] .plannedCertDate {
+  color: #64748b;
+}
+
+[data-theme="light"] .metaIcon,
+[data-theme="light"] .techFocusIcon,
+[data-theme="light"] .focusIconWrapper {
+  color: #4f46e5;
+}
+
+[data-theme="light"] .focusIconWrapper {
+  background: rgba(79, 70, 229, 0.1);
+}
+
+[data-theme="light"] .progressPercentage {
+  color: #4f46e5;
+}
+
+[data-theme="light"] .progressBar {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .profDevSection {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .certificationCards {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
+  .techFocusGrid,
+  .plannedCertsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .certificationsSection {
+    padding: 2rem;
+  }
+  
+  .certificationCards {
+    grid-template-columns: 1fr;
+  }
+  
+  .sectionTitle {
+    font-size: 1.6rem;
+  }
+  
+  .learningPathsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .techFocusGrid,
+  .plannedCertsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .certificationsSection {
+    padding: 1.5rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.4rem;
+  }
+  
+  .cardHeader {
+    padding: 1.2rem;
+    height: 70px;
+  }
+  
+  .cardContent {
+    padding: 1.2rem;
+  }
+  
+  .cardIcon {
+    font-size: 2rem;
+  }
+
+  .focusIconWrapper {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .techFocusTitle,
+  .plannedCertsTitle {
+    font-size: 1.3rem;
+  }
+  
+  .focusTitle,
+  .plannedCertTitle {
+    font-size: 1rem;
+  }
+}

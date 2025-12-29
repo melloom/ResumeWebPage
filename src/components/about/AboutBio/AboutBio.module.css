@@ -1,0 +1,242 @@
+.bioContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.personalIntro {
+  display: flex;
+  gap: 2.5rem;
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  align-items: center;
+}
+
+.bioImageContainer {
+  flex: 0 0 280px;
+  position: relative;
+}
+
+.bioImage {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 3px solid rgba(99, 102, 241, 0.3);
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.imageDecoration {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--primary-color, #6366f1);
+  border-radius: 12px;
+  z-index: -1;
+}
+
+.bioQuote {
+  flex: 1;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.quoteIcon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.8rem;
+  color: rgba(var(--primary-rgb, 99, 102, 241), 0.3);
+}
+
+.bioQuote blockquote {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.85));
+  font-style: italic;
+  margin: 0 0 1rem 0;
+}
+
+.quoteName {
+  text-align: right;
+  color: var(--primary-color, #6366f1);
+  font-weight: 600;
+}
+
+.bioSectionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.bioSection {
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  height: 100%;
+}
+
+.bioSection:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.iconContainer {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(99, 102, 241, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--primary-color, #6366f1);
+  flex-shrink: 0;
+}
+
+.sectionTitle {
+  color: var(--text-color, #ffffff);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.sectionContent p {
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  line-height: 1.6;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.personalPhilosophy {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  border-left: 3px solid var(--primary-color, #6366f1);
+}
+
+.philosophyTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  color: var(--text-color, #ffffff);
+}
+
+.philosophyText {
+  color: var(--text-secondary, rgba(255, 255, 255, 0.8));
+  line-height: 1.8;
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+}
+
+.philosophyText:last-child {
+  margin-bottom: 0;
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] .personalIntro,
+[data-theme="light"] .bioSection {
+  background: rgba(248, 250, 252, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .personalPhilosophy {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+  border-left: 3px solid #4f46e5;
+}
+
+[data-theme="light"] .sectionTitle,
+[data-theme="light"] .philosophyTitle {
+  color: #1e293b;
+}
+
+[data-theme="light"] .bioQuote blockquote,
+[data-theme="light"] .philosophyText {
+  color: #4b5563;
+}
+
+[data-theme="light"] .sectionContent p {
+  color: #64748b;
+}
+
+[data-theme="light"] .quoteName {
+  color: #4f46e5;
+}
+
+[data-theme="light"] .iconContainer {
+  background: rgba(79, 70, 229, 0.1);
+  color: #4f46e5;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .personalIntro {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  
+  .bioImageContainer {
+    flex: 0 0 auto;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+  
+  .bioQuote {
+    padding-left: 0;
+    padding-top: 2rem;
+  }
+  
+  .quoteIcon {
+    position: static;
+    display: block;
+    margin: 0 auto 1rem;
+  }
+  
+  .quoteName {
+    text-align: center;
+  }
+  
+  .bioSectionGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .personalIntro {
+    padding: 1.5rem;
+  }
+  
+  .bioImageContainer {
+    max-width: 200px;
+  }
+  
+  .bioQuote blockquote {
+    font-size: 1.1rem;
+  }
+  
+  .personalPhilosophy {
+    padding: 1.5rem;
+  }
+  
+  .philosophyTitle {
+    font-size: 1.3rem;
+  }
+  
+  .philosophyText {
+    font-size: 1rem;
+  }
+}

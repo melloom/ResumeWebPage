@@ -1,0 +1,104 @@
+.infoCard {
+  background: var(--card-bg, rgba(30, 41, 59, 0.85));
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.infoCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  border-color: rgba(var(--primary-rgb, 99, 102, 241), 0.2);
+}
+
+.iconContainer {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  color: white;
+  box-shadow: 0 5px 15px rgba(var(--primary-rgb, 99, 102, 241), 0.3);
+}
+
+.cardContent {
+  flex: 1;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-color, #ffffff);
+}
+
+.cardValue {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color, #6366f1);
+  display: block;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a.cardValue:hover {
+  color: var(--secondary-color, #a855f7);
+  text-decoration: underline;
+}
+
+.cardDescription {
+  font-size: 0.9rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  line-height: 1.5;
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] .infoCard {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .cardTitle {
+  color: #1e293b;
+}
+
+[data-theme="light"] .cardValue {
+  color: #4f46e5;
+}
+
+[data-theme="light"] a.cardValue:hover {
+  color: #9333ea;
+}
+
+[data-theme="light"] .cardDescription {
+  color: #64748b;
+}
+
+/* Responsive Styles */
+@media (max-width: 576px) {
+  .infoCard {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+  
+  .iconContainer {
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.1rem;
+  }
+}
