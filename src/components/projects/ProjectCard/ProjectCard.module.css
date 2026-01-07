@@ -1,0 +1,513 @@
+.card {
+  background-color: var(--card-background);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.cardHovered {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.imageContainer {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--card-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  background-color: var(--card-background);
+}
+
+.card:hover .image {
+  transform: scale(1.02);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+}
+
+.card:hover .imageOverlay {
+  opacity: 1;
+}
+
+.projectStats {
+  display: flex;
+  gap: 1.5rem;
+  color: white;
+  font-size: 0.9rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.imageLoader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--card-background);
+  gap: 1rem;
+  z-index: 2;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--primary-color);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  color: var(--text-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fallbackImage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  gap: 1rem;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.fallbackImage span {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.content {
+  padding: 2rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--text-color);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.description {
+  color: var(--text-color-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tech {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 20px;
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.techIcon {
+  font-size: 0.75rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.demoLink {
+  background: var(--primary-color);
+  color: white;
+}
+
+.githubLink {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color);
+}
+
+.link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.detailsButton {
+  background: none;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.detailsButton:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.details {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(99, 102, 241, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detailSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detailSection h4 {
+  color: var(--text-color);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.featureList li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color-secondary);
+}
+
+.featureList li::before {
+  content: "•";
+  color: var(--primary-color);
+}
+
+.techGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.techItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 6px;
+  color: var(--text-color-secondary);
+  font-size: 0.875rem;
+}
+
+/* 4K Display Support */
+@media (min-width: 2560px) {
+  .imageContainer {
+    height: 400px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .description {
+    font-size: 1.1rem;
+  }
+
+  .tech {
+    font-size: 1rem;
+    padding: 0.75rem 1.25rem;
+  }
+
+  .link {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .detailsButton {
+    font-size: 1rem;
+    padding: 1rem 2rem;
+  }
+
+  .detailSection h4 {
+    font-size: 1.3rem;
+  }
+
+  .featureList li {
+    font-size: 1.1rem;
+  }
+
+  .techItem {
+    font-size: 1rem;
+    padding: 0.75rem;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .imageContainer {
+    height: 250px;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .links {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .link {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .techGrid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
+
+/* Light theme styles */
+[data-theme="light"] .card {
+  background-color: white;
+  border: 1px solid rgba(79, 70, 229, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .cardHovered {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-color: rgba(79, 70, 229, 0.2);
+}
+
+[data-theme="light"] .imageContainer {
+  background-color: white;
+}
+
+[data-theme="light"] .image {
+  background-color: white;
+}
+
+[data-theme="light"] .title {
+  color: #1e293b;
+}
+
+[data-theme="light"] .description {
+  color: #64748b;
+}
+
+[data-theme="light"] .tech {
+  background: rgba(79, 70, 229, 0.08);
+  color: #4f46e5;
+}
+
+[data-theme="light"] .techItem {
+  background: rgba(79, 70, 229, 0.05);
+  color: #64748b;
+}
+
+[data-theme="light"] .detailsButton {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+[data-theme="light"] .detailsButton:hover {
+  background: #4f46e5;
+  color: white;
+}
+
+[data-theme="light"] .details {
+  border-top-color: rgba(79, 70, 229, 0.1);
+}
+
+[data-theme="light"] .detailSection h4 {
+  color: #1e293b;
+}
+
+[data-theme="light"] .featureList li {
+  color: #64748b;
+}
+
+[data-theme="light"] .featureList li::before {
+  color: #4f46e5;
+}
+
+[data-theme="light"] .loadingText {
+  color: #1e293b;
+}
+
+[data-theme="light"] .spinner {
+  border-color: #4f46e5;
+  border-top-color: transparent;
+} 
+
+/* Delete Button */
+.deleteButton {
+  background: var(--error-color, #ef4444) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 6px !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  text-decoration: none !important;
+}
+
+.deleteButton:hover {
+  background: var(--error-color-dark, #dc2626) !important;
+  transform: translateY(-1px) !important;
+}
+
+.deleteButton:disabled {
+  background: var(--text-muted, #6b7280) !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.deleteButton .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Light theme adjustments for delete button */
+[data-theme="light"] .deleteButton {
+  background: var(--error-color, #ef4444) !important;
+  color: white !important;
+}
+
+[data-theme="light"] .deleteButton:hover {
+  background: var(--error-color-dark, #dc2626) !important;
+} 

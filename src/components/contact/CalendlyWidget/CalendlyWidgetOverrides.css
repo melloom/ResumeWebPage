@@ -1,0 +1,48 @@
+/* Global styles to properly position Calendly widgets */
+
+/* Force the phone call button (right side) to stay high */
+.calendly-badge-widget[data-widget-type="call"] {
+  right: 20px !important;
+  bottom: 90px !important;
+  left: auto !important;
+  top: auto !important;
+  position: fixed !important;
+  z-index: 999 !important;
+}
+
+/* Force the zoom meeting button (left side) to stay low */
+.calendly-badge-widget[data-widget-type="zoom"] {
+  left: 20px !important;
+  bottom: 20px !important;
+  right: auto !important;
+  top: auto !important;
+  position: fixed !important;
+  z-index: 999 !important;
+}
+
+/* Ensure the widgets have proper spacing on mobile */
+@media (max-width: 767px) {
+  .calendly-badge-widget[data-widget-type="call"] {
+    right: 20px !important;
+    bottom: 80px !important;
+  }
+
+  .calendly-badge-widget[data-widget-type="zoom"] {
+    left: 20px !important;
+    bottom: 20px !important;
+  }
+}
+
+/* Make sure no other elements interfere with the widgets */
+.has-calendly-widgets .calendly-badge-widget {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Ensure back-to-top button doesn't overlap with Calendly */
+.has-calendly-widgets .backToTop {
+  bottom: 90px !important; 
+  left: auto !important;
+  right: 20px !important;
+}

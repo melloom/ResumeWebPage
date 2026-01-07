@@ -1,0 +1,17 @@
+/* Override Calendly widget positioning with higher specificity */
+:global(.calendly-badge-widget.left) {
+  left: 20px !important; /* Left position */
+  bottom: 20px !important; /* Bottom position */
+}
+
+:global(.calendly-badge-widget.right) {
+  right: 20px !important; /* Right position */
+  bottom: 20px !important; /* Bottom position */
+}
+
+/* Ensure the two widgets don't overlap on small screens */
+@media (max-width: 768px) {
+  :global(.calendly-badge-widget.left) {
+    bottom: 80px !important; /* Stack the left widget above the right one */
+  }
+}
