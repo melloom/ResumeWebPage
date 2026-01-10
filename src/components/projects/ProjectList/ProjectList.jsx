@@ -143,6 +143,16 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       link: 'https://wiredliving.vercel.app',
       github: 'https://github.com/melloom/WiredLiving',
       category: 'Websites'
+    },
+    {
+      id: 14,
+      title: 'If I Was Honest',
+      description: 'A private journaling and mental wellness app. Write honestly in a private, incognito space. Publish anonymously if you choose. Track your personal growth with reflection statuses — no likes, no comments, no social pressure. Features mood tracking, soft delete, and an anonymized public feed for gentle sharing.',
+      image: '/Ifiwashonest.png',
+      technologies: ['Next.js', 'Prisma', 'Turso', 'libSQL', 'NextAuth', 'Tailwind CSS', 'TypeScript'],
+      link: 'https://ifiwashonest.netlify.app',
+      github: 'https://github.com/melloom/If-I-Was-Honest',
+      category: 'Apps'
     }
   ];
 
