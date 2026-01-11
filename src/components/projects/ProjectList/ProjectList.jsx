@@ -14,6 +14,26 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
   // Static projects data
   const staticProjects = [
     {
+      id: 14,
+      title: 'If I Was Honest',
+      description: 'A private journaling and mental wellness app. Write honestly in a private, incognito space. Publish anonymously if you choose. Track your personal growth with reflection statuses — no likes, no comments, no social pressure. Features mood tracking, soft delete, and an anonymized public feed for gentle sharing.',
+      image: '/Ifiwashonest.png',
+      technologies: ['Next.js', 'Prisma', 'Turso', 'libSQL', 'NextAuth', 'Tailwind CSS', 'TypeScript'],
+      link: 'https://thehonestproject.netlify.app',
+      github: 'https://github.com/melloom/If-I-Was-Honest',
+      category: 'Apps'
+    },
+    {
+      id: 12,
+      title: 'WiredLiving Blog',
+      description: 'A personal blog about technology and modern living. Features fresh insights weekly, practical advice, and community-driven content about digital wellness and productivity.',
+      image: '/screenshots/WIREDLIVING.png',
+      technologies: ['Next.js', 'NextAuth', 'Node.js', 'Vercel'],
+      link: 'https://wiredliving.vercel.app',
+      github: 'https://github.com/melloom/WiredLiving',
+      category: 'Websites'
+    },
+    {
       id: 1,
       title: '🚀 RocketRAM',
       description: 'A complete PC performance tool project featuring both a modern cyberpunk-themed landing page and a powerful desktop application. The desktop app provides real-time system monitoring (CPU, RAM, Disk, Network), advanced process management, antivirus protection, smart cleaning, system optimization, auto-scheduling, and health scoring. Built with Electron for the desktop app and a fully responsive landing page with modern animations and particle effects. One unified project showcasing both the marketing site and the actual performance tool.',
@@ -132,26 +152,6 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       technologies: ['JavaScript', 'React', 'CSS3', 'Vite'],
       link: 'https://wouldyouratherio.netlify.app',
       github: 'https://github.com/melloom/adventure-game',
-      category: 'Apps'
-    },
-    {
-      id: 12,
-      title: 'WiredLiving Blog',
-      description: 'A personal blog about technology and modern living. Features fresh insights weekly, practical advice, and community-driven content about digital wellness and productivity.',
-      image: '/screenshots/WIREDLIVING.png',
-      technologies: ['Next.js', 'NextAuth', 'Node.js', 'Vercel'],
-      link: 'https://wiredliving.vercel.app',
-      github: 'https://github.com/melloom/WiredLiving',
-      category: 'Websites'
-    },
-    {
-      id: 14,
-      title: 'If I Was Honest',
-      description: 'A private journaling and mental wellness app. Write honestly in a private, incognito space. Publish anonymously if you choose. Track your personal growth with reflection statuses — no likes, no comments, no social pressure. Features mood tracking, soft delete, and an anonymized public feed for gentle sharing.',
-      image: '/Ifiwashonest.png',
-      technologies: ['Next.js', 'Prisma', 'Turso', 'libSQL', 'NextAuth', 'Tailwind CSS', 'TypeScript'],
-      link: 'https://thehonestproject.netlify.app',
-      github: 'https://github.com/melloom/If-I-Was-Honest',
       category: 'Apps'
     }
   ];

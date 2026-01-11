@@ -8,19 +8,19 @@ const ProjectHero = () => {
       <div className={styles.content}>
         <div className={styles.titleContainer}>
           <FaCode className={styles.titleIcon} />
-          <h1 className={styles.title}>My Projects</h1>
+          <h1 className={styles.title}>Projects</h1>
         </div>
         <p className={styles.subtitle}>
-          Explore my portfolio of web development projects, showcasing my skills and experience in building modern web applications
+          Building modern, scalable web applications with cutting-edge technologies
         </p>
         <div className={styles.features}>
           <div className={styles.feature}>
             <FaLaptopCode className={styles.featureIcon} />
-            <span>Modern Web Apps</span>
+            <span>Full-Stack Solutions</span>
           </div>
           <div className={styles.feature}>
             <FaTools className={styles.featureIcon} />
-            <span>Full-Stack Development</span>
+            <span>Modern Tech Stack</span>
           </div>
         </div>
       </div>
