@@ -6,6 +6,7 @@ const ProjectHero = () => {
   return (
     <section className={styles.hero}>
       <div className={styles.content}>
+        <span className={styles.eyebrow}>Featured work</span>
         <div className={styles.titleContainer}>
           <FaCode className={styles.titleIcon} />
           <h1 className={styles.title}>Projects</h1>
@@ -13,14 +14,20 @@ const ProjectHero = () => {
         <p className={styles.subtitle}>
           Building modern, scalable web applications with cutting-edge technologies
         </p>
-        <div className={styles.features}>
-          <div className={styles.feature}>
+        <div className={styles.featureGrid}>
+          <div className={`${styles.feature} ${styles.primaryFeature}`}>
             <FaLaptopCode className={styles.featureIcon} />
-            <span>Full-Stack Solutions</span>
+            <div>
+              <span className={styles.featureLabel}>Full-Stack Solutions</span>
+              <p className={styles.featureDesc}>Shipping polished products from idea to production.</p>
+            </div>
           </div>
           <div className={styles.feature}>
             <FaTools className={styles.featureIcon} />
-            <span>Modern Tech Stack</span>
+            <div>
+              <span className={styles.featureLabel}>Modern Tech Stack</span>
+              <p className={styles.featureDesc}>React, Next.js, TypeScript, cloud-first deployments.</p>
+            </div>
           </div>
         </div>
       </div>
