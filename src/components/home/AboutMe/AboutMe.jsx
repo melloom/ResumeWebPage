@@ -105,9 +105,9 @@ const AboutMe = React.forwardRef((_, ref) => {
           <div className={styles.sectionHeader}>
             <h2 className={styles.aboutTitle}>About Me</h2>
             <p className={styles.aboutSubtitle}>
-              <span className={styles.highlightText}>Sales Expert</span> •{' '}
-              <span className={styles.subtleText}>Team Leadership</span> •{' '}
-              <span className={styles.subtleText}>Client Success</span>
+              <span className={styles.highlightText}>Full-Stack Developer</span> •{' '}
+              <span className={styles.subtleText}>React & JavaScript</span> •{' '}
+              <span className={styles.subtleText}>Modern Web Apps</span>
             </p>
           </div>
 
@@ -135,16 +135,16 @@ const AboutMe = React.forwardRef((_, ref) => {
 
               <div className={styles.profileStats}>
                 <div className={styles.statItem}>
-                  <div className={styles.statValue}>$10M+</div>
-                  <div className={styles.statLabel}>Revenue Generated</div>
+                  <div className={styles.statValue}>20+</div>
+                  <div className={styles.statLabel}>Projects Built</div>
                 </div>
                 <div className={styles.statItem}>
-                  <div className={styles.statValue}>35%</div>
-                  <div className={styles.statLabel}>Conversion Rate</div>
+                  <div className={styles.statValue}>5+</div>
+                  <div className={styles.statLabel}>Technologies</div>
                 </div>
                 <div className={styles.statItem}>
-                  <div className={styles.statValue}>8+</div>
-                  <div className={styles.statLabel}>Team Members Led</div>
+                  <div className={styles.statValue}>100%</div>
+                  <div className={styles.statLabel}>Passion for Code</div>
                 </div>
               </div>
             </div>
@@ -158,20 +158,20 @@ const AboutMe = React.forwardRef((_, ref) => {
 
                 <div className={styles.taglineContainer}>
                   <div className={styles.taglineIcon}><FaRocket /></div>
-                  <h4 className={styles.tagline}>Turning Prospects into Long-Term Clients</h4>
+                  <h4 className={styles.tagline}>Building Modern Web Applications</h4>
                 </div>
 
                 <div className={styles.aboutDescription}>
                   <p>
-                    I'm a <span className={styles.highlight}>results-driven sales professional</span> who has generated over <span className={styles.highlight}>$10 million in revenue</span> within just two years, specializing in building meaningful client relationships that drive business growth and exceptional retention rates.
+                    I'm a <span className={styles.highlight}>full-stack developer</span> passionate about creating innovative web solutions. This is my coding library where I showcase projects built with <span className={styles.highlight}>React, JavaScript, and modern web technologies</span>.
                   </p>
 
                   <p>
-                    With experience managing <span className={styles.highlight}>thousands of client interactions</span> from first contact to closing, I've developed strategic communication approaches that increased lead conversion by <span className={styles.highlight}>35%</span> and consistently exceeded sales targets by <span className={styles.highlight}>28% year-over-year</span>.
+                    I specialize in building <span className={styles.highlight}>responsive, user-friendly applications</span> with clean code and thoughtful design. From interactive portfolios to complex web apps, I focus on creating seamless experiences that solve real problems.
                   </p>
 
                   <p>
-                    As a <span className={styles.highlight}>team leader</span>, I've supervised 8 representatives while implementing streamlined systems that reduce costs and improve performance. My expertise with <span className={styles.highlight}>CRM platforms</span> enables data-driven decisions that enhance both client satisfaction and business outcomes.
+                    My expertise includes <span className={styles.highlight}>React, JavaScript, TypeScript, Node.js, and Firebase</span>. I'm constantly learning and experimenting with new technologies to build better, faster, and more accessible web applications.
                   </p>
                 </div>
               </div>

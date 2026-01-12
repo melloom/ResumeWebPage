@@ -46,8 +46,12 @@ function AppContent() {
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
-  // Keyboard shortcut for admin login (Ctrl+A) - only when not authenticated
+  // Keyboard shortcut for admin login (Ctrl+A or Ctrl+L) - only when not authenticated
   useKeyboardShortcut('ctrl+a', () => {
+    setIsAdminModalOpen(true);
+  }, !isAuthenticated);
+
+  useKeyboardShortcut('ctrl+l', () => {
     setIsAdminModalOpen(true);
   }, !isAuthenticated);
 
