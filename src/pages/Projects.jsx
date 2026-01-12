@@ -5,6 +5,9 @@ import ProjectList from '../components/projects/ProjectList/ProjectList';
 import styles from './Projects.module.css';
 
 const Projects = ({ userProjects = [], isLoading = false, onProjectDeleted }) => {
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Helmet>
