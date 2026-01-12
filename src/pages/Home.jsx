@@ -95,6 +95,7 @@ function Home() {
       <main id="top">
         {/* Hero section with prefetch */}
         <section id="hero">
+          <h1>MellowSites</h1>
           <Hero
             name="Melvin Peralta"
             profileImage="/photo-1.jpg"
