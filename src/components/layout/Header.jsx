@@ -74,6 +74,10 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
       setIsMenuOpen(false);
     }, 200);
     navigate(path);
+    // Force scroll to top on navigation
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
   };
 
   // Handle logout

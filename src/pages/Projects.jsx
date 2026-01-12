@@ -1,13 +1,15 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import ProjectHero from '../components/projects/ProjectHero/ProjectHero';
 import ProjectList from '../components/projects/ProjectList/ProjectList';
 import styles from './Projects.module.css';
 
 const Projects = ({ userProjects = [], isLoading = false, onProjectDeleted }) => {
+  const location = useLocation();
   React.useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [location.pathname]);
   return (
     <>
       <Helmet>
