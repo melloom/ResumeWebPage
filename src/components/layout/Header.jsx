@@ -76,7 +76,10 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
     navigate(path);
     // Force scroll to top on navigation
     setTimeout(() => {
-      window.scrollTo(0, 0);
+      // Scroll both window and html/body to absolute top for reliability
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      if (document.documentElement) document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
     }, 0);
   };
 
