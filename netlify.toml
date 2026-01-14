@@ -4,6 +4,12 @@
   publish = "dist"
   command = "npm run build"
 
+# Redirect www to non-www (must come before other redirects)
+[[redirects]]
+  from = "https://www.mellowsites.com/*"
+  to = "https://mellowsites.com/:splat"
+  status = 301
+
 # Redirect all routes to index.html for SPA routing
 # Static files (like favicon.ico, images, etc.) are automatically served directly by Netlify
 [[redirects]]
