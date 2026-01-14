@@ -95,22 +95,22 @@ const Contact = () => {
         <meta name="keywords" content="Melvin Peralta, Contact, Email, LinkedIn, Hire Developer, Freelance Developer, Web Developer, Sales Professional, Maryland Developer, Contact Form" />
         <meta name="author" content="Melvin Peralta" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://www.mellowsites.com/contact" />
+        <link rel="canonical" href="https://mellowsites.com/contact" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.mellowsites.com/contact" />
+        <meta property="og:url" content="https://mellowsites.com/contact" />
         <meta property="og:title" content="Contact Me - Melvin Peralta | Get In Touch" />
         <meta property="og:description" content="Get in touch with Melvin Peralta - Full-Stack Developer and Sales Development Professional. Available for freelance projects, job opportunities, and collaborations." />
-        <meta property="og:image" content="https://www.mellowsites.com/photo-1.jpg" />
+        <meta property="og:image" content="https://mellowsites.com/photo-1.jpg" />
         <meta property="og:site_name" content="Melvin Peralta Portfolio" />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://www.mellowsites.com/contact" />
+        <meta name="twitter:url" content="https://mellowsites.com/contact" />
         <meta name="twitter:title" content="Contact Me - Melvin Peralta | Get In Touch" />
         <meta name="twitter:description" content="Get in touch with Melvin Peralta - Full-Stack Developer and Sales Development Professional. Available for freelance projects and job opportunities." />
-        <meta name="twitter:image" content="https://www.mellowsites.com/photo-1.jpg" />
+        <meta name="twitter:image" content="https://mellowsites.com/photo-1.jpg" />
       </Helmet>
 
       {/* Sticky Share Button */}

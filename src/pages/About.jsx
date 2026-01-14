@@ -213,22 +213,22 @@ const About = () => {
         <meta name="keywords" content="Melvin Peralta, About Me, Full-Stack Developer, Sales Professional, Web Developer, React Developer, JavaScript, Maryland, Professional Background, Skills, Experience" />
         <meta name="author" content="Melvin Peralta" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://www.mellowsites.com/about" />
+        <link rel="canonical" href="https://mellowsites.com/about" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.mellowsites.com/about" />
+        <meta property="og:url" content="https://mellowsites.com/about" />
         <meta property="og:title" content="About Me - Melvin Peralta | Full-Stack Developer & Sales Professional" />
         <meta property="og:description" content="Learn about Melvin Peralta - a Full-Stack Developer and Sales Development Professional. Discover my background, skills, values, and professional journey." />
-        <meta property="og:image" content="https://www.mellowsites.com/photo-1.jpg" />
+        <meta property="og:image" content="https://mellowsites.com/photo-1.jpg" />
         <meta property="og:site_name" content="Melvin Peralta Portfolio" />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://www.mellowsites.com/about" />
+        <meta name="twitter:url" content="https://mellowsites.com/about" />
         <meta name="twitter:title" content="About Me - Melvin Peralta | Full-Stack Developer & Sales Professional" />
         <meta name="twitter:description" content="Learn about Melvin Peralta - a Full-Stack Developer and Sales Development Professional. Discover my background, skills, and professional journey." />
-        <meta name="twitter:image" content="https://www.mellowsites.com/photo-1.jpg" />
+        <meta name="twitter:image" content="https://mellowsites.com/photo-1.jpg" />
       </Helmet>
       
       <main className={styles.aboutPage}>

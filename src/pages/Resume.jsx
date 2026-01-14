@@ -52,22 +52,22 @@ const Resume = () => {
         <meta name="keywords" content="Melvin Peralta, Resume, CV, Full-Stack Developer, Sales Professional, Web Developer, React Developer, JavaScript, Professional Experience, Skills, Education, Download Resume" />
         <meta name="author" content="Melvin Peralta" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://www.mellowsites.com/resume" />
+        <link rel="canonical" href="https://mellowsites.com/resume" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.mellowsites.com/resume" />
+        <meta property="og:url" content="https://mellowsites.com/resume" />
         <meta property="og:title" content="Resume - Melvin Peralta | Full-Stack Developer & Sales Professional" />
         <meta property="og:description" content="View Melvin Peralta's professional resume. Full-Stack Developer and Sales Development Professional with expertise in React, JavaScript, and business development." />
-        <meta property="og:image" content="https://www.mellowsites.com/photo-1.jpg" />
+        <meta property="og:image" content="https://mellowsites.com/photo-1.jpg" />
         <meta property="og:site_name" content="Melvin Peralta Portfolio" />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://www.mellowsites.com/resume" />
+        <meta name="twitter:url" content="https://mellowsites.com/resume" />
         <meta name="twitter:title" content="Resume - Melvin Peralta | Full-Stack Developer & Sales Professional" />
         <meta name="twitter:description" content="View Melvin Peralta's professional resume. Full-Stack Developer and Sales Development Professional with expertise in React, JavaScript, and business development." />
-        <meta name="twitter:image" content="https://www.mellowsites.com/photo-1.jpg" />
+        <meta name="twitter:image" content="https://mellowsites.com/photo-1.jpg" />
       </Helmet>
 
       <SideNav />

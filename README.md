@@ -8,7 +8,7 @@ A modern, responsive portfolio that screams "I code with vision, vibes, and velo
 
 ## 🌐 Live Site
 
-**👉 [mellowsites.com](https://www.mellowsites.com/)**
+**👉 [mellowsites.com](https://mellowsites.com/)**
 
 Check it out, break things, send feedback. I'm always down to chat.
 
@@ -233,7 +233,7 @@ MIT License - Use it, modify it, make it yours. Just give credit where credit is
 ## 💬 Let's Connect
 
 - **GitHub**: [@melloom](https://github.com/melloom)
-- **Portfolio**: [mellowsites.com](https://www.mellowsites.com/)
+- **Portfolio**: [mellowsites.com](https://mellowsites.com/)
 - **Projects**: Check out my other work in the Projects section
 
 ---
@@ -262,6 +262,6 @@ If you like what you see, give it a star. It makes my day. ⭐
 
 *"Code with vision, vibes, and velocity."*
 
-[🌐 Live Site](https://www.mellowsites.com/) • [💻 GitHub](https://github.com/melloom) • [📧 Contact](https://www.mellowsites.com/contact)
+[🌐 Live Site](https://mellowsites.com/) • [💻 GitHub](https://github.com/melloom) • [📧 Contact](https://mellowsites.com/contact)
 
 </div>

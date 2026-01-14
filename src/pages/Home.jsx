@@ -66,22 +66,22 @@ function Home() {
         <meta name="keywords" content="Melvin Peralta, Full-Stack Developer, Web Developer, React Developer, JavaScript, Frontend Developer, Sales Professional, Portfolio, Web Development, Software Engineer, Maryland Developer" />
         <meta name="author" content="Melvin Peralta" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://www.mellowsites.com/" />
+        <link rel="canonical" href="https://mellowsites.com/" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.mellowsites.com/" />
+        <meta property="og:url" content="https://mellowsites.com/" />
         <meta property="og:title" content="Melvin Peralta | Full-Stack Developer & Sales Professional Portfolio" />
         <meta property="og:description" content="Professional portfolio of Melvin Peralta - Full-Stack Developer, AI Integrator, and Sales Development Professional. Explore my projects, skills, and experience." />
-        <meta property="og:image" content="https://www.mellowsites.com/photo-1.jpg" />
+        <meta property="og:image" content="https://mellowsites.com/photo-1.jpg" />
         <meta property="og:site_name" content="Melvin Peralta Portfolio" />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://www.mellowsites.com/" />
+        <meta name="twitter:url" content="https://mellowsites.com/" />
         <meta name="twitter:title" content="Melvin Peralta | Full-Stack Developer & Sales Professional Portfolio" />
         <meta name="twitter:description" content="Professional portfolio of Melvin Peralta - Full-Stack Developer, AI Integrator, and Sales Development Professional." />
-        <meta name="twitter:image" content="https://www.mellowsites.com/photo-1.jpg" />
+        <meta name="twitter:image" content="https://mellowsites.com/photo-1.jpg" />
         
         {/* Additional SEO */}
         <meta name="theme-color" content="#0f172a" />
