@@ -27,7 +27,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       id: 12,
       title: 'WiredLiving Blog',
       description: 'A personal blog about technology and modern living. Features fresh insights weekly, practical advice, and community-driven content about digital wellness and productivity.',
-      image: '/screenshots/WIREDLIVING.png',
+      image: '/wire.png',
       technologies: ['Next.js', 'NextAuth', 'Node.js', 'Vercel'],
       link: 'https://wiredliving.vercel.app',
       github: 'https://github.com/melloom/WiredLiving',
