@@ -216,7 +216,7 @@ const About = () => {
         <link rel="canonical" href="https://mellowsites.com/about" />
         
         {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="profile" />
         <meta property="og:url" content="https://mellowsites.com/about" />
         <meta property="og:title" content="About Me - Melvin Peralta | Full-Stack Developer & Sales Professional" />
         <meta property="og:description" content="Learn about Melvin Peralta - a Full-Stack Developer and Sales Development Professional. Discover my background, skills, values, and professional journey." />
@@ -229,6 +229,24 @@ const About = () => {
         <meta name="twitter:title" content="About Me - Melvin Peralta | Full-Stack Developer & Sales Professional" />
         <meta name="twitter:description" content="Learn about Melvin Peralta - a Full-Stack Developer and Sales Development Professional. Discover my background, skills, and professional journey." />
         <meta name="twitter:image" content="https://mellowsites.com/photo-1.jpg" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Melvin Peralta",
+            "url": "https://mellowsites.com/about",
+            "image": "https://mellowsites.com/photo-1.jpg",
+            "jobTitle": "Full-Stack Developer & Sales Professional",
+            "description": "Full-Stack Developer and Sales Development Professional with expertise in React, JavaScript, and business development",
+            "sameAs": [
+              "https://www.linkedin.com/in/melvin-peralta-de-la-cruz-077557215",
+              "https://github.com/melloom"
+            ],
+            "knowsAbout": ["React", "JavaScript", "Web Development", "Sales Development", "Lead Generation", "HTML/CSS"]
+          })}
+        </script>
       </Helmet>
       
       <main className={styles.aboutPage}>

@@ -65,7 +65,7 @@ function Home() {
         <meta name="description" content="Professional portfolio of Melvin Peralta - Full-Stack Developer, AI Integrator, and Sales Development Professional. Explore my projects, skills, and experience in web development, React, JavaScript, and business development." />
         <meta name="keywords" content="Melvin Peralta, Full-Stack Developer, Web Developer, React Developer, JavaScript, Frontend Developer, Sales Professional, Portfolio, Web Development, Software Engineer, Maryland Developer" />
         <meta name="author" content="Melvin Peralta" />
-        <meta name="robots" content="index, follow" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <link rel="canonical" href="https://mellowsites.com/" />
         
         {/* Open Graph / Facebook */}
@@ -74,7 +74,10 @@ function Home() {
         <meta property="og:title" content="Melvin Peralta | Full-Stack Developer & Sales Professional Portfolio" />
         <meta property="og:description" content="Professional portfolio of Melvin Peralta - Full-Stack Developer, AI Integrator, and Sales Development Professional. Explore my projects, skills, and experience." />
         <meta property="og:image" content="https://mellowsites.com/photo-1.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:site_name" content="Melvin Peralta Portfolio" />
+        <meta property="og:locale" content="en_US" />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -87,6 +90,56 @@ function Home() {
         <meta name="theme-color" content="#0f172a" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        
+        {/* Structured Data - Home/Portfolio */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            "mainEntity": {
+              "@type": "Person",
+              "@id": "https://mellowsites.com/#person",
+              "name": "Melvin Peralta",
+              "alternateName": "MellowSites",
+              "url": "https://mellowsites.com/",
+              "image": "https://mellowsites.com/photo-1.jpg",
+              "jobTitle": "Full-Stack Developer & Sales Professional",
+              "description": "Full-Stack Developer and Sales Development Professional with expertise in React, JavaScript, and business development",
+              "knowsAbout": ["React", "JavaScript", "Web Development", "Sales Development", "Frontend Development", "HTML", "CSS"],
+              "sameAs": [
+                "https://www.linkedin.com/in/melvin-peralta-de-la-cruz-077557215",
+                "https://github.com/melloom",
+                "https://mellowsites.com/about",
+                "https://mellowsites.com/resume"
+              ],
+              "address": {
+                "@type": "PostalAddress",
+                "addressRegion": "Maryland",
+                "addressCountry": "US"
+              },
+              "email": "Melvin.a.p.cruz@gmail.com"
+            },
+            "url": "https://mellowsites.com/",
+            "name": "Melvin Peralta - Portfolio",
+            "description": "Professional portfolio showcasing web development projects and skills"
+          })}
+        </script>
+        
+        {/* BreadcrumbList for better navigation understanding */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://mellowsites.com/"
+              }
+            ]
+          })}
+        </script>
       </Helmet>
       
       <SideNav />

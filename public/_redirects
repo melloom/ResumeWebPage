@@ -1,0 +1,14 @@
+# Force HTTPS
+http://mellowsites.com/* https://mellowsites.com/:splat 301!
+http://www.mellowsites.com/* https://mellowsites.com/:splat 301!
+
+# Redirect www to non-www
+https://www.mellowsites.com/* https://mellowsites.com/:splat 301!
+
+# Ensure static files are served directly (before SPA fallback)
+/sitemap.xml /sitemap.xml 200
+/robots.txt /robots.txt 200
+/favicon.ico /favicon.ico 200
+
+# SPA fallback - must be last
+/* /index.html 200

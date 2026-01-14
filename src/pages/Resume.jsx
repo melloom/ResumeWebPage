@@ -55,7 +55,7 @@ const Resume = () => {
         <link rel="canonical" href="https://mellowsites.com/resume" />
         
         {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="profile" />
         <meta property="og:url" content="https://mellowsites.com/resume" />
         <meta property="og:title" content="Resume - Melvin Peralta | Full-Stack Developer & Sales Professional" />
         <meta property="og:description" content="View Melvin Peralta's professional resume. Full-Stack Developer and Sales Development Professional with expertise in React, JavaScript, and business development." />
@@ -68,6 +68,29 @@ const Resume = () => {
         <meta name="twitter:title" content="Resume - Melvin Peralta | Full-Stack Developer & Sales Professional" />
         <meta name="twitter:description" content="View Melvin Peralta's professional resume. Full-Stack Developer and Sales Development Professional with expertise in React, JavaScript, and business development." />
         <meta name="twitter:image" content="https://mellowsites.com/photo-1.jpg" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Melvin Peralta",
+            "url": "https://mellowsites.com/resume",
+            "image": "https://mellowsites.com/photo-1.jpg",
+            "jobTitle": "Full-Stack Developer & Sales Professional",
+            "description": "Professional resume of Melvin Peralta - Full-Stack Developer and Sales Development Professional",
+            "sameAs": [
+              "https://www.linkedin.com/in/melvin-peralta-de-la-cruz-077557215",
+              "https://github.com/melloom"
+            ],
+            "knowsAbout": ["React", "JavaScript", "Web Development", "Sales Development", "Team Leadership", "HTML/CSS"],
+            "hasOccupation": {
+              "@type": "Occupation",
+              "name": "Full-Stack Developer & Sales Professional",
+              "skills": "React, JavaScript, Sales Development, Lead Generation, Client Relationship Management"
+            }
+          })}
+        </script>
       </Helmet>
 
       <SideNav />

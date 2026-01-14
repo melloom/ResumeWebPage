@@ -111,6 +111,28 @@ const Contact = () => {
         <meta name="twitter:title" content="Contact Me - Melvin Peralta | Get In Touch" />
         <meta name="twitter:description" content="Get in touch with Melvin Peralta - Full-Stack Developer and Sales Development Professional. Available for freelance projects and job opportunities." />
         <meta name="twitter:image" content="https://mellowsites.com/photo-1.jpg" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "name": "Contact Melvin Peralta",
+            "description": "Get in touch with Melvin Peralta for freelance projects, job opportunities, and collaborations",
+            "url": "https://mellowsites.com/contact",
+            "mainEntity": {
+              "@type": "Person",
+              "name": "Melvin Peralta",
+              "email": "Melvin.a.p.cruz@gmail.com",
+              "telephone": "+1-667-200-9784",
+              "address": {
+                "@type": "PostalAddress",
+                "addressRegion": "Maryland",
+                "addressCountry": "US"
+              }
+            }
+          })}
+        </script>
       </Helmet>
 
       {/* Sticky Share Button */}

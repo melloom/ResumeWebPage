@@ -34,6 +34,26 @@ const Projects = ({ userProjects = [], isLoading = false, onProjectDeleted }) =>
         <meta name="twitter:title" content="Projects - Melvin Peralta | Web Development Portfolio & Showcase" />
         <meta name="twitter:description" content="Explore Melvin Peralta's portfolio of web development projects. Featured projects include RocketRAM, Vocalix, Long Home, GhostInbox, BrandSaaS, and more." />
         <meta name="twitter:image" content="https://mellowsites.com/screenshots/portfolio-portfolio-thumbnail.png" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Projects - Melvin Peralta",
+            "description": "Portfolio of web development projects by Melvin Peralta",
+            "url": "https://mellowsites.com/projects",
+            "author": {
+              "@type": "Person",
+              "name": "Melvin Peralta"
+            },
+            "mainEntity": {
+              "@type": "ItemList",
+              "name": "Web Development Projects",
+              "description": "Collection of web development projects"
+            }
+          })}
+        </script>
       </Helmet>
       
       <div className={styles.projectsPage}>
