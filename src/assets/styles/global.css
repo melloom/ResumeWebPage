@@ -84,7 +84,9 @@
     font-size: 16px;
     scroll-behavior: smooth;
     /* Extend background to safe areas on devices with notches */
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color);
   }
 
   body {
@@ -98,6 +100,7 @@
     /* Ensure background extends to edges on devices with notches */
     min-height: 100vh;
     min-height: -webkit-fill-available;
+    width: 100%;
   }
 
   img {
