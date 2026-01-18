@@ -2,6 +2,23 @@
 let registration = null;
 let deferredPrompt = null;
 
+// Function to unregister all service workers (useful for debugging)
+export const unregisterAllServiceWorkers = async () => {
+  if ('serviceWorker' in navigator) {
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    for (const registration of registrations) {
+      await registration.unregister();
+    }
+    console.log('All service workers unregistered');
+    // Clear all caches
+    const cacheNames = await caches.keys();
+    for (const cacheName of cacheNames) {
+      await caches.delete(cacheName);
+    }
+    console.log('All caches cleared');
+  }
+};
+
 export const registerServiceWorker = () => {
   if ('serviceWorker' in navigator) {
     // Register in both development and production

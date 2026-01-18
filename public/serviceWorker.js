@@ -1,5 +1,5 @@
 // Cache names
-const CACHE_NAME = 'melvin-peralta-portfolio-v4'; // Increment version to force cache refresh
+const CACHE_NAME = 'melvin-peralta-portfolio-v5'; // Increment version to force cache refresh
 const RUNTIME_CACHE = 'runtime-cache-v1';
 const OFFLINE_URL = '/offline.html';
 
@@ -65,25 +65,6 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
   
-  // IMPORTANT: For navigation requests in PWA, return index.html for SPA routing
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch('/index.html')
-        .then(response => {
-          return caches.open(CACHE_NAME).then(cache => {
-            cache.put('/index.html', response.clone());
-            return response;
-          });
-        })
-        .catch(() => {
-          return caches.match('/index.html').then(cachedResponse => {
-            return cachedResponse || caches.match(OFFLINE_URL);
-          });
-        })
-    );
-    return;
-  }
-  
   // Skip external API calls - pass them through directly
   const isExternalAPI = url.hostname.includes('firebaseapp.com') ||
                        url.hostname.includes('googleapis.com') ||
@@ -98,13 +79,17 @@ self.addEventListener('fetch', (event) => {
   
   if (isExternalAPI || isDevServerRequest) {
     // Let these requests pass through without service worker interception
-    // Don't use event.respondWith() - just return and let the browser handle it
     return;
   }
 
   // Skip theme-related requests
   if (url.pathname.includes('theme') || 
       event.request.headers.get('purpose') === 'theme-detection') {
+    return;
+  }
+  
+  // For same-origin requests only
+  if (url.origin !== self.location.origin) {
     return;
   }
 
