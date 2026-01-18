@@ -1,5 +1,5 @@
 // Cache names
-const CACHE_NAME = 'melvin-peralta-portfolio-v2'; // Increment version to force cache refresh
+const CACHE_NAME = 'melvin-peralta-portfolio-v3'; // Increment version to force cache refresh
 const RUNTIME_CACHE = 'runtime-cache-v1';
 const OFFLINE_URL = '/offline.html';
 
@@ -64,6 +64,16 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
+  
+  // IMPORTANT: For navigation requests (page loads), always fetch from network
+  // to ensure React Router works properly in PWA
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => caches.match(OFFLINE_URL))
+    );
+    return;
+  }
   
   // Skip external API calls - pass them through directly
   const isExternalAPI = url.hostname.includes('firebaseapp.com') ||
