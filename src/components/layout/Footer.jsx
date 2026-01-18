@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   FaGithub,
   FaLinkedin,
@@ -18,6 +18,7 @@ import styles from './Footer.module.css';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
+  const navigate = useNavigate();
   const isContactPage = location.pathname === '/contact';
   const [isVisible, setIsVisible] = useState(true); // Always visible now
 
@@ -55,8 +56,9 @@ const Footer = () => {
       sessionStorage.setItem('forceScrollTop', 'true');
     }
 
-    // Direct navigation for consistency
-    window.location.href = path;
+    // Use React Router navigation to keep PWA in standalone mode
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
   // Special handler for contact links
@@ -72,8 +74,9 @@ const Footer = () => {
     // Force display of "Almost there..." messaging
     sessionStorage.setItem('showAlmostThere', 'true');
 
-    // Direct navigation
-    window.location.href = path;
+    // Use React Router navigation to keep PWA in standalone mode
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
   // Handler for smooth scroll to sections if on the same page
@@ -85,7 +88,9 @@ const Footer = () => {
       // Mark as internal navigation
       sessionStorage.setItem('internalNavigation', 'true');
       sessionStorage.setItem('forceScrollTop', 'true');
-      window.location.href = fallbackPath;
+      // Use React Router navigation to keep PWA in standalone mode
+      navigate(fallbackPath);
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
   };
 

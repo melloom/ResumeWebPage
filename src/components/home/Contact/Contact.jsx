@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   FaEnvelope,
   FaPhoneAlt,
@@ -43,6 +44,7 @@ const useContactLayout = () => {
 
 const Contact = () => {
   const formRef = useRef(null);
+  const navigate = useNavigate();
   const layout = useContactLayout();
 
   // Scroll to section when directly accessing via URL hash
@@ -217,8 +219,9 @@ const Contact = () => {
     sessionStorage.setItem('forceScrollTopContact', 'true');
     localStorage.setItem('contactScrollNeeded', 'true');
 
-    // Navigate to the contact page
-    window.location.href = '/contact#top';
+    // Navigate to the contact page using React Router to keep PWA in standalone mode
+    navigate('/contact');
+    setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 0);
   };
 
   // Class names based on layout
