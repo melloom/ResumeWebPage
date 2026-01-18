@@ -162,15 +162,12 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href="/#about"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleSectionNavigation('about', '/#about');
-                    }}
+                  <button
+                    className={styles.footerLinkButton}
+                    onClick={() => handleSectionNavigation('about', '/')}
                   >
                     About Me
-                  </a>
+                  </button>
                 </li>
                 {/* Only show Contact link if not on the Contact page */}
                 {!isContactPage && (
@@ -228,13 +225,16 @@ const Footer = () => {
             <div className={styles.footerCTA}>
               <h3 className={styles.footerHeading}>Get In Touch</h3>
               <p>Ready to discuss opportunities? Reach out today!</p>
-              <a
-                href="/contact#top"
-                onClick={(e) => handleContactNavigation(e, '/contact#top')}
+              <Link
+                to="/contact"
+                onClick={() => {
+                  sessionStorage.setItem('forceScrollTopContact', 'true');
+                  setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 0);
+                }}
                 className={styles.footerButton}
               >
                 Contact Me <FaArrowRight className={styles.buttonArrow} />
-              </a>
+              </Link>
             </div>
           ) : (
             <div className={styles.footerCTA}>

@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect, lazy, Suspense } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import {
@@ -278,10 +279,10 @@ const Experience = React.forwardRef((props, forwardedRef) => {
 
         {/* View Full Resume Button */}
         <div className={styles.viewResumeContainer}>
-          <a href="/resume" className={styles.viewResumeButton}>
+          <Link to="/resume" className={styles.viewResumeButton}>
             View Full Job History
             <span className={styles.arrowIcon}>→</span>
-          </a>
+          </Link>
         </div>
 
         {/* Skills & Knowledge Section */}
