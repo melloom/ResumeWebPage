@@ -51,7 +51,7 @@
 }
 
 .logoText {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   background: linear-gradient(90deg, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
   -webkit-background-clip: text;
@@ -738,15 +738,15 @@
   }
 
   .logoText {
-    font-size: 1.3rem;
+    font-size: 1.6rem;
   }
 
   .header {
-    height: 65px;
+    height: 72px;
   }
 
   .headerScrolled {
-    height: 60px;
+    height: 68px;
   }
 
   .mobileMenuWrapper {

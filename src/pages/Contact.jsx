@@ -92,6 +92,9 @@ const Contact = () => {
       <Helmet>
         <title>Contact Me - Melvin Peralta | Get In Touch</title>
         <meta name="description" content="Get in touch with Melvin Peralta - Full-Stack Developer and Sales Development Professional. Available for freelance projects, job opportunities, and collaborations. Contact via email, phone, or LinkedIn." />
+        <meta name="theme-color" content="#0f172a" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="keywords" content="Melvin Peralta, Contact, Email, LinkedIn, Hire Developer, Freelance Developer, Web Developer, Sales Professional, Maryland Developer, Contact Form" />
         <meta name="author" content="Melvin Peralta" />
         <meta name="robots" content="index, follow" />

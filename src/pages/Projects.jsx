@@ -15,6 +15,9 @@ const Projects = ({ userProjects = [], isLoading = false, onProjectDeleted }) =>
       <Helmet>
         <title>Projects - Melvin Peralta | Web Development Portfolio & Showcase</title>
         <meta name="description" content="Explore Melvin Peralta's portfolio of web development projects. Featured projects include RocketRAM, Vocalix, Long Home, GhostInbox, BrandSaaS, and more. Built with React, JavaScript, TypeScript, and modern web technologies." />
+        <meta name="theme-color" content="#0f172a" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="keywords" content="Melvin Peralta, Projects, Portfolio, Web Development, React Projects, JavaScript Projects, Web Applications, Software Projects, Full-Stack Development, Frontend Development, GitHub Projects" />
         <meta name="author" content="Melvin Peralta" />
         <meta name="robots" content="index, follow" />

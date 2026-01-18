@@ -210,6 +210,9 @@ const About = () => {
       <Helmet>
         <title>About Me - Melvin Peralta | Full-Stack Developer & Sales Professional</title>
         <meta name="description" content="Learn about Melvin Peralta - a Full-Stack Developer and Sales Development Professional. Discover my background, skills, values, personality, and professional journey in technology and business." />
+        <meta name="theme-color" content="#0f172a" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="keywords" content="Melvin Peralta, About Me, Full-Stack Developer, Sales Professional, Web Developer, React Developer, JavaScript, Maryland, Professional Background, Skills, Experience" />
         <meta name="author" content="Melvin Peralta" />
         <meta name="robots" content="index, follow" />

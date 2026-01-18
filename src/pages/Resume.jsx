@@ -49,6 +49,9 @@ const Resume = () => {
       <Helmet>
         <title>Resume - Melvin Peralta | Full-Stack Developer & Sales Professional</title>
         <meta name="description" content="View Melvin Peralta's professional resume. Full-Stack Developer and Sales Development Professional with expertise in React, JavaScript, team leadership, client relationship management, and business development. Download PDF resume." />
+        <meta name="theme-color" content="#0f172a" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="keywords" content="Melvin Peralta, Resume, CV, Full-Stack Developer, Sales Professional, Web Developer, React Developer, JavaScript, Professional Experience, Skills, Education, Download Resume" />
         <meta name="author" content="Melvin Peralta" />
         <meta name="robots" content="index, follow" />
