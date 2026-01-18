@@ -1,5 +1,5 @@
 // Cache names
-const CACHE_NAME = 'melvin-peralta-portfolio-v6'; // Increment version to force cache refresh
+const CACHE_NAME = 'melvin-peralta-portfolio-v7'; // Increment version to force cache refresh
 const RUNTIME_CACHE = 'runtime-cache-v1';
 const OFFLINE_URL = '/offline.html';
 
@@ -58,12 +58,17 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - implement a network-first strategy for local resources only
+// Fetch event - only cache assets, skip ALL navigation requests
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
+  
+  // CRITICAL: Skip ALL navigation requests - let browser/Netlify handle routing
+  if (event.request.mode === 'navigate') {
+    return; // Don't intercept at all
+  }
   
   // Skip external API calls - pass them through directly
   const isExternalAPI = url.hostname.includes('firebaseapp.com') ||
@@ -78,7 +83,6 @@ self.addEventListener('fetch', (event) => {
                             url.hostname.includes('.app.github.dev');
   
   if (isExternalAPI || isDevServerRequest) {
-    // Let these requests pass through without service worker interception
     return;
   }
 
@@ -93,7 +97,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-first strategy with cache fallback for local resources only
+  // Network-first strategy with cache fallback for assets only
   event.respondWith(
     fetch(event.request)
       .then(response => {
