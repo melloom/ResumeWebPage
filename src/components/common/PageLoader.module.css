@@ -55,7 +55,6 @@
 /* Style for body during fast transitions */
 :global(.fast-transition) {
   scroll-behavior: auto !important;
-  overflow-y: hidden;
 }
 
 /* Optimize animation performance */
