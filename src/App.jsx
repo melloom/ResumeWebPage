@@ -14,7 +14,6 @@ import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { getProjects } from './services/projectService';
 import BackToTop from './components/common/BackToTop';
-import { initPWA } from './utils/pwaHelper';
 
 // Lazy load pages for better performance
 const Home = lazy(() => import('./pages/Home'));
@@ -38,11 +37,6 @@ function AppContent() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
-  }, []);
-
-  // Initialize PWA helpers
-  useEffect(() => {
-    initPWA();
   }, []);
 
   // Handle theme toggle
