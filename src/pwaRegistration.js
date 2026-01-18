@@ -3,12 +3,20 @@ let registration = null;
 let deferredPrompt = null;
 
 export const registerServiceWorker = () => {
-  if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-    window.addEventListener('load', () => {
-      const swUrl = '/serviceWorker.js';
+  if ('serviceWorker' in navigator) {
+    // Register in both development and production
+    // In dev, we might be on localhost or a test server
+    // In production, it will use the public service worker
+    const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+    const isProduction = process.env.NODE_ENV === 'production';
+    
+    // Allow registration in development for testing, but be stricter in production
+    if (isDevelopment || isProduction) {
+      window.addEventListener('load', () => {
+        const swUrl = '/serviceWorker.js';
 
-      // Preserve theme setting before service worker initialization
-      const savedTheme = localStorage.getItem('theme') || 'dark';
+        // Preserve theme setting before service worker initialization
+        const savedTheme = localStorage.getItem('theme') || 'dark';
       
       navigator.serviceWorker.register(swUrl)
         .then(reg => {
@@ -47,16 +55,17 @@ export const registerServiceWorker = () => {
         
       // Handle controller changes (when skipWaiting() is called)
       navigator.serviceWorker.addEventListener('controllerchange', () => {
-        console.log('Controller changed - reloading for fresh content');
+        console.log('Controller changed - new service worker activated');
         // Restore theme setting
         localStorage.setItem('theme', savedTheme);
-        // Reload the page to ensure all assets are refreshed
-        if (!window.__reloading) {
-          window.__reloading = true;
+        // Don't reload automatically - let the user decide or use a notification
+        // Only reload if explicitly needed for critical updates
+        if (window.location.search.includes('force-reload')) {
           window.location.reload();
         }
       });
-    });
+      });
+    }
   }
 
   // Listen for the beforeinstallprompt event to capture the installation prompt

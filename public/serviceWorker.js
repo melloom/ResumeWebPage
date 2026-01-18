@@ -58,20 +58,38 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - implement a network-first strategy for most resources
+// Fetch event - implement a network-first strategy for local resources only
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') return;
 
-  // Skip theme-related localStorage requests
   const url = new URL(event.request.url);
+  
+  // Skip external API calls - pass them through directly
+  const isExternalAPI = url.hostname.includes('firebaseapp.com') ||
+                       url.hostname.includes('googleapis.com') ||
+                       url.hostname.includes('firebase.googleapis.com') ||
+                       url.hostname.includes('identitytoolkit.googleapis.com') ||
+                       url.hostname.includes('emailjs.com');
+  
+  // Also skip the dev server's own requests when in development
+  const isDevServerRequest = url.hostname === 'localhost' || 
+                            url.hostname === '127.0.0.1' ||
+                            url.hostname.includes('.app.github.dev');
+  
+  if (isExternalAPI || isDevServerRequest) {
+    // Let these requests pass through without service worker interception
+    // Don't use event.respondWith() - just return and let the browser handle it
+    return;
+  }
+
+  // Skip theme-related requests
   if (url.pathname.includes('theme') || 
-      event.request.url.includes('theme') || 
       event.request.headers.get('purpose') === 'theme-detection') {
     return;
   }
 
-  // Network-first strategy with cache fallback
+  // Network-first strategy with cache fallback for local resources only
   event.respondWith(
     fetch(event.request)
       .then(response => {
@@ -79,20 +97,24 @@ self.addEventListener('fetch', (event) => {
         const responseToCache = response.clone();
         
         // Only cache successful responses from our origin
-        if (response.status === 200 && event.request.url.startsWith(self.location.origin)) {
+        if (response.status === 200 && url.origin === self.location.origin) {
           caches.open(CACHE_NAME)
             .then(cache => {
               // Don't cache localStorage access or API responses
-              if (!event.request.url.includes('localStorage') && 
-                  !event.request.url.includes('/api/')) {
+              if (!url.pathname.includes('localStorage') && 
+                  !url.pathname.includes('/api/')) {
                 cache.put(event.request, responseToCache);
               }
-            });
+            })
+            .catch(err => console.warn('Cache write failed:', err));
         }
         
         return response;
       })
-      .catch(() => {
+      .catch((error) => {
+        // Log error for debugging
+        console.warn('Fetch failed for', event.request.url, error);
+        
         // Try to get from cache if network fails
         return caches.match(event.request)
           .then(cachedResponse => {

@@ -69,6 +69,23 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Clear old service workers on load -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          registrations.forEach((registration) => {
+            registration.unregister();
+            console.log('Old service worker unregistered');
+          });
+        });
+      }
+      caches.keys().then((cacheNames) => {
+        cacheNames.forEach((cacheName) => {
+          caches.delete(cacheName);
+          console.log('Old cache cleared:', cacheName);
+        });
+      });
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

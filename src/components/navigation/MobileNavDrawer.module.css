@@ -18,6 +18,8 @@
   transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 95; /* Lower than main hamburger menu */
   padding: 20px 15px;
+  /* Support for devices with notches */
+  padding-right: max(15px, env(safe-area-inset-right));
 }
 
 .drawer.open {
@@ -42,6 +44,9 @@
   z-index: 96; /* Lower than main hamburger menu but higher than drawer */
   box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* Support for devices with notches */
+  padding-right: max(8px, env(safe-area-inset-right));
+  right: env(safe-area-inset-right);
 }
 
 .drawerToggle.drawerOpen {

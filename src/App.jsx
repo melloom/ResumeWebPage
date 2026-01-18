@@ -8,6 +8,7 @@ import PageTransition from './components/common/PageTransition';
 import InstallPWA from './components/common/InstallPWA';
 import AdminLoginModal from './components/common/AdminLoginModal';
 import AddProjectModal from './components/common/AddProjectModal';
+import ErrorBoundary from './components/common/ErrorBoundary';
 import useKeyboardShortcut from './hooks/useKeyboardShortcut';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -162,11 +163,13 @@ function AppContent() {
 
 function App() {
   return (
-    <HelmetProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </HelmetProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   );
 }
 
