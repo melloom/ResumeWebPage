@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   FaEnvelope,
   FaPhoneAlt,
@@ -210,20 +210,6 @@ const Contact = () => {
     }
   };
 
-  // Navigation handler for the full contact page
-  const handleFullContactNavigation = (e) => {
-    e.preventDefault();
-
-    // Set storage flags for scroll position handling
-    window.contactClickedAt = Date.now();
-    sessionStorage.setItem('forceScrollTopContact', 'true');
-    localStorage.setItem('contactScrollNeeded', 'true');
-
-    // Navigate to the contact page using React Router to keep PWA in standalone mode
-    navigate('/contact');
-    setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 0);
-  };
-
   // Class names based on layout
   const getSectionClass = () => {
     if (layout === 'alternative') {
@@ -243,13 +229,19 @@ const Contact = () => {
           <p className={styles.contactSubtitle}>
             Interested in working together? Feel free to reach out using any of the methods below.
           </p>
-          <a
-            href="/contact#top"
-            onClick={handleFullContactNavigation}
+          <Link
+            to="/contact"
+            onClick={(e) => {
+              // Set storage flags for scroll position handling
+              window.contactClickedAt = Date.now();
+              sessionStorage.setItem('forceScrollTopContact', 'true');
+              localStorage.setItem('contactScrollNeeded', 'true');
+              setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 0);
+            }}
             className={styles.fullContactLink}
           >
             Visit full contact page <FaArrowRight />
-          </a>
+          </Link>
         </div>
 
         <div className={styles.contactContent}>

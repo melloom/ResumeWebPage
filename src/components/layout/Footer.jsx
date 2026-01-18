@@ -38,47 +38,6 @@ const Footer = () => {
     };
   }, []);
 
-  // Unified navigation handler for all internal links
-  const handleInternalNavigation = (e, path) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Set 'footerNavigation' flag to ensure "Almost there..." loading text
-    sessionStorage.setItem('footerNavigation', 'true');
-
-    // Always set internalNavigation flag for consistent "Almost there" messaging
-    sessionStorage.setItem('internalNavigation', 'true');
-
-    // Set specific flags if needed
-    if (path.includes('/contact')) {
-      sessionStorage.setItem('forceScrollTopContact', 'true');
-    } else if (path.includes('/resume')) {
-      sessionStorage.setItem('forceScrollTop', 'true');
-    }
-
-    // Use React Router navigation to keep PWA in standalone mode
-    navigate(path);
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  };
-
-  // Special handler for contact links
-  const handleContactNavigation = (e, path) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Set flags to ensure "Almost there..." loading text
-    sessionStorage.setItem('footerNavigation', 'true');
-    sessionStorage.setItem('internalNavigation', 'true');
-    sessionStorage.setItem('forceScrollTopContact', 'true');
-
-    // Force display of "Almost there..." messaging
-    sessionStorage.setItem('showAlmostThere', 'true');
-
-    // Use React Router navigation to keep PWA in standalone mode
-    navigate(path);
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  };
-
   // Handler for smooth scroll to sections if on the same page
   const handleSectionNavigation = (sectionId, fallbackPath) => {
     const section = document.getElementById(sectionId);
@@ -89,8 +48,9 @@ const Footer = () => {
       sessionStorage.setItem('internalNavigation', 'true');
       sessionStorage.setItem('forceScrollTop', 'true');
       // Use React Router navigation to keep PWA in standalone mode
-      navigate(fallbackPath);
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      const path = fallbackPath.split('#')[0];
+      navigate(path);
+      setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 0);
     }
   };
 
@@ -162,31 +122,44 @@ const Footer = () => {
               <h3 className={styles.footerHeading}>Quick Links</h3>
               <ul className={styles.footerLinks}>
                 <li>
-                  <a
-                    href="/"
-                    onClick={(e) => handleInternalNavigation(e, '/')}
+                  <Link
+                    to="/"
+                    onClick={(e) => {
+                      sessionStorage.setItem('footerNavigation', 'true');
+                      sessionStorage.setItem('internalNavigation', 'true');
+                      window.scrollTo({ top: 0, behavior: 'auto' });
+                    }}
                     className={location.pathname === '/' ? styles.active : ''}
                   >
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="/projects"
-                    onClick={(e) => handleInternalNavigation(e, '/projects')}
+                  <Link
+                    to="/projects"
+                    onClick={(e) => {
+                      sessionStorage.setItem('footerNavigation', 'true');
+                      sessionStorage.setItem('internalNavigation', 'true');
+                      window.scrollTo({ top: 0, behavior: 'auto' });
+                    }}
                     className={location.pathname === '/projects' ? styles.active : ''}
                   >
                     Projects
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="/resume"
-                    onClick={(e) => handleInternalNavigation(e, '/resume')}
+                  <Link
+                    to="/resume"
+                    onClick={(e) => {
+                      sessionStorage.setItem('footerNavigation', 'true');
+                      sessionStorage.setItem('internalNavigation', 'true');
+                      sessionStorage.setItem('forceScrollTop', 'true');
+                      window.scrollTo({ top: 0, behavior: 'auto' });
+                    }}
                     className={location.pathname === '/resume' ? styles.active : ''}
                   >
                     Resume
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a
@@ -202,12 +175,18 @@ const Footer = () => {
                 {/* Only show Contact link if not on the Contact page */}
                 {!isContactPage && (
                   <li>
-                    <a
-                      href="/contact"
-                      onClick={(e) => handleContactNavigation(e, '/contact')}
+                    <Link
+                      to="/contact"
+                      onClick={(e) => {
+                        sessionStorage.setItem('footerNavigation', 'true');
+                        sessionStorage.setItem('internalNavigation', 'true');
+                        sessionStorage.setItem('forceScrollTopContact', 'true');
+                        sessionStorage.setItem('showAlmostThere', 'true');
+                        window.scrollTo({ top: 0, behavior: 'auto' });
+                      }}
                     >
                       Contact
-                    </a>
+                    </Link>
                   </li>
                 )}
               </ul>
