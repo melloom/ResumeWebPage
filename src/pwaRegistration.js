@@ -40,6 +40,12 @@ export const registerServiceWorker = () => {
           registration = reg;
           console.log('Service worker registered:', reg);
           
+          // Force immediate activation of new service worker
+          if (reg.waiting) {
+            reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+            window.location.reload();
+          }
+          
           // Check if there's a waiting worker (update available)
           if (reg.waiting) {
             updateServiceWorker(reg.waiting);
@@ -53,7 +59,9 @@ export const registerServiceWorker = () => {
                 if (installingWorker.state === 'installed') {
                   if (navigator.serviceWorker.controller) {
                     console.log('New content is available; please refresh.');
-                    // Notify the user about the update if needed
+                    // Force activation of new service worker
+                    installingWorker.postMessage({ type: 'SKIP_WAITING' });
+                    window.location.reload();
                   }
                 }
               };

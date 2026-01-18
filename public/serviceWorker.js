@@ -1,5 +1,5 @@
 // Cache names
-const CACHE_NAME = 'melvin-peralta-portfolio-v5'; // Increment version to force cache refresh
+const CACHE_NAME = 'melvin-peralta-portfolio-v6'; // Increment version to force cache refresh
 const RUNTIME_CACHE = 'runtime-cache-v1';
 const OFFLINE_URL = '/offline.html';
 

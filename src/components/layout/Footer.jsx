@@ -124,11 +124,6 @@ const Footer = () => {
                 <li>
                   <Link
                     to="/"
-                    onClick={(e) => {
-                      sessionStorage.setItem('footerNavigation', 'true');
-                      sessionStorage.setItem('internalNavigation', 'true');
-                      window.scrollTo({ top: 0, behavior: 'auto' });
-                    }}
                     className={location.pathname === '/' ? styles.active : ''}
                   >
                     Home
@@ -137,11 +132,6 @@ const Footer = () => {
                 <li>
                   <Link
                     to="/projects"
-                    onClick={(e) => {
-                      sessionStorage.setItem('footerNavigation', 'true');
-                      sessionStorage.setItem('internalNavigation', 'true');
-                      window.scrollTo({ top: 0, behavior: 'auto' });
-                    }}
                     className={location.pathname === '/projects' ? styles.active : ''}
                   >
                     Projects
@@ -150,12 +140,6 @@ const Footer = () => {
                 <li>
                   <Link
                     to="/resume"
-                    onClick={(e) => {
-                      sessionStorage.setItem('footerNavigation', 'true');
-                      sessionStorage.setItem('internalNavigation', 'true');
-                      sessionStorage.setItem('forceScrollTop', 'true');
-                      window.scrollTo({ top: 0, behavior: 'auto' });
-                    }}
                     className={location.pathname === '/resume' ? styles.active : ''}
                   >
                     Resume
@@ -174,13 +158,6 @@ const Footer = () => {
                   <li>
                     <Link
                       to="/contact"
-                      onClick={(e) => {
-                        sessionStorage.setItem('footerNavigation', 'true');
-                        sessionStorage.setItem('internalNavigation', 'true');
-                        sessionStorage.setItem('forceScrollTopContact', 'true');
-                        sessionStorage.setItem('showAlmostThere', 'true');
-                        window.scrollTo({ top: 0, behavior: 'auto' });
-                      }}
                     >
                       Contact
                     </Link>
@@ -227,10 +204,6 @@ const Footer = () => {
               <p>Ready to discuss opportunities? Reach out today!</p>
               <Link
                 to="/contact"
-                onClick={() => {
-                  sessionStorage.setItem('forceScrollTopContact', 'true');
-                  setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 0);
-                }}
                 className={styles.footerButton}
               >
                 Contact Me <FaArrowRight className={styles.buttonArrow} />

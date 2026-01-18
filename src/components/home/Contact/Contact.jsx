@@ -231,13 +231,6 @@ const Contact = () => {
           </p>
           <Link
             to="/contact"
-            onClick={(e) => {
-              // Set storage flags for scroll position handling
-              window.contactClickedAt = Date.now();
-              sessionStorage.setItem('forceScrollTopContact', 'true');
-              localStorage.setItem('contactScrollNeeded', 'true');
-              setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 0);
-            }}
             className={styles.fullContactLink}
           >
             Visit full contact page <FaArrowRight />
