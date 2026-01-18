@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MellowSites | Web Design & Full-Stack Development by Melvin Peralta</title>
     <meta name="description" content="Melvin Peralta's coding portfolio - showcasing modern web applications built with React, JavaScript, and cutting-edge technologies. Explore my projects, skills, and development journey.">
     <meta name="keywords" content="Melvin Peralta, Full-Stack Developer, Web Developer, React Developer, JavaScript, Frontend Developer, Portfolio, Web Development, Software Engineer, Maryland Developer, Coding Portfolio">
@@ -69,23 +69,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- Clear old service workers on load -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then((registrations) => {
-          registrations.forEach((registration) => {
-            registration.unregister();
-            console.log('Old service worker unregistered');
-          });
-        });
-      }
-      caches.keys().then((cacheNames) => {
-        cacheNames.forEach((cacheName) => {
-          caches.delete(cacheName);
-          console.log('Old cache cleared:', cacheName);
-        });
-      });
-    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
