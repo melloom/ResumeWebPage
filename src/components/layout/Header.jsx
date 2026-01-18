@@ -146,10 +146,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 <Link 
                   to="/" 
                   className={`${styles.navLink} ${isActive('/') ? styles.active : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation('/');
-                  }}
+                  onClick={() => handleNavigation('/')}
                   onMouseEnter={() => handleLinkHover('/')}
                   onFocus={() => handleLinkHover('/')}
                 >
@@ -160,10 +157,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 <Link 
                   to="/about" 
                   className={`${styles.navLink} ${isActive('/about') ? styles.active : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation('/about');
-                  }}
+                  onClick={() => handleNavigation('/about')}
                   onMouseEnter={() => handleLinkHover('/about')}
                   onFocus={() => handleLinkHover('/about')}
                 >
@@ -174,10 +168,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 <Link 
                   to="/projects" 
                   className={`${styles.navLink} ${isActive('/projects') ? styles.active : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation('/projects');
-                  }}
+                  onClick={() => handleNavigation('/projects')}
                   onMouseEnter={() => handleLinkHover('/projects')}
                   onFocus={() => handleLinkHover('/projects')}
                 >
@@ -188,10 +179,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 <Link 
                   to="/resume" 
                   className={`${styles.navLink} ${isActive('/resume') ? styles.active : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation('/resume');
-                  }}
+                  onClick={() => handleNavigation('/resume')}
                   onMouseEnter={() => handleLinkHover('/resume')}
                   onFocus={() => handleLinkHover('/resume')}
                 >
@@ -202,10 +190,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 <Link 
                   to="/contact" 
                   className={`${styles.navLink} ${isActive('/contact') ? styles.active : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation('/contact');
-                  }}
+                  onClick={() => handleNavigation('/contact')}
                   onMouseEnter={() => handleLinkHover('/contact')}
                   onFocus={() => handleLinkHover('/contact')}
                 >
@@ -308,10 +293,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 <Link 
                   to="/" 
                   className={`${styles.sidebarLink} ${isActive('/') ? styles.active : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation('/');
-                  }}
+                  onClick={() => handleNavigation('/')}
                 >
                   <FaHome className={styles.sidebarIcon} /> Home
                 </Link>
@@ -320,10 +302,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 <Link 
                   to="/about" 
                   className={`${styles.sidebarLink} ${isActive('/about') ? styles.active : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation('/about');
-                  }}
+                  onClick={() => handleNavigation('/about')}
                 >
                   <FaUser className={styles.sidebarIcon} /> About Me
                 </Link>
@@ -332,10 +311,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 <Link 
                   to="/projects" 
                   className={`${styles.sidebarLink} ${isActive('/projects') ? styles.active : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation('/projects');
-                  }}
+                  onClick={() => handleNavigation('/projects')}
                 >
                   <FaCode className={styles.sidebarIcon} /> Projects
                 </Link>
@@ -344,10 +320,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 <Link 
                   to="/resume" 
                   className={`${styles.sidebarLink} ${isActive('/resume') ? styles.active : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation('/resume');
-                  }}
+                  onClick={() => handleNavigation('/resume')}
                 >
                   <FaFileAlt className={styles.sidebarIcon} /> Resume
                 </Link>
@@ -356,10 +329,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 <Link 
                   to="/contact" 
                   className={`${styles.sidebarLink} ${isActive('/contact') ? styles.active : ''}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation('/contact');
-                  }}
+                  onClick={() => handleNavigation('/contact')}
                 >
                   <FaEnvelope className={styles.sidebarIcon} /> Contact
                 </Link>
