@@ -39,8 +39,8 @@ const SpecialDemos = () => {
             </div>
           ) : (
             <img 
-              src="/Split.png" 
-              alt="Special Demos" 
+              src="/Split%203.png" 
+              alt="Special Demos - Rosie's Kitchen, FlavorHaven, Tony's Pizza Shack" 
               className={styles.splitImage} 
               onLoad={handleImageLoad}
               onError={handleImageError}
