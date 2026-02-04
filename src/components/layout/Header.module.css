@@ -1,0 +1,754 @@
+/* Header.module.css */
+
+/* Base Header Styles */
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: calc(70px + env(safe-area-inset-top));
+  background-color: rgba(15, 23, 42, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* Add safe area insets for notch support */
+  padding-top: env(safe-area-inset-top);
+}
+
+.headerScrolled {
+  background-color: rgba(15, 23, 42, 0.95);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  height: 65px;
+}
+
+.headerHidden {
+  opacity: 0.95;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  height: 70px;
+  padding: 0 max(2rem, env(safe-area-inset-left)) 0 max(2rem, env(safe-area-inset-right));
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Logo Styles */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  position: relative;
+  z-index: 5;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo:hover .logoText {
+  opacity: 0.8;
+}
+
+/* Desktop Navigation */
+.desktopNav {
+  display: flex;
+  height: 100%;
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.navItem {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0 0.8rem;
+}
+
+.navLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  height: 100%;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navIcon {
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.navLink:hover {
+  color: var(--text-color, #ffffff);
+}
+
+.navLink:hover .navIcon {
+  transform: translateY(-2px);
+}
+
+/* Controls Section */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.shareButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.shareButton:hover {
+  color: var(--text-color);
+  transform: translateY(-2px);
+}
+
+.themeButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.themeButton:hover {
+  color: var(--text-color);
+  transform: translateY(-2px);
+}
+
+/* Test Database Button Styles */
+.testButton {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.testButton:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.testButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.testButton.loading {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+/* Add Project Button Styles */
+.addProjectButton {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.addProjectButton:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* Logout Button Styles */
+.logoutButton {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.logoutButton:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.logoutButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.logoutButton.loading {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+.logoutButton .spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.mobileMenuBtn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.mobileMenuBtn:hover {
+  color: var(--text-color);
+}
+
+/* Mobile Menu Styles */
+.mobileMenuWrapper {
+  display: none;
+}
+
+.sidebarOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 150;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sidebarOverlay.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.sidebarMenu {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 160;
+  padding: 2rem;
+  padding-top: max(2rem, env(safe-area-inset-top));
+  padding-right: max(2rem, env(safe-area-inset-right));
+  padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sidebarMenu.open {
+  right: 0;
+}
+
+.sidebarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebarTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.closeButton:hover {
+  color: var(--text-color);
+}
+
+.sidebarNav {
+  margin-bottom: 2rem;
+}
+
+.sidebarList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebarItem {
+  margin-bottom: 0.8rem;
+}
+
+.sidebarLink {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.2rem;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebarIcon {
+  margin-right: 1rem;
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.sidebarLink:hover {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: var(--text-color);
+  transform: translateX(5px);
+}
+
+.sidebarLink:hover .sidebarIcon {
+  transform: scale(1.1);
+}
+
+.sidebarLink.active {
+  background-color: rgba(99, 102, 241, 0.2);
+  color: var(--primary-color);
+  font-weight: 600;
+  border-left: 3px solid var(--primary-color);
+}
+
+.sidebarLink.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+  border-radius: 0 2px 2px 0;
+}
+
+.sidebarFooter {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobileActions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobileThemeToggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.mobileThemeToggle:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.themeLabel {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-right: 1rem;
+}
+
+.mobileShareButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.mobileShareButton:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.shareLabel {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-right: 1rem;
+}
+
+.sidebarShareBtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.sidebarShareBtn:hover {
+  color: var(--text-color);
+  transform: translateY(-2px);
+}
+
+/* Mobile Test Button Styles */
+.mobileTestButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1rem;
+}
+
+.mobileTestButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem -1rem 0 -1rem;
+}
+
+.testLabel {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sidebarTestBtn {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.sidebarTestBtn:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.sidebarTestBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.sidebarTestBtn.loading {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+/* Mobile Add Project Button Styles */
+.mobileAddProjectButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1rem;
+}
+
+.mobileAddProjectButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem -1rem 0 -1rem;
+}
+
+.addProjectLabel {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sidebarAddProjectBtn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.sidebarAddProjectBtn:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* Mobile Logout Button Styles */
+.mobileLogoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1rem;
+}
+
+.mobileLogoutButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem -1rem 0 -1rem;
+}
+
+.logoutLabel {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sidebarLogoutBtn {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.sidebarLogoutBtn:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.sidebarLogoutBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.sidebarLogoutBtn.loading {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+.sidebarLogoutBtn .spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Light Theme Styles */
+[data-theme="light"] .header {
+  background-color: rgba(248, 250, 252, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .headerScrolled {
+  background-color: rgba(248, 250, 252, 0.95);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .navLink {
+  color: rgba(51, 65, 85, 0.8);
+}
+
+[data-theme="light"] .navLink:hover,
+[data-theme="light"] .navLink.active {
+  color: #1e293b;
+}
+
+[data-theme="light"] .mobileMenuBtn {
+  color: #1e293b;
+}
+
+[data-theme="light"] .sidebarOverlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .sidebarMenu {
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .sidebarHeader {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .sidebarTitle {
+  color: #1e293b;
+}
+
+[data-theme="light"] .closeButton {
+  color: #64748b;
+}
+
+[data-theme="light"] .closeButton:hover {
+  color: #1e293b;
+}
+
+[data-theme="light"] .sidebarLink {
+  color: #64748b;
+}
+
+[data-theme="light"] .sidebarLink:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+  color: #1e293b;
+}
+
+[data-theme="light"] .sidebarLink.active {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #4f46e5;
+  border-left: 3px solid #4f46e5;
+}
+
+[data-theme="light"] .sidebarFooter {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .themeLabel {
+  color: #64748b;
+}
+
+/* Media Queries */
+@media (max-width: 992px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  .navItem {
+    margin: 0 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktopNav {
+    display: none;
+  }
+
+  .mobileMenuBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logoText {
+    font-size: 1.3rem;
+  }
+
+  .header {
+    height: 65px;
+  }
+
+  .headerScrolled {
+    height: 60px;
+  }
+
+  .mobileMenuWrapper {
+    display: block;
+  }
+}

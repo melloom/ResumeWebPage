@@ -1,0 +1,34 @@
+.pageWrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.pageContent {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Ensure smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Add a subtle fade effect to the background during transitions */
+.pageWrapper::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--background-color);
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.pageContent.transitioning + .pageWrapper::before {
+  opacity: 0.8;
+} 

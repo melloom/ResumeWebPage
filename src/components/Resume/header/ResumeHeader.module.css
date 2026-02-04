@@ -1,0 +1,287 @@
+.resumeHeader {
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.05));
+  border-radius: 16px;
+  padding: 3rem;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.headerBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 60%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+  z-index: 0;
+  opacity: 0.8;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.nameSection {
+  flex: 1;
+}
+
+.name {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.titleContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.professionalTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(99, 102, 241, 0.1);
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  color: var(--primary-color, #6366f1);
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(var(--primary-rgb, 99, 102, 241), 0.1);
+  border: 1px solid rgba(var(--primary-rgb, 99, 102, 241), 0.2);
+}
+
+.professionalTagSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(168, 85, 247, 0.1);
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  color: var(--secondary-color, #a855f7);
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.tagIcon {
+  font-size: 1rem;
+}
+
+.headerBio {
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.contactSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 350px;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.8rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 0.6rem;
+  border-radius: 8px;
+  background: rgba(30, 41, 59, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+}
+
+.contactItem:hover {
+  color: var(--primary-color, #6366f1);
+  background: rgba(99, 102, 241, 0.08);
+  transform: translateY(-2px);
+}
+
+.contactIcon {
+  color: var(--primary-color, #6366f1);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.downloadButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 0.9rem 1.2rem;
+  background: linear-gradient(135deg, var(--primary-color, #6366f1), var(--secondary-color, #a855f7));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+}
+
+.downloadButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s ease;
+}
+
+.downloadButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+}
+
+.downloadButton:hover::before {
+  left: 100%;
+}
+
+.downloadIcon {
+  font-size: 1.1rem;
+}
+
+/* Light theme overrides */
+[data-theme="light"] .resumeHeader {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.05), rgba(147, 51, 234, 0.03));
+  border: 1px solid rgba(79, 70, 229, 0.15);
+}
+
+[data-theme="light"] .contactItem {
+  color: #4b5563;
+  background: rgba(248, 250, 252, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .contactIcon {
+  color: #4f46e5;
+}
+
+[data-theme="light"] .headerBio {
+  color: #4b5563;
+}
+
+[data-theme="light"] .contactItem:hover {
+  color: #4f46e5;
+  background: rgba(79, 70, 229, 0.08);
+}
+
+[data-theme="light"] .professionalTag {
+  background: rgba(79, 70, 229, 0.1);
+  color: #4f46e5;
+  border-color: rgba(79, 70, 229, 0.2);
+}
+
+[data-theme="light"] .professionalTagSecondary {
+  background: rgba(147, 51, 234, 0.1);
+  color: #9333ea;
+  border-color: rgba(147, 51, 234, 0.2);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .headerContainer {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .contactSection {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .contactGrid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+  
+  .name {
+    font-size: 2.8rem;
+  }
+  
+  .resumeHeader {
+    padding: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .name {
+    font-size: 2.4rem;
+  }
+  
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .resumeHeader {
+    padding: 2rem;
+  }
+  
+  .titleContainer {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .resumeHeader {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .name {
+    font-size: 2rem;
+  }
+  
+  .headerBio {
+    font-size: 1rem;
+  }
+  
+  .downloadButton {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .professionalTag,
+  .professionalTagSecondary {
+    width: 100%;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "melvin-peralta-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "crypto-js": "^4.2.0",
+    "dompurify": "^3.2.5",
+    "firebase": "^11.9.1",
+    "framer-motion": "^10.15.1",
+    "helmet": "^8.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-helmet-async": "^1.3.0",
+    "react-icons": "^4.10.1",
+    "react-intersection-observer": "^9.16.0",
+    "react-router-dom": "^6.15.0",
+    "react-scroll": "^1.8.9",
+    "workbox-window": "^7.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.0.4",
+    "cross-env": "^7.0.3",
+    "fs-extra": "^11.1.1",
+    "sass": "^1.66.1",
+    "sharp": "^0.32.5",
+    "vite": "^6.3.3",
+    "vite-plugin-pwa": "^1.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/copy-favicon-to-root.js",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "favicons": "node scripts/copy-favicon-to-root.js",
+    "generate-icons": "node scripts/generate-icons.js",
+    "push": "git add . && git commit -m \"update\" && git push origin master && npm run build && netlify deploy --prod --dir=dist"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

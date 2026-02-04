@@ -1,0 +1,14 @@
+# Robots.txt for mellowsites.com
+User-agent: *
+Allow: /
+
+# Disallow admin/private areas if any
+Disallow: /admin/
+Disallow: /_redirects
+Disallow: /netlify.toml
+
+# Sitemap location (canonical domain)
+Sitemap: https://mellowsites.com/sitemap.xml
+
+# Canonical domain preference
+# Main site: https://mellowsites.com (without www)

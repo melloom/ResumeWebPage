@@ -1,0 +1,359 @@
+/* Split card container for Special Demos */
+.card {
+  background-color: var(--card-background);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  margin-bottom: 2rem;
+}
+
+.cardHovered {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Split container */
+.splitContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 700px;
+  max-height: 800px;
+}
+
+.imageContainer {
+  height: 360px;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--card-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.splitImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  background-color: var(--card-background);
+}
+
+.card:hover .splitImage {
+  transform: scale(1.02);
+}
+
+.contentContainer {
+  display: flex;
+  flex: 1;
+}
+
+.half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.contentHalf {
+  flex: 1;
+  padding: 1.25rem 1.25rem 1.25rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Middle column (FlavorHaven) */
+.half:nth-child(3) .contentHalf {
+  padding: 1.25rem 0.5rem;
+}
+
+/* Right column (Tony's Pizza) */
+.half:nth-child(5) .contentHalf {
+  padding: 1.25rem 0.5rem 1.25rem 1.25rem;
+}
+
+.projectHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.projectTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-color);
+  line-height: 1.2;
+}
+
+.projectDescription {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--text-color-secondary);
+  margin: 0;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+}
+
+.featuredBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--primary-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.tech {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color);
+  padding: 0.25rem 0.625rem;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  white-space: nowrap;
+}
+
+.techIcon {
+  font-size: 0.6rem;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.demoLink {
+  background: var(--primary-color);
+  color: white;
+}
+
+.githubLink {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color);
+}
+
+.link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.verticalDivider {
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.2), transparent);
+  margin: 1rem 0;
+}
+
+.imageLoader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--card-background);
+  z-index: 2;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--primary-color);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fallbackImage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  gap: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.fallbackImage span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* 4K Display Support */
+@media (min-width: 2560px) {
+  .imageContainer {
+    height: 400px;
+  }
+
+  .projectTitle {
+    font-size: 1.5rem;
+  }
+
+  .projectDescription {
+    font-size: 1rem;
+  }
+
+  .tech {
+    font-size: 0.875rem;
+    padding: 0.375rem 1rem;
+  }
+
+  .link {
+    font-size: 0.9rem;
+    padding: 0.625rem 1.25rem;
+  }
+
+  .contentHalf {
+    padding: 2rem;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .splitContainer {
+    min-height: auto;
+  }
+
+  .imageContainer {
+    height: 250px;
+  }
+
+  .contentContainer {
+    flex-direction: row; /* Keep horizontal on mobile */
+  }
+
+  .verticalDivider {
+    display: block; /* Keep divider on mobile */
+  }
+
+  .half {
+    border-bottom: none; /* Remove borders since staying horizontal */
+  }
+
+  .contentHalf {
+    padding: 0.75rem;
+  }
+
+  .projectTitle {
+    font-size: 1rem;
+  }
+
+  .projectDescription {
+    font-size: 0.8rem;
+  }
+
+  .tech {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .link {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .featuredBadge {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+  }
+}
+
+/* Light theme styles */
+[data-theme="light"] .card {
+  background-color: white;
+  border: 1px solid rgba(79, 70, 229, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .cardHovered {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-color: rgba(79, 70, 229, 0.2);
+}
+
+[data-theme="light"] .imageHalf {
+  background-color: white;
+}
+
+[data-theme="light"] .projectTitle {
+  color: #1e293b;
+}
+
+[data-theme="light"] .projectDescription {
+  color: #64748b;
+}
+
+[data-theme="light"] .tech {
+  background: rgba(79, 70, 229, 0.08);
+  color: #4f46e5;
+}
+
+[data-theme="light"] .spinner {
+  border-color: #4f46e5;
+  border-top-color: transparent;
+}
+
+[data-theme="light"] .featuredBadge {
+  background: #4f46e5;
+}
+
+[data-theme="light"] .verticalDivider {
+  background: linear-gradient(to bottom, transparent, rgba(79, 70, 229, 0.15), transparent);
+}

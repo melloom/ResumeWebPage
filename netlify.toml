@@ -1,0 +1,114 @@
+# Netlify configuration file
+
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+# Force HTTPS - redirect HTTP to HTTPS
+[[redirects]]
+  from = "http://mellowsites.com/*"
+  to = "https://mellowsites.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.mellowsites.com/*"
+  to = "https://mellowsites.com/:splat"
+  status = 301
+  force = true
+
+# Redirect www to non-www (must come before other redirects)
+[[redirects]]
+  from = "https://www.mellowsites.com/*"
+  to = "https://mellowsites.com/:splat"
+  status = 301
+  force = true
+
+# Redirect all routes to index.html for SPA routing
+# Static files (like favicon.ico, images, etc.) are automatically served directly by Netlify
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for better security and performance
+[[headers]]
+  # Define headers for all files
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+    X-Robots-Tag = "index, follow"
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://calendly.com https://assets.calendly.com https://www.googletagmanager.com https://www.google-analytics.com https://apis.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://assets.calendly.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://assets.calendly.com https://www.google.com https://www.google-analytics.com https://www.googletagmanager.com https://ssl.gstatic.com; connect-src 'self' https://calendly.com https://assets.calendly.com https://firebase.googleapis.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://firebaseinstallations.googleapis.com https://www.googleapis.com https://cloudfunctions.net https://www.google-analytics.com https://analytics.google.com https://apis.google.com https://www.googletagmanager.com https://securetoken.googleapis.com wss://*.firebaseio.com wss://*.firebase.com wss://*.googleapis.com wss://*.firestore.googleapis.com; frame-src https://calendly.com https://assets.calendly.com https://www.googletagmanager.com https://www.gstatic.com https://*.firebaseapp.com;"
+
+# Sitemap and robots.txt - make them easily accessible
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+# Asset caching
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Favicon handling
+[[headers]]
+  for = "/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# Handle 404 errors
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+  force = false
+
+# Enable Brotli compression if available
+[build.processing]
+  skip_processing = false
+[build.processing.css]
+  bundle = true
+  minify = true
+[build.processing.js]
+  bundle = true
+  minify = true
+[build.processing.html]
+  pretty_urls = true
+[build.processing.images]
+  compress = true

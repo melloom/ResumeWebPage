@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Thumbnail Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .controls {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .control-group input,
+        .control-group select,
+        .control-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .control-group input:focus,
+        .control-group select:focus,
+        .control-group textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .color-picker input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .color-picker span {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .preview-section {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .preview-container {
+            width: 100%;
+            height: 400px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .thumbnail-content {
+            text-align: center;
+            padding: 40px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .thumbnail-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .thumbnail-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            max-width: 80%;
+        }
+
+        .thumbnail-features {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .feature-tag {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .tech-stack {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .tech-icon {
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        .download-info {
+            background: #e0f2fe;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #0284c7;
+            margin-top: 15px;
+        }
+
+        .download-info h4 {
+            color: #0c4a6e;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .download-info p {
+            color: #0369a1;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .preset-templates {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .template-option {
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .template-option:hover {
+            border-color: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        .template-option.active {
+            border-color: #4f46e5;
+            background: #f0f9ff;
+        }
+
+        .template-option h4 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #374151;
+        }
+
+        .template-option p {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .thumbnail-title {
+                font-size: 2rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Professional Thumbnail Generator</h1>
+            <p>Create stunning project thumbnails with custom designs and branding</p>
+        </div>
+
+        <div class="main-content">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="projectTitle">Project Title</label>
+                    <input type="text" id="projectTitle" placeholder="Enter project title..." value="WiredLiving Blog">
+                </div>
+
+                <div class="control-group">
+                    <label for="projectSubtitle">Project Subtitle</label>
+                    <input type="text" id="projectSubtitle" placeholder="Enter project subtitle..." value="Technology & Modern Living">
+                </div>
+
+                <div class="control-group">
+                    <label for="projectDescription">Project Description</label>
+                    <textarea id="projectDescription" rows="3" placeholder="Enter project description...">A personal blog about technology and modern living. Features fresh insights weekly, practical advice, and community-driven content about digital wellness and productivity.</textarea>
+                </div>
+
+                <div class="control-group">
+                    <label for="technologies">Technologies (comma-separated)</label>
+                    <input type="text" id="technologies" placeholder="React, JavaScript, CSS, Netlify" value="React, JavaScript, CSS, Netlify">
+                </div>
+
+                <div class="control-group">
+                    <label>Background Gradient</label>
+                    <div class="color-picker">
+                        <input type="color" id="gradientStart" value="#4f46e5">
+                        <span>Start</span>
+                        <input type="color" id="gradientEnd" value="#7c3aed">
+                        <span>End</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="textColor">Text Color</label>
+                    <div class="color-picker">
+                        <input type="color" id="textColor" value="#ffffff">
+                        <span>Color</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="templateStyle">Template Style</label>
+                    <select id="templateStyle">
+                        <option value="modern">Modern Tech</option>
+                        <option value="minimal">Minimal Clean</option>
+                        <option value="gradient">Gradient Bold</option>
+                        <option value="dark">Dark Theme</option>
+                        <option value="light">Light Theme</option>
+                        <option value="blog">Blog Style</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Quick Templates</label>
+                    <div class="preset-templates">
+                        <div class="template-option" data-template="blog">
+                            <h4>Blog</h4>
+                            <p>Clean blog layout</p>
+                        </div>
+                        <div class="template-option" data-template="portfolio">
+                            <h4>Portfolio</h4>
+                            <p>Professional showcase</p>
+                        </div>
+                        <div class="template-option" data-template="app">
+                            <h4>App</h4>
+                            <p>Mobile app style</p>
+                        </div>
+                        <div class="template-option" data-template="game">
+                            <h4>Game</h4>
+                            <p>Gaming theme</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="generateThumbnail()">Generate Thumbnail</button>
+                    <button class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                    <button class="btn btn-success" onclick="downloadThumbnail()">Download PNG</button>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <h3 style="margin-bottom: 20px; color: #374151;">Preview</h3>
+                <div class="preview-container">
+                    <div class="thumbnail" id="thumbnailPreview">
+                        <div class="thumbnail-content">
+                            <div class="thumbnail-title" id="previewTitle">WiredLiving Blog</div>
+                            <div class="thumbnail-subtitle" id="previewSubtitle">Technology & Modern Living</div>
+                            <div class="thumbnail-features" id="previewFeatures">
+                                <div class="feature-tag">Fresh Insights</div>
+                                <div class="feature-tag">Digital Wellness</div>
+                                <div class="feature-tag">Productivity</div>
+                            </div>
+                            <div class="tech-stack" id="previewTech">
+                                <div class="tech-icon">R</div>
+                                <div class="tech-icon">JS</div>
+                                <div class="tech-icon">CSS</div>
+                                <div class="tech-icon">N</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="download-info">
+                    <h4>📁 Download Information</h4>
+                    <p>Click "Download PNG" to save your thumbnail. The image will be saved as a high-quality PNG file suitable for your portfolio.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        // Initialize the generator
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePreview();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // Real-time preview updates
+            document.getElementById('projectTitle').addEventListener('input', updatePreview);
+            document.getElementById('projectSubtitle').addEventListener('input', updatePreview);
+            document.getElementById('technologies').addEventListener('input', updatePreview);
+            document.getElementById('gradientStart').addEventListener('input', updatePreview);
+            document.getElementById('gradientEnd').addEventListener('input', updatePreview);
+            document.getElementById('textColor').addEventListener('input', updatePreview);
+            document.getElementById('templateStyle').addEventListener('change', updatePreview);
+
+            // Template options
+            document.querySelectorAll('.template-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.template-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    applyTemplate(this.dataset.template);
+                });
+            });
+        }
+
+        function updatePreview() {
+            const title = document.getElementById('projectTitle').value || 'Project Title';
+            const subtitle = document.getElementById('projectSubtitle').value || 'Project Subtitle';
+            const technologies = document.getElementById('technologies').value || 'Tech Stack';
+            const gradientStart = document.getElementById('gradientStart').value;
+            const gradientEnd = document.getElementById('gradientEnd').value;
+            const textColor = document.getElementById('textColor').value;
+            const templateStyle = document.getElementById('templateStyle').value;
+
+            // Update preview elements
+            document.getElementById('previewTitle').textContent = title;
+            document.getElementById('previewSubtitle').textContent = subtitle;
+            document.getElementById('previewTitle').style.color = textColor;
+            document.getElementById('previewSubtitle').style.color = textColor;
+
+            // Update background gradient
+            const thumbnail = document.getElementById('thumbnailPreview');
+            thumbnail.style.background = `linear-gradient(135deg, ${gradientStart} 0%, ${gradientEnd} 100%)`;
+
+            // Update tech stack
+            updateTechStack(technologies);
+
+            // Apply template style
+            applyTemplateStyle(templateStyle);
+        }
+
+        function updateTechStack(technologies) {
+            const techStack = document.getElementById('previewTech');
+            const techArray = technologies.split(',').map(tech => tech.trim()).slice(0, 4);
+            
+            techStack.innerHTML = '';
+            techArray.forEach(tech => {
+                const techIcon = document.createElement('div');
+                techIcon.className = 'tech-icon';
+                techIcon.textContent = tech.substring(0, 2).toUpperCase();
+                techStack.appendChild(techIcon);
+            });
+        }
+
+        function applyTemplateStyle(style) {
+            const thumbnail = document.getElementById('thumbnailPreview');
+            const title = document.getElementById('previewTitle');
+            const subtitle = document.getElementById('previewSubtitle');
+
+            // Reset styles
+            thumbnail.className = 'thumbnail';
+            title.className = 'thumbnail-title';
+            subtitle.className = 'thumbnail-subtitle';
+
+            switch(style) {
+                case 'modern':
+                    thumbnail.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                    break;
+                case 'minimal':
+                    thumbnail.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+                    break;
+                case 'gradient':
+                    thumbnail.style.background = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
+                    break;
+                case 'dark':
+                    thumbnail.style.background = 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)';
+                    break;
+                case 'light':
+                    thumbnail.style.background = 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)';
+                    title.style.color = '#2c3e50';
+                    subtitle.style.color = '#34495e';
+                    break;
+                case 'blog':
+                    thumbnail.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                    title.style.fontSize = '2.2rem';
+                    subtitle.style.fontSize = '1.1rem';
+                    break;
+            }
+        }
+
+        function applyTemplate(template) {
+            const templates = {
+                blog: {
+                    title: 'WiredLiving Blog',
+                    subtitle: 'Technology & Modern Living',
+                    technologies: 'React, JavaScript, CSS, Netlify',
+                    gradientStart: '#4f46e5',
+                    gradientEnd: '#7c3aed',
+                    style: 'blog'
+                },
+                portfolio: {
+                    title: 'Personal Portfolio',
+                    subtitle: 'Professional Showcase',
+                    technologies: 'React, Vite, CSS Modules, Netlify',
+                    gradientStart: '#667eea',
+                    gradientEnd: '#764ba2',
+                    style: 'modern'
+                },
+                app: {
+                    title: 'Mobile App',
+                    subtitle: 'Modern Application',
+                    technologies: 'React Native, JavaScript, CSS',
+                    gradientStart: '#4facfe',
+                    gradientEnd: '#00f2fe',
+                    style: 'gradient'
+                },
+                game: {
+                    title: 'Adventure Game',
+                    subtitle: 'Interactive Experience',
+                    technologies: 'JavaScript, HTML5, CSS3, Canvas',
+                    gradientStart: '#f093fb',
+                    gradientEnd: '#f5576c',
+                    style: 'minimal'
+                }
+            };
+
+            const config = templates[template];
+            if (config) {
+                document.getElementById('projectTitle').value = config.title;
+                document.getElementById('projectSubtitle').value = config.subtitle;
+                document.getElementById('technologies').value = config.technologies;
+                document.getElementById('gradientStart').value = config.gradientStart;
+                document.getElementById('gradientEnd').value = config.gradientEnd;
+                document.getElementById('templateStyle').value = config.style;
+                updatePreview();
+            }
+        }
+
+        function generateThumbnail() {
+            updatePreview();
+            // Add some animation effect
+            const thumbnail = document.getElementById('thumbnailPreview');
+            thumbnail.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                thumbnail.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function resetForm() {
+            document.getElementById('projectTitle').value = 'WiredLiving Blog';
+            document.getElementById('projectSubtitle').value = 'Technology & Modern Living';
+            document.getElementById('projectDescription').value = 'A personal blog about technology and modern living. Features fresh insights weekly, practical advice, and community-driven content about digital wellness and productivity.';
+            document.getElementById('technologies').value = 'React, JavaScript, CSS, Netlify';
+            document.getElementById('gradientStart').value = '#4f46e5';
+            document.getElementById('gradientEnd').value = '#7c3aed';
+            document.getElementById('textColor').value = '#ffffff';
+            document.getElementById('templateStyle').value = 'modern';
+            
+            document.querySelectorAll('.template-option').forEach(opt => opt.classList.remove('active'));
+            updatePreview();
+        }
+
+        function downloadThumbnail() {
+            const thumbnail = document.getElementById('thumbnailPreview');
+            
+            html2canvas(thumbnail, {
+                width: 800,
+                height: 600,
+                scale: 2,
+                backgroundColor: null,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'project-thumbnail.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html> 

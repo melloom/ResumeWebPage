@@ -1,0 +1,146 @@
+.shareButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color, #6366f1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.shareButton:hover {
+  background: rgba(99, 102, 241, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.shareButton:active {
+  transform: translateY(0);
+}
+
+/* Size variants */
+.small {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+.medium {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
+.large {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+/* Icon styling - with more explicit rules */
+.shareIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  min-width: 1em;
+  min-height: 1em;
+}
+
+.iconSvg {
+  display: block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+/* No label variant */
+.shareButton:not(:has(.shareLabel)) {
+  padding: 8px;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+}
+
+.small:not(:has(.shareLabel)) {
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+}
+
+.large:not(:has(.shareLabel)) {
+  width: 42px;
+  height: 42px;
+  padding: 10px;
+}
+
+/* Light theme overrides */
+[data-theme="light"] .shareButton {
+  background: rgba(79, 70, 229, 0.08);
+  color: #4f46e5;
+  border-color: rgba(79, 70, 229, 0.2);
+}
+
+[data-theme="light"] .shareButton:hover {
+  background: rgba(79, 70, 229, 0.15);
+}
+
+/* Force icon display even on small screens */
+.forceIcon .shareIcon {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.forceIcon .shareIcon svg {
+  display: block !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .shareButton {
+    padding: 0;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .shareLabel {
+    display: none;
+  }
+  
+  /* Ensure icon is always visible */
+  .shareIcon {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .shareIcon svg {
+    display: block !important;
+    min-width: 22px;
+    min-height: 22px;
+  }
+  
+  .small {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+  }
+  
+  .large {
+    width: 42px;
+    height: 42px;
+    padding: 10px;
+  }
+}

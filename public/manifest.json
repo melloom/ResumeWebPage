@@ -1,0 +1,60 @@
+{
+  "name": "Melvin Peralta Portfolio",
+  "short_name": "Melvin P.",
+  "description": "Professional portfolio for Melvin Peralta",
+  "theme_color": "#6366f1",
+  "background_color": "#0f172a",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/?source=pwa",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/favicon.ico",
+      "sizes": "16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "icons/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable_icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Resume",
+      "short_name": "Resume",
+      "url": "/resume",
+      "icons": [
+        {
+          "src": "icons/logo192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "url": "/contact",
+      "icons": [
+        {
+          "src": "icons/logo192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

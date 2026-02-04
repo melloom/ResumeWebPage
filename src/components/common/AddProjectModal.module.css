@@ -1,0 +1,512 @@
+/* AddProjectModal.module.css */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalContainer {
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  margin: 2rem;
+  animation: slideInUp 0.3s ease-out;
+}
+
+.modalCard {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow-y: auto;
+  max-height: calc(90vh - 4rem);
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color, #ffffff);
+  transform: rotate(90deg);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.iconContainer {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-color, #ffffff);
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  font-size: 1rem;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color, #ffffff);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.labelIcon {
+  font-size: 0.8rem;
+  color: var(--primary-color, #6366f1);
+}
+
+.input, .textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: var(--text-color, #ffffff);
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  resize: vertical;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--primary-color, #6366f1);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.input::placeholder, .textarea::placeholder {
+  color: var(--text-secondary, rgba(255, 255, 255, 0.5));
+}
+
+.inputError {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.errorMessage {
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.helpText {
+  color: var(--text-secondary, rgba(255, 255, 255, 0.6));
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.linksSection {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.sectionTitle {
+  color: var(--text-color, #ffffff);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.linkGroup {
+  margin-bottom: 1rem;
+}
+
+.linkGroup:last-child {
+  margin-bottom: 0;
+}
+
+.formActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cancelButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-color, #ffffff);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancelButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  border: none;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.submitButton:hover {
+  background: linear-gradient(135deg, #5b5be6, #9333ea);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submitButton.loading {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modalContainer {
+    margin: 1rem;
+  }
+  
+  .modalCard {
+    padding: 1.5rem;
+  }
+  
+  .formActions {
+    flex-direction: column;
+  }
+  
+  .submitButton, .cancelButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Light Theme Support */
+[data-theme="light"] .modalCard {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .title {
+  color: #1f2937;
+}
+
+[data-theme="light"] .subtitle {
+  color: #6b7280;
+}
+
+[data-theme="light"] .label {
+  color: #374151;
+}
+
+[data-theme="light"] .input,
+[data-theme="light"] .textarea {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #1f2937;
+}
+
+[data-theme="light"] .input:focus,
+[data-theme="light"] .textarea:focus {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .input::placeholder,
+[data-theme="light"] .textarea::placeholder {
+  color: #9ca3af;
+}
+
+[data-theme="light"] .helpText {
+  color: #6b7280;
+}
+
+[data-theme="light"] .linksSection {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .sectionTitle {
+  color: #1f2937;
+}
+
+[data-theme="light"] .cancelButton {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #374151;
+}
+
+[data-theme="light"] .cancelButton:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* File Upload Styles */
+.fileUploadArea {
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: var(--background-secondary);
+  position: relative;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fileUploadArea:hover {
+  border-color: var(--primary-color);
+  background: var(--background-hover);
+}
+
+.fileUploadArea.dragOver {
+  border-color: var(--primary-color);
+  background: var(--primary-color-light);
+  transform: scale(1.02);
+}
+
+.fileUploadArea.hasFile {
+  border-style: solid;
+  border-color: var(--success-color);
+  background: var(--success-color-light);
+}
+
+.uploadPrompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.uploadIcon {
+  font-size: 2rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.uploadPrompt p {
+  margin: 0;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.uploadPrompt small {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadedFile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  position: relative;
+}
+
+.filePreview {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+}
+
+.fileInfo {
+  flex: 1;
+  text-align: left;
+}
+
+.fileName {
+  display: block;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  word-break: break-word;
+}
+
+.fileSize {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.removeFile {
+  background: var(--error-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+}
+
+.removeFile:hover {
+  background: var(--error-color-dark);
+  transform: scale(1.1);
+}
+
+/* Links Section */
+.linksSection {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.5rem;
+  margin-top: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.linkGroup {
+  margin-bottom: 1rem;
+}
+
+.linkGroup:last-child {
+  margin-bottom: 0;
+}
+
+/* Success and Error Colors */
+:root {
+  --success-color: #10b981;
+  --success-color-light: rgba(16, 185, 129, 0.1);
+  --error-color: #ef4444;
+  --error-color-dark: #dc2626;
+} 

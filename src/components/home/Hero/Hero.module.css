@@ -1,0 +1,457 @@
+/* Hero Section Base Styles */
+.heroSection {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.heroContainer {
+  width: 100%;
+  max-width: none; /* Remove max-width constraint */
+  margin: 0 auto;
+  padding: 0;
+}
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 6rem 0;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9));
+  overflow: hidden;
+  width: 100%;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1e1b4b, #1e293b, #0f172a);
+  z-index: -1;
+}
+
+/* Light theme styles */
+[data-theme="light"] .hero {
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.9), rgba(241, 245, 249, 0.9));
+}
+
+[data-theme="light"] .heroBackground {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9, #e2e8f0);
+}
+
+[data-theme="light"] .title {
+  background: linear-gradient(to right, #1e293b, #4f46e5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .description {
+  color: rgba(30, 41, 59, 0.8);
+}
+
+[data-theme="light"] .jobTitle {
+  color: #4f46e5;
+}
+
+[data-theme="light"] .cursor {
+  background-color: #4f46e5;
+}
+
+[data-theme="light"] .navButton,
+[data-theme="light"] .socialLink {
+  background: rgba(79, 70, 229, 0.1);
+  color: #4f46e5;
+  border: 1px solid rgba(79, 70, 229, 0.2);
+}
+
+[data-theme="light"] .navButton:hover,
+[data-theme="light"] .socialLink:hover {
+  background: rgba(79, 70, 229, 0.2);
+  box-shadow: 0 5px 15px rgba(79, 70, 229, 0.2);
+}
+
+[data-theme="light"] .imageFrame {
+  background: rgba(255, 255, 255, 0.8);
+  border: 3px solid rgba(79, 70, 229, 0.3);
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  padding: 0 2rem; /* Add horizontal padding */
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* Add this to prevent squishing */
+}
+
+.text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 280px; /* Add minimum width */
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, #fff, #e0e7ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+  position: relative;
+}
+
+.description {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+}
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Button styles */
+.btnPrimary, .btnSecondary, .btnOutline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btnSecondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.btnPrimary::before, .btnSecondary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s ease;
+  pointer-events: none;
+}
+
+.btnPrimary:hover::before, .btnSecondary:hover::before {
+  left: 100%;
+}
+
+.btnPrimary:hover, .btnSecondary:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btnPrimary:active, .btnSecondary:active {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Combined layout for social links and navigation button - Fix sizing consistency */
+.buttonsContainer {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: stretch; /* Ensure all children stretch to same height */
+}
+
+/* Navigation buttons - ensure consistent sizing with social links */
+.navigationButtons {
+  display: flex;
+  gap: 1rem; /* Add gap between navigation buttons */
+  flex: 1;
+  margin: 0;
+  height: auto;
+}
+
+/* Social links - ensure consistent sizing with navigation buttons */
+.socialLinks {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex: 1; /* Changed from 2 to 1 for equal distribution */
+  margin: 0;
+  height: auto;
+}
+
+/* Ensure all buttons have identical base styling */
+.navButton,
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color, #6366f1);
+  border: 1px solid var(--primary-color, #6366f1);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  flex: 1; /* Make all buttons grow equally */
+  height: 48px;
+  text-align: center;
+  min-width: 0; /* Remove any minimum width constraints */
+  max-width: none; /* Remove any maximum width constraints */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+/* Consistent hover styles */
+.navButton:hover, 
+.socialLink:hover {
+  background: rgba(99, 102, 241, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+}
+
+/* Add these styles to properly constrain the image */
+.image {
+  max-width: 350px;
+  height: auto;
+  position: relative;
+  margin: 0 auto;
+}
+
+.imageFrame {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.3);
+  background: rgba(30, 41, 59, 0.5);
+  border: 3px solid rgba(99, 102, 241, 0.3);
+  transition: all 0.3s ease;
+}
+
+.staticProfileImage {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 450px;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* Add these styles for mobile responsiveness */
+.desktopOnlyImage {
+  flex: 0 0 auto;
+  max-width: 40%;
+}
+
+.mobileOnlyImage {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .content {
+    gap: 2rem;
+  }
+
+  .staticProfileImage {
+    max-height: 400px;
+  }
+
+  .desktopOnlyImage {
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .desktopOnlyImage {
+    display: none;
+  }
+
+  .mobileOnlyImage {
+    display: block;
+    margin: 1rem 0 2rem;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .staticProfileImage {
+    max-height: 350px;
+  }
+
+  .image {
+    max-width: 280px;
+  }
+}
+
+/* Job title animation styles */
+.jobTitleAnimation {
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1.5rem;
+}
+
+.staticPrefix {
+  margin-right: 0.5rem;
+  white-space: nowrap;
+}
+
+.titleContainer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.2rem;
+  height: 2.2rem; /* Fixed height to prevent content shifting */
+  overflow: hidden; /* Contain any overflow text */
+  width: 400px; /* Increase width to fit longer job titles */
+  max-width: 100%; /* Make it responsive */
+}
+
+.jobTitle {
+  color: #6366f1;
+  font-weight: 700;
+  white-space: nowrap; /* Keep text on one line */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for very long text */
+}
+
+.cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.8rem;
+  background-color: #6366f1;
+  margin-left: 2px;
+  vertical-align: middle;
+  position: relative; /* Add this */
+  top: 1px; /* Fine-tune vertical position */
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Fix buttons container for better alignment */
+.buttonsContainer {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: stretch;
+}
+
+/* Small screen adaptations for buttons */
+@media (max-width: 768px) {
+  .buttonsContainer {
+    flex-direction: column;
+    gap: 1.5rem; /* Increased gap for mobile */
+  }
+
+  .navigationButtons, .socialLinks {
+    width: 100%;
+    gap: 1rem; /* Ensure consistent gap */
+  }
+  
+  .navigationButtons {
+    flex-direction: column; /* Stack navigation buttons on mobile */
+  }
+  
+  .navButton,
+  .socialLink {
+    width: 100%; /* Full width buttons on mobile */
+    margin-bottom: 0; /* Remove any bottom margin */
+  }
+
+  .jobTitleAnimation {
+    font-size: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto; /* Overall container can be flexible */
+  }
+
+  .staticPrefix {
+    margin-right: 0;
+    margin-bottom: 0.25rem;
+  }
+  
+  .titleContainer {
+    height: 1.8rem; /* Smaller fixed height for mobile */
+    min-height: 1.8rem;
+  }
+}
+
+/* Improve light mode button visibility */
+[data-theme="light"] .navButton,
+[data-theme="light"] .socialLink {
+  background: rgba(99, 102, 241, 0.08);
+  color: #4f46e5;
+  border: 1px solid #4f46e5;
+  box-shadow: 0 2px 5px rgba(79, 70, 229, 0.1);
+}
+
+[data-theme="light"] .navButton:hover,
+[data-theme="light"] .socialLink:hover {
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 5px 15px rgba(79, 70, 229, 0.2);
+  transform: translateY(-3px);
+}
+
+/* Light theme styles */
+[data-theme="light"] .jobTitleAnimation {
+  color: rgba(30, 41, 59, 0.9);
+}
