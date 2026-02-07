@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaFileAlt, FaEnvelope, FaUser, FaCode, FaShareAlt, FaSignOutAlt, FaPlus } from 'react-icons/fa';
+import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaFileAlt, FaEnvelope, FaUser, FaCode, FaShareAlt, FaSignOutAlt, FaPlus, FaBlog } from 'react-icons/fa';
 import { preloadRouteComponent } from '../../utils/routePreloader';
 import ShareButton from '../common/ShareButton';
 import { useAuth } from '../../context/AuthContext';
@@ -93,6 +93,18 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
     setIsMenuOpen(false);
   };
 
+  // Handle blog link with loading transition
+  const handleBlogLink = () => {
+    // Add loading state
+    document.body.classList.add('loading-transition');
+    
+    // Navigate to blog after a short delay for transition effect
+    setTimeout(() => {
+      window.open('https://wiredliving.blog', '_blank');
+      document.body.classList.remove('loading-transition');
+    }, 300);
+  };
+
   const isActive = (path) => location.pathname === path;
   const headerClass = `${styles.header} ${isScrolled ? styles.headerScrolled : ''} ${!isHeaderVisible ? styles.headerHidden : ''}`;
 
@@ -157,6 +169,15 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 >
                   <FaCode className={styles.navIcon} /> Projects
                 </Link>
+              </li>
+              <li className={styles.navItem}>
+                <button 
+                  onClick={handleBlogLink}
+                  className={`${styles.navLink} ${styles.blogLink}`}
+                  aria-label="Visit my blog"
+                >
+                  <FaBlog className={styles.navIcon} /> My Blog
+                </button>
               </li>
               <li className={styles.navItem}>
                 <Link 
@@ -293,6 +314,15 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 >
                   <FaCode className={styles.sidebarIcon} /> Projects
                 </Link>
+              </li>
+              <li className={styles.sidebarItem}>
+                <button 
+                  onClick={handleBlogLink}
+                  className={`${styles.sidebarLink} ${styles.blogLink}`}
+                  aria-label="Visit my blog"
+                >
+                  <FaBlog className={styles.sidebarIcon} /> My Blog
+                </button>
               </li>
               <li className={styles.sidebarItem}>
                 <Link 

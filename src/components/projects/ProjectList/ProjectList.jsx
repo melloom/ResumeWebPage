@@ -26,6 +26,26 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
   // Static projects data - moved outside component to prevent recreation
   const staticProjects = useMemo(() => [
     {
+      id: 17,
+      title: 'Barber Demo Site',
+      description: 'A professional barber shop website demo showcasing modern web design and development. Features a clean, responsive layout with appointment booking, service showcase, and customer testimonials.',
+      image: '/Blade&Crown Demo.png',
+      technologies: ['React', 'HTML5', 'CSS3', 'JavaScript'],
+      link: 'https://barber-demo-site.replit.app/',
+      github: 'https://github.com/melloom/Barber-Demo-Site',
+      category: 'Demo'
+    },
+    {
+      id: 16,
+      title: 'FunnelFox',
+      description: 'A lead generation web application built for web developers to discover, track, and manage potential clients. Searches the web for businesses, analyzes their websites for quality issues, and provides a CRM-style pipeline to manage outreach from discovery through conversion.',
+      image: '/FunnelFoxTN.png',
+      technologies: ['React', 'Vite', 'Tailwind CSS', 'Shadcn UI', 'Express.js', 'Node.js', 'PostgreSQL', 'Drizzle ORM'],
+      link: 'https://funnelfox.org',
+      github: 'https://github.com/melloom/FunnelFox',
+      category: 'Tools'
+    },
+    {
       id: 15,
       title: 'MellowQuote',
       description: 'A website pricing calculator I built for myself to streamline my quoting process. No more back-and-forth emails trying to figure out what a client needs — just send them the link and let them build their own quote. Features a multi-step wizard for single/multi-page sites, industry selection, features & add-ons, design complexity, and timeline preferences. Generates instant quotes with PDF delivery to my inbox.',
