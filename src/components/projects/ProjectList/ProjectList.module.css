@@ -119,11 +119,6 @@
   }
 }
 
-/* Full-width section for Special Demos */
-.demoSection {
-  grid-column: 1 / -1;
-}
-
 /* Optimize rendering */
 .container {
   max-width: 1440px;

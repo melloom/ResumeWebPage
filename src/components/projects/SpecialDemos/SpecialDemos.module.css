@@ -24,12 +24,12 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 700px;
-  max-height: 800px;
+  min-height: 500px;
+  max-height: 600px;
 }
 
 .imageContainer {
-  height: 360px;
+  height: 200px;
   overflow: hidden;
   position: relative;
   background-color: var(--card-background);
@@ -58,6 +58,7 @@
 .contentContainer {
   display: flex;
   flex: 1;
+  overflow: hidden;
 }
 
 .half {
@@ -65,24 +66,21 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
 }
 
 .contentHalf {
   flex: 1;
-  padding: 1.25rem 1.25rem 1.25rem 0.5rem;
+  padding: 0.75rem 0.75rem 0.75rem 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  overflow: hidden;
 }
 
-/* Middle column (FlavorHaven) */
-.half:nth-child(3) .contentHalf {
-  padding: 1.25rem 0.5rem;
-}
-
-/* Right column (Tony's Pizza) */
-.half:nth-child(5) .contentHalf {
-  padding: 1.25rem 0.5rem 1.25rem 1.25rem;
+/* Right half */
+.half:nth-child(2) .contentHalf {
+  padding: 0.75rem 0.5rem 0.75rem 0.75rem;
 }
 
 .projectHeader {
@@ -90,24 +88,28 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .projectTitle {
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   margin: 0;
   color: var(--text-color);
   line-height: 1.2;
+  flex: 1;
+  min-width: 0; /* Allows text to truncate if needed */
 }
 
 .projectDescription {
-  font-size: 0.8rem;
-  line-height: 1.4;
+  font-size: 0.7rem;
+  line-height: 1.3;
   color: var(--text-color-secondary);
   margin: 0;
   flex: 1;
   display: flex;
   align-items: flex-start;
+  overflow: hidden;
 }
 
 .featuredBadge {
@@ -126,44 +128,44 @@
 .technologies {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 1rem;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
 }
 
 .tech {
   display: inline-flex;
   align-items: center;
-  gap: 0.2rem;
+  gap: 0.15rem;
   background: rgba(99, 102, 241, 0.1);
   color: var(--primary-color);
-  padding: 0.25rem 0.625rem;
-  border-radius: 10px;
-  font-size: 0.7rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 8px;
+  font-size: 0.6rem;
   font-weight: 500;
   border: 1px solid rgba(99, 102, 241, 0.2);
   white-space: nowrap;
 }
 
 .techIcon {
-  font-size: 0.6rem;
+  font-size: 0.5rem;
 }
 
 .links {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.4rem;
   margin-top: auto;
-  padding-top: 0.75rem;
+  padding-top: 0.4rem;
 }
 
 .link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  gap: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
   text-decoration: none;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 500;
   transition: all 0.3s ease;
   white-space: nowrap;
@@ -340,6 +342,66 @@
   color: #64748b;
 }
 
+/* Expand Button */
+.expandButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-color);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.expandButton:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Expanded State */
+.half.expanded {
+  flex: 2;
+  transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.half.expanded .contentHalf {
+  overflow-y: auto;
+}
+
+.half.collapsed {
+  flex: 0.5;
+  transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.half.collapsed .contentHalf {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.half.collapsed .projectDescription,
+.half.collapsed .technologies,
+.half.collapsed .links {
+  display: none;
+}
+
+.half:not(.expanded):not(.collapsed) {
+  flex: 1;
+  transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] .featuredBadge {
+  background: #4f46e5;
+}
+
 [data-theme="light"] .tech {
   background: rgba(79, 70, 229, 0.08);
   color: #4f46e5;
@@ -348,10 +410,6 @@
 [data-theme="light"] .spinner {
   border-color: #4f46e5;
   border-top-color: transparent;
-}
-
-[data-theme="light"] .featuredBadge {
-  background: #4f46e5;
 }
 
 [data-theme="light"] .verticalDivider {

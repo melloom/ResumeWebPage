@@ -102,7 +102,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
     setTimeout(() => {
       window.open('https://wiredliving.blog', '_blank');
       document.body.classList.remove('loading-transition');
-    }, 300);
+    }, 200);
   };
 
   const isActive = (path) => location.pathname === path;
