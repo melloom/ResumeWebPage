@@ -296,14 +296,16 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       </div>
 
       <div className={styles.container}>
-        {/* Special Demos Section - Lazy loaded */}
-        <Suspense fallback={
-          <div className={styles.loadingCard}>
-            <div className={styles.cardSkeleton}></div>
-          </div>
-        }>
-          <SpecialDemos />
-        </Suspense>
+        {/* Special Demos Section - Lazy loaded - Only show in All and Demo filters */}
+        {(activeCategory === 'All' || activeCategory === 'Demo') && (
+          <Suspense fallback={
+            <div className={styles.loadingCard}>
+              <div className={styles.cardSkeleton}></div>
+            </div>
+          }>
+            <SpecialDemos />
+          </Suspense>
+        )}
 
         {isAnyLoading ? (
           <div className={styles.loadingContainer}>
