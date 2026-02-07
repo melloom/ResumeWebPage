@@ -2,15 +2,14 @@
 .card {
   background-color: var(--card-background);
   border-radius: 16px;
-  overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
   border: 1px solid rgba(99, 102, 241, 0.1);
   margin-bottom: 2rem;
+  overflow: hidden;
 }
 
 .cardHovered {
@@ -23,13 +22,12 @@
 .splitContainer {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 500px;
-  max-height: 600px;
+  min-height: auto;
+  height: auto;
 }
 
 .imageContainer {
-  height: 200px;
+  height: 180px;
   overflow: hidden;
   position: relative;
   background-color: var(--card-background);
@@ -71,16 +69,21 @@
 
 .contentHalf {
   flex: 1;
-  padding: 0.75rem 0.75rem 0.75rem 0.5rem;
+  padding: 1rem 1rem 1rem 0.75rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  overflow: hidden;
+  gap: 0.75rem;
+  min-height: 0;
 }
 
 /* Right half */
 .half:nth-child(2) .contentHalf {
-  padding: 0.75rem 0.5rem 0.75rem 0.75rem;
+  padding: 1rem 0.75rem 1rem 1rem;
+}
+
+/* Third half (Tony's Pizza) */
+.half:nth-child(3) .contentHalf {
+  padding: 1rem 1rem 1rem 0.75rem;
 }
 
 .projectHeader {
@@ -92,7 +95,7 @@
 }
 
 .projectTitle {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   margin: 0;
   color: var(--text-color);
@@ -102,14 +105,25 @@
 }
 
 .projectDescription {
-  font-size: 0.7rem;
-  line-height: 1.3;
+  font-size: 0.75rem;
+  line-height: 1.4;
   color: var(--text-color-secondary);
   margin: 0;
   flex: 1;
   display: flex;
   align-items: flex-start;
-  overflow: hidden;
+}
+
+/* Expanded state text styling */
+.half.expanded .projectTitle {
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.half.expanded .projectDescription {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
 }
 
 .featuredBadge {
@@ -128,8 +142,8 @@
 .technologies {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem;
-  margin-top: 0.5rem;
+  gap: 0.3rem;
+  margin-top: 0.75rem;
 }
 
 .tech {
@@ -138,37 +152,64 @@
   gap: 0.15rem;
   background: rgba(99, 102, 241, 0.1);
   color: var(--primary-color);
-  padding: 0.2rem 0.4rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 8px;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 500;
   border: 1px solid rgba(99, 102, 241, 0.2);
   white-space: nowrap;
 }
 
 .techIcon {
-  font-size: 0.5rem;
+  font-size: 0.55rem;
+}
+
+/* Expanded state tech badges */
+.half.expanded .technologies {
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.half.expanded .tech {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+}
+
+.half.expanded .techIcon {
+  font-size: 0.65rem;
 }
 
 .links {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
   margin-top: auto;
-  padding-top: 0.4rem;
+  padding-top: 0.5rem;
 }
 
 .link {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.35rem 0.6rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 6px;
   text-decoration: none;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 500;
   transition: all 0.3s ease;
   white-space: nowrap;
+}
+
+/* Expanded state links */
+.half.expanded .links {
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.half.expanded .link {
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
 }
 
 .demoLink {
@@ -359,6 +400,8 @@
   transition: all 0.3s ease;
   flex-shrink: 0;
   margin-left: auto;
+  position: relative;
+  z-index: 10;
 }
 
 .expandButton:hover {
@@ -367,29 +410,37 @@
   transform: scale(1.1);
 }
 
+.half.expanded .expandButton {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+}
+
+.half.expanded .expandButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--primary-color);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
 /* Expanded State */
 .half.expanded {
-  flex: 2;
-  transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .half.expanded .contentHalf {
-  overflow-y: auto;
+  height: auto;
+  overflow: visible;
 }
 
 .half.collapsed {
-  flex: 0.5;
-  transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.half.collapsed .contentHalf {
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-.half.collapsed .projectDescription,
-.half.collapsed .technologies,
-.half.collapsed .links {
   display: none;
 }
 

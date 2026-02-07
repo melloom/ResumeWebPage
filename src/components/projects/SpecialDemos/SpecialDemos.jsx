@@ -57,7 +57,7 @@ const SpecialDemos = () => {
         {/* Content halves aligned with image split */}
         <div className={styles.contentContainer}>
           {/* Left Half - Rosie's Kitchen */}
-          <div className={`${styles.half} ${expandedDemo === 'rosie' ? styles.expanded : (expandedDemo === 'flavor' || expandedDemo === 'tony') ? styles.collapsed : ''}`}>
+          <div className={`${styles.half} ${expandedDemo === 'rosie' ? styles.expanded : expandedDemo ? styles.collapsed : ''}`}>
             <div className={styles.contentHalf}>
               <div className={styles.projectHeader}>
                 <h3 className={styles.projectTitle}>Rosie's Kitchen</h3>
@@ -114,7 +114,7 @@ const SpecialDemos = () => {
           <div className={styles.verticalDivider}></div>
 
           {/* Right Half - FlavorHaven */}
-          <div className={`${styles.half} ${expandedDemo === 'flavor' ? styles.expanded : (expandedDemo === 'rosie' || expandedDemo === 'tony') ? styles.collapsed : ''}`}>
+          <div className={`${styles.half} ${expandedDemo === 'flavor' ? styles.expanded : expandedDemo ? styles.collapsed : ''}`}>
             <div className={styles.contentHalf}>
               <div className={styles.projectHeader}>
                 <h3 className={styles.projectTitle}>FlavorHaven Demo</h3>
@@ -171,7 +171,7 @@ const SpecialDemos = () => {
           <div className={styles.verticalDivider}></div>
 
           {/* Right Half - Tony's Pizza */}
-          <div className={`${styles.half} ${expandedDemo === 'tony' ? styles.expanded : (expandedDemo === 'rosie' || expandedDemo === 'flavor') ? styles.collapsed : ''}`}>
+          <div className={`${styles.half} ${expandedDemo === 'tony' ? styles.expanded : expandedDemo ? styles.collapsed : ''}`}>
             <div className={styles.contentHalf}>
               <div className={styles.projectHeader}>
                 <h3 className={styles.projectTitle}>Tony's Pizza</h3>
