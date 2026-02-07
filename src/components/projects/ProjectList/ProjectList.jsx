@@ -103,8 +103,8 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       image: '/screenshots/longhome-website.png',
       technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'React Router'],
       link: 'https://2026longhome.netlify.app',
-      github: 'https://github.com/melloom/renovate-your-dream',
-      category: 'Websites'
+      github: 'https://github.com/melloom/LongHome',
+      category: 'Demo'
     },
     {
       id: 13,
