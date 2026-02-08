@@ -4,7 +4,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { deleteProject } from '../../../services/projectService';
 import styles from './ProjectCard.module.css';
 
-const ProjectCard = ({ project, isLoading: parentLoading, onDelete }) => {
+const ProjectCard = ({ project, isLoading: parentLoading, onDelete, index = 0 }) => {
   const { isAuthenticated } = useAuth();
   const { 
     title, 
@@ -41,6 +41,14 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete }) => {
 
   // Check if this is a user-added project (has an id that's not a number)
   const isUserProject = project.id && typeof project.id === 'string' && project.id.length > 10;
+
+  // Preload critical images (first 3 cards above fold)
+  useEffect(() => {
+    if (projectImage && index < 3) {
+      const img = new Image();
+      img.src = projectImage;
+    }
+  }, [projectImage, index]);
 
   useEffect(() => {
     if (projectImage) {
@@ -120,7 +128,8 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete }) => {
               className={styles.image} 
               onLoad={handleImageLoad}
               onError={handleImageError}
-              loading="lazy"
+              loading={index < 3 ? "eager" : "lazy"}
+              decoding="async"
               style={{ objectFit: 'contain' }}
             />
           )

@@ -49,7 +49,8 @@ const SpecialDemos = () => {
               className={styles.splitImage} 
               onLoad={handleImageLoad}
               onError={handleImageError}
-              loading="lazy"
+              loading="eager"
+              decoding="async"
             />
           )}
         </div>
