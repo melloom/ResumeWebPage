@@ -26,6 +26,16 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
   // Static projects data - moved outside component to prevent recreation
   const staticProjects = useMemo(() => [
     {
+      id: 18,
+      title: 'DevHub Connect',
+      description: 'A modern developer community platform to showcase projects, discover collaborators, and keep the conversation going. Features an immersive landing experience, Firebase authentication, project discovery, Reddit-style community threads, realtime comments, messaging, feedback endpoints with Nodemailer, and a security-first middleware layer. Responsive UI with dark/light theming support.',
+      image: '/devhub.png',
+      technologies: ['React 18', 'TypeScript', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Firebase', 'Express', 'React Query', 'Framer Motion'],
+      link: 'https://devhub-connect.space',
+      github: '',
+      category: 'Apps'
+    },
+    {
       id: 17,
       title: 'Barber Demo Site',
       description: 'A professional barber shop website demo showcasing modern web design and development. Features a clean, responsive layout with appointment booking, service showcase, and customer testimonials.',
@@ -42,7 +52,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       image: '/FunnelFoxTN.png',
       technologies: ['React', 'Vite', 'Tailwind CSS', 'Shadcn UI', 'Express.js', 'Node.js', 'PostgreSQL', 'Drizzle ORM'],
       link: 'https://funnelfox.org',
-      github: 'https://github.com/melloom/FunnelFox',
+      github: '',
       category: 'Tools'
     },
     {
