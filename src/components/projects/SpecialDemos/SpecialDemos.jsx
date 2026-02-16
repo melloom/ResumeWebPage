@@ -31,7 +31,7 @@ const SpecialDemos = () => {
     >
       <div className={styles.splitContainer}>
         {/* Single image that spans both halves */}
-        <div className={styles.imageContainer}>
+        <div className={`${styles.imageContainer} ${expandedDemo ? styles.hideOnExpandMobile : ''}`}>
           {!imageLoaded && isLoading && (
             <div className={styles.imageLoader}>
               <div className={styles.spinner}></div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaFileAlt, FaEnvelope, FaUser, FaCode, FaShareAlt, FaSignOutAlt, FaPlus, FaBlog } from 'react-icons/fa';
+import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaFileAlt, FaEnvelope, FaUser, FaCode, FaShareAlt, FaSignOutAlt, FaPlus, FaBlog, FaRobot } from 'react-icons/fa';
 import { preloadRouteComponent } from '../../utils/routePreloader';
 import ShareButton from '../common/ShareButton';
 import { useAuth } from '../../context/AuthContext';
@@ -112,8 +112,8 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: 'Melvin Peralta | Portfolio',
-        text: 'Check out Melvin Peralta\'s professional portfolio',
+        title: 'MellowSites | Web Design & Development Studio',
+        text: 'Explore MellowSites web design and development work',
         url: window.location.href,
       })
       .catch((error) => console.log('Error sharing', error));
@@ -134,7 +134,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
             onMouseEnter={() => handleLinkHover('/')}
             onFocus={() => handleLinkHover('/')}
           >
-            <span className={styles.logoText}>Melvin Peralta</span>
+            <span className={styles.logoText}>MellowSites</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -178,6 +178,16 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 >
                   <FaBlog className={styles.navIcon} /> My Blog
                 </button>
+              </li>
+              <li className={styles.navItem}>
+                <Link 
+                  to="/ai-lab" 
+                  className={`${styles.navLink} ${isActive('/ai-lab') ? styles.active : ''}`}
+                  onMouseEnter={() => handleLinkHover('/ai-lab')}
+                  onFocus={() => handleLinkHover('/ai-lab')}
+                >
+                  <FaRobot className={styles.navIcon} /> AI Lab
+                </Link>
               </li>
               <li className={styles.navItem}>
                 <Link 
@@ -323,6 +333,14 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 >
                   <FaBlog className={styles.sidebarIcon} /> My Blog
                 </button>
+              </li>
+              <li className={styles.sidebarItem}>
+                <Link 
+                  to="/ai-lab" 
+                  className={`${styles.sidebarLink} ${isActive('/ai-lab') ? styles.active : ''}`}
+                >
+                  <FaRobot className={styles.sidebarIcon} /> AI Lab
+                </Link>
               </li>
               <li className={styles.sidebarItem}>
                 <Link 

@@ -10,12 +10,16 @@
     /* Text colors */
     --text-color: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-primary: #ffffff;
 
     /* Background colors */
     --bg-color: #0f172a;
     --bg-accent: #1e293b;
     --card-bg: rgba(30, 41, 59, 0.85);
     --border-color: rgba(99, 102, 241, 0.3);
+    --border: rgba(99, 102, 241, 0.3);
+    --border-dark: rgba(255, 255, 255, 0.08);
+    --bg-secondary: rgba(255, 255, 255, 0.04);
 
     /* Spacing */
     --spacing-xs: 0.25rem;
@@ -61,10 +65,14 @@
   [data-theme="light"] {
     --text-color: #111827;
     --text-secondary: #4b5563;
+    --text-primary: #111827;
     --bg-color: #ffffff;
     --bg-accent: #f3f4f6;
     --card-bg: rgba(255, 255, 255, 0.9);
     --border-color: rgba(99, 102, 241, 0.3); /* More visible border color */
+    --border: rgba(0, 0, 0, 0.12);
+    --border-dark: rgba(0, 0, 0, 0.08);
+    --bg-secondary: rgba(0, 0, 0, 0.04);
     --primary-color: #4f46e5; /* Slightly darker purple for better contrast */
     --primary-rgb: 79, 70, 229;
     --secondary-color: #9333ea;

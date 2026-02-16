@@ -42,9 +42,10 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete, index = 0 })
   // Check if this is a user-added project (has an id that's not a number)
   const isUserProject = project.id && typeof project.id === 'string' && project.id.length > 10;
 
-  // Preload critical images (first 3 cards above fold)
+  // Preload only the first card on large screens to avoid mobile bandwidth spikes
   useEffect(() => {
-    if (projectImage && index < 3) {
+    const shouldPreload = typeof window !== 'undefined' && window.innerWidth > 1024 && index === 0;
+    if (projectImage && shouldPreload) {
       const img = new Image();
       img.src = projectImage;
     }
@@ -128,8 +129,9 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete, index = 0 })
               className={styles.image} 
               onLoad={handleImageLoad}
               onError={handleImageError}
-              loading={index < 3 ? "eager" : "lazy"}
+              loading="lazy"
               decoding="async"
+              fetchpriority={index === 0 ? "high" : "auto"}
               style={{ objectFit: 'contain' }}
             />
           )

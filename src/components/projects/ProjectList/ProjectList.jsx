@@ -110,7 +110,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       id: 3,
       title: 'Long Home - Renovation Company',
       description: 'A modern marketing website for Long Home, a renovation company specializing in roofing and bathroom renovations across the Mid-Atlantic. Built with React, TypeScript, and Tailwind CSS. Features responsive design, service showcases, and professional branding.',
-      image: '/screenshots/longhome-website.png',
+      image: '/longhome-website.png',
       technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'React Router'],
       link: 'https://2026longhome.netlify.app',
       github: 'https://github.com/melloom/LongHome',
@@ -130,7 +130,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       id: 4,
       title: 'GhostInbox',
       description: 'An anonymous venting platform where creators can receive anonymous messages from their audience. Features creator dashboards, message management, AI-powered reply templates, and theme summarization. Built with React, TypeScript, and Supabase.',
-      image: '/screenshots/ghostinbox-website.png',
+      image: '/ghostinbox-website.png',
       technologies: ['React', 'TypeScript', 'Vite', 'Supabase', 'CSS', 'React Router'],
       link: 'https://ghost-inbox.vercel.app',
       github: 'https://github.com/melloom/GhostInbox',
@@ -140,7 +140,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       id: 5,
       title: 'BrandSaaS',
       description: 'A modern, AI-powered SaaS Name Generator with domain checking, favorites, export, and more. Built with React, Vite, and TypeScript.',
-      image: '/screenshots/BrandSaaS.png',
+      image: '/BrandSaaS.png',
       technologies: ['React', 'Vite', 'TypeScript', 'Cohere API', 'Netlify', 'CSS Modules'],
       link: 'https://brandsaas.netlify.app',
       github: 'https://github.com/melloom/BrandSaaS.co',
@@ -160,7 +160,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       id: 7,
       title: 'CloseLoop Training Platform',
       description: 'A comprehensive training platform for on-call phone backend and frontend support. Features include user authentication, training modules, and progress tracking.',
-      image: '/screenshots/closeloop-portfolio-thumbnail.png',
+      image: '/closeloop-portfolio-thumbnail.png',
       technologies: ['React', 'Node.js', 'MongoDB', 'Express'],
       link: 'https://closeloop.netlify.app',
       github: 'https://github.com/melloom/closeloop',
@@ -170,7 +170,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       id: 8,
       title: 'Lockora Password Generator',
       description: 'A secure password generator and manager application. Features include password strength analysis, secure storage, and easy password generation.',
-      image: '/screenshots/lockora-portfolio-thumbnail.png',
+      image: '/lockora-portfolio-thumbnail.png',
       technologies: ['React', 'JavaScript', 'CSS', 'LocalStorage'],
       link: 'https://lockora.netlify.app',
       github: 'https://github.com/melloom/lockora',
@@ -180,7 +180,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       id: 9,
       title: 'MelHub Social Links',
       description: 'A centralized hub for all my social media and professional links. Features a clean, minimalist design with customizable themes and analytics.',
-      image: '/screenshots/melhub-portfolio-thumbnail.png',
+      image: '/melhub-portfolio-thumbnail.png',
       technologies: ['React', 'Vite', 'CSS', 'Netlify'],
       link: 'https://melhub.netlify.app',
       github: 'https://github.com/melloom/melhub',
@@ -190,7 +190,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       id: 10,
       title: 'NumixPro Calculator',
       description: 'An advanced calculator application with comprehensive mathematical functions and operations. Features a modern interface, scientific calculations, memory functions, and history tracking for complex mathematical computations.',
-      image: '/screenshots/numix.png',
+      image: '/numix.png',
       technologies: ['JavaScript', 'HTML5', 'CSS3', 'Netlify'],
       link: 'https://numixpro.netlify.app',
       github: 'https://github.com/melloom/Numix',
@@ -306,8 +306,8 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       </div>
 
       <div className={styles.container}>
-        {/* Special Demos Section - Lazy loaded - Only show in All and Demo filters */}
-        {(activeCategory === 'All' || activeCategory === 'Demo') && (
+        {/* Special Demos Section - show only on All to keep Demo filter clean */}
+        {activeCategory === 'All' && (
           <Suspense fallback={
             <div className={styles.loadingCard}>
               <div className={styles.cardSkeleton}></div>

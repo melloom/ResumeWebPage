@@ -61,29 +61,29 @@ function Home() {
   return (
     <>
       <Helmet>
-        <title>Melvin Peralta | Full-Stack Developer & Sales Professional Portfolio</title>
-        <meta name="description" content="Professional portfolio of Melvin Peralta - Full-Stack Developer, AI Integrator, and Sales Development Professional. Explore my projects, skills, and experience in web development, React, JavaScript, and business development." />
-        <meta name="keywords" content="Melvin Peralta, Full-Stack Developer, Web Developer, React Developer, JavaScript, Frontend Developer, Sales Professional, Portfolio, Web Development, Software Engineer, Maryland Developer" />
-        <meta name="author" content="Melvin Peralta" />
+        <title>MellowSites | Web Design & Development Studio</title>
+        <meta name="description" content="MellowSites crafts modern, performant websites and landing pages for businesses. Explore our web design, development, and optimization work." />
+        <meta name="keywords" content="MellowSites, web design, web development, landing pages, websites for business, React developer, JavaScript, frontend" />
+        <meta name="author" content="MellowSites" />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <link rel="canonical" href="https://mellowsites.com/" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://mellowsites.com/" />
-        <meta property="og:title" content="Melvin Peralta | Full-Stack Developer & Sales Professional Portfolio" />
-        <meta property="og:description" content="Professional portfolio of Melvin Peralta - Full-Stack Developer, AI Integrator, and Sales Development Professional. Explore my projects, skills, and experience." />
+        <meta property="og:title" content="MellowSites | Web Design & Development Studio" />
+        <meta property="og:description" content="MellowSites builds tailored websites and digital experiences for growing brands." />
         <meta property="og:image" content="https://mellowsites.com/photo-1.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:site_name" content="Melvin Peralta Portfolio" />
+        <meta property="og:site_name" content="MellowSites" />
         <meta property="og:locale" content="en_US" />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content="https://mellowsites.com/" />
-        <meta name="twitter:title" content="Melvin Peralta | Full-Stack Developer & Sales Professional Portfolio" />
-        <meta name="twitter:description" content="Professional portfolio of Melvin Peralta - Full-Stack Developer, AI Integrator, and Sales Development Professional." />
+        <meta name="twitter:title" content="MellowSites | Web Design & Development Studio" />
+        <meta name="twitter:description" content="MellowSites builds tailored websites and digital experiences for growing brands." />
         <meta name="twitter:image" content="https://mellowsites.com/photo-1.jpg" />
         
         {/* Additional SEO */}
@@ -91,53 +91,25 @@ function Home() {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         
-        {/* Structured Data - Home/Portfolio */}
+        {/* Structured Data - WebSite */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "ProfilePage",
-            "mainEntity": {
-              "@type": "Person",
-              "@id": "https://mellowsites.com/#person",
-              "name": "Melvin Peralta",
-              "alternateName": "MellowSites",
-              "url": "https://mellowsites.com/",
-              "image": "https://mellowsites.com/photo-1.jpg",
-              "jobTitle": "Full-Stack Developer & Sales Professional",
-              "description": "Full-Stack Developer and Sales Development Professional with expertise in React, JavaScript, and business development",
-              "knowsAbout": ["React", "JavaScript", "Web Development", "Sales Development", "Frontend Development", "HTML", "CSS"],
-              "sameAs": [
-                "https://www.linkedin.com/in/melvin-peralta-de-la-cruz-077557215",
-                "https://github.com/melloom",
-                "https://mellowsites.com/about",
-                "https://mellowsites.com/resume"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressRegion": "Maryland",
-                "addressCountry": "US"
-              },
-              "email": "Melvin.a.p.cruz@gmail.com"
-            },
+            "@type": "WebSite",
             "url": "https://mellowsites.com/",
-            "name": "Melvin Peralta - Portfolio",
-            "description": "Professional portfolio showcasing web development projects and skills"
+            "name": "MellowSites",
+            "alternateName": ["Mellow Sites", "MellowSites.com"]
           })}
         </script>
-        
-        {/* BreadcrumbList for better navigation understanding */}
+
+        {/* Structured Data - Organization */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://mellowsites.com/"
-              }
-            ]
+            "@type": "Organization",
+            "url": "https://mellowsites.com/",
+            "name": "MellowSites",
+            "logo": "https://mellowsites.com/logo.png"
           })}
         </script>
       </Helmet>
@@ -149,7 +121,7 @@ function Home() {
         {/* Hero section with prefetch */}
         <section id="hero">
           <Hero
-            name="Melvin Peralta"
+            name="MellowSites"
             profileImage="/photo-1.jpg"
             jobTitles={jobTitles}
             onNavigationIntent={handleNavigationIntent} // Pass down the prefetch handler

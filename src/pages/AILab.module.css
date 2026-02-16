@@ -1,0 +1,74 @@
+.aiLab {
+  min-height: 100vh;
+  padding: 120px 20px 60px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.chatView {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 2px solid var(--border);
+  padding: 12px 20px;
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 30px;
+}
+
+.backButton:hover {
+  border-color: #667eea;
+  color: #667eea;
+  transform: translateX(-5px);
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .placeholder {
+  background: var(--card-bg-dark);
+  border-color: var(--border-dark);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .placeholder {
+    padding: 40px 20px;
+  }
+}

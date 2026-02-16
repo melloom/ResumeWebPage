@@ -14,6 +14,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { getProjects } from './services/projectService';
 import BackToTop from './components/common/BackToTop';
+import AIWidget from './components/ai/AIWidget';
 import { initPWA } from './utils/pwaHelper';
 
 // Lazy load pages for better performance
@@ -23,6 +24,7 @@ const Resume = lazy(() => import('./pages/Resume'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Projects = lazy(() => import('./pages/Projects'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const AILab = lazy(() => import('./pages/AILab'));
 
 function AppContent() {
   const { isAuthenticated } = useAuth();
@@ -144,6 +146,7 @@ function AppContent() {
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
               <Route path="/projects" element={<Projects userProjects={projects} isLoading={isLoadingProjects} onProjectDeleted={handleProjectDeleted} />} />
+              <Route path="/ai-lab" element={<AILab />} />
                 <Route path="/resume" element={<Resume />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="*" element={<NotFound />} />
@@ -152,6 +155,7 @@ function AppContent() {
           </Suspense>
           <Footer />
           <BackToTop />
+          <AIWidget />
           <InstallPWA />
         <AdminLoginModal 
           isOpen={isAdminModalOpen} 
