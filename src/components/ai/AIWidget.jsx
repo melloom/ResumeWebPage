@@ -132,15 +132,17 @@ const AIWidget = () => {
             </div>
           )}
 
-          <div className={styles.chatWrap}>
-            <AIChat
-              ref={chatRef}
-              pageContext={pageContext}
-              compact
-              autoStartVoice
-              onSuggestNavigation={handleSuggestNavigation}
-            />
-          </div>
+          {isOpen && (
+            <div className={styles.chatWrap}>
+              <AIChat
+                ref={chatRef}
+                pageContext={pageContext}
+                compact
+                autoStartVoice
+                onSuggestNavigation={handleSuggestNavigation}
+              />
+            </div>
+          )}
         </div>
       </div>
     </>
