@@ -40,22 +40,6 @@ const labs = [
     outputs: ['Recommended structure', 'Folder layout', 'Dev workflow']
   },
   {
-    id: 'data-insights',
-    title: 'Portfolio Pulse',
-    description: 'Monitor portfolio performance and surface engagement signals for Melvin\'s work',
-    icon: FaDatabase,
-    status: 'planned',
-    path: '/ai-lab/analytics'
-  },
-  {
-    id: 'content-creator',
-    title: 'Storysmith for Melvin',
-    description: 'Draft blog posts, case studies, and updates that spotlight Melvin\'s work',
-    icon: FaBrain,
-    status: 'planned',
-    path: '/ai-lab/content'
-  },
-  {
     id: 'idea-mutation',
     title: 'Idea Mutation Lab',
     description: 'Iterate and mutate ideas to discover stronger variations and angles',
@@ -111,7 +95,7 @@ const AILabHub = ({ onLaunchChat }) => {
               onClick={() => lab.status === 'active' && setSelectedLab(lab)}
             >
               <div className={styles.labIcon}>
-                <Icon />
+                {Icon ? <Icon /> : null}
               </div>
               <div className={styles.labInfo}>
                 <h3>{lab.title}</h3>
