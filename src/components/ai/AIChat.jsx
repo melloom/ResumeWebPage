@@ -133,21 +133,6 @@ const AIChat = forwardRef((props, ref) => {
 
   useEffect(() => { if (voiceOnly) setVoiceChatMode(true); }, [voiceOnly]);
 
-  // Auto-start voice when requested (widget open or AI Lab chat enter)
-  useEffect(() => {
-    if (!autoStartVoice) {
-      autoVoiceStartedRef.current = false;
-      return;
-    }
-    if (autoVoiceStartedRef.current) return;
-
-    // Require an explicit user gesture: in compact mode, only start after widget is opened (isOpen handled upstream);
-    // in non-compact voice-only contexts (AI Lab chat view), start after first render but only once.
-    if (!voiceEnabled || isSpeakingRef.current || isLoadingRef.current || voiceActiveRef.current) return;
-    autoVoiceStartedRef.current = true;
-    startVoiceSession();
-  }, [autoStartVoice, voiceEnabled, startVoiceSession]);
-
   // Hydrate messages from local storage
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -764,6 +749,21 @@ const AIChat = forwardRef((props, ref) => {
     setLiveTranscript('');
     setStatus('idle');
   }, [stopSilenceDetection, stopViz]);
+
+  // Auto-start voice when requested (widget open or AI Lab chat enter)
+  useEffect(() => {
+    if (!autoStartVoice) {
+      autoVoiceStartedRef.current = false;
+      return;
+    }
+    if (autoVoiceStartedRef.current) return;
+
+    // Require an explicit user gesture: in compact mode, only start after widget is opened (isOpen handled upstream);
+    // in non-compact voice-only contexts (AI Lab chat view), start after first render but only once.
+    if (!voiceEnabled || isSpeakingRef.current || isLoadingRef.current || voiceActiveRef.current) return;
+    autoVoiceStartedRef.current = true;
+    startVoiceSession();
+  }, [autoStartVoice, voiceEnabled, startVoiceSession]);
 
   // When voice is muted, stop everything
   useEffect(() => {
