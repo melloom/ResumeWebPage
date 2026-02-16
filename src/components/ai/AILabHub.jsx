@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { FaRobot, FaBrain, FaCode, FaPalette, FaDatabase, FaGlobe } from 'react-icons/fa';
+import { FaRobot, FaBrain, FaCode, FaPalette, FaDatabase, FaGlobe, FaCogs } from 'react-icons/fa';
+import StackBuilderConsole from './stack-builder/StackBuilderConsole';
+import IdeaMutationLab from './idea-mutation/IdeaMutationLab';
 import styles from './AILabHub.module.css';
 
 const labs = [
@@ -28,6 +30,16 @@ const labs = [
     path: '/ai-lab/design-generator'
   },
   {
+    id: 'stack-builder',
+    title: 'Stack Builder Console',
+    description: 'Build your tech stack with Melvin.',
+    icon: FaCogs,
+    status: 'active',
+    path: '/ai-lab/stack-builder',
+    toggles: ['Local LLM', 'Cloud AI', 'Supabase', 'Firebase', 'Turso', 'Docker', 'n8n'],
+    outputs: ['Recommended structure', 'Folder layout', 'Dev workflow']
+  },
+  {
     id: 'data-insights',
     title: 'Portfolio Pulse',
     description: 'Monitor portfolio performance and surface engagement signals for Melvin\'s work',
@@ -44,6 +56,14 @@ const labs = [
     path: '/ai-lab/content'
   },
   {
+    id: 'idea-mutation',
+    title: 'Idea Mutation Lab',
+    description: 'Iterate and mutate ideas to discover stronger variations and angles',
+    icon: FaBrain,
+    status: 'active',
+    path: '/ai-lab/idea-mutation'
+  },
+  {
     id: 'web-scraper',
     title: 'Scout Crawler',
     description: 'Gather research and competitive intel to inform Melvin\'s next build',
@@ -55,6 +75,13 @@ const labs = [
 
 const AILabHub = ({ onLaunchChat }) => {
   const [selectedLab, setSelectedLab] = useState(null);
+
+  const statusWeight = { 'active': 0, 'coming-soon': 1, 'planned': 2 };
+  const sortedLabs = [...labs].sort((a, b) => {
+    const aw = statusWeight[a.status] ?? 3;
+    const bw = statusWeight[b.status] ?? 3;
+    return aw - bw;
+  });
 
   const getStatusBadge = (status) => {
     const statusConfig = {
@@ -75,7 +102,7 @@ const AILabHub = ({ onLaunchChat }) => {
       </div>
 
       <div className={styles.labsGrid}>
-        {labs.map(lab => {
+        {sortedLabs.map(lab => {
           const Icon = lab.icon;
           return (
             <div
@@ -96,7 +123,7 @@ const AILabHub = ({ onLaunchChat }) => {
         })}
       </div>
 
-      {selectedLab && (
+      {selectedLab && selectedLab.id !== 'stack-builder' && selectedLab.id !== 'idea-mutation' && (
         <div className={styles.labModal}>
           <div className={styles.modalContent}>
             <button 
@@ -113,7 +140,6 @@ const AILabHub = ({ onLaunchChat }) => {
                 if (selectedLab.id === 'chat-assistant') {
                   onLaunchChat();
                 } else {
-                  // Handle other labs when they're ready
                   alert(`${selectedLab.title} will be available soon!`);
                 }
                 setSelectedLab(null);
@@ -123,6 +149,14 @@ const AILabHub = ({ onLaunchChat }) => {
             </button>
           </div>
         </div>
+      )}
+
+      {selectedLab && selectedLab.id === 'stack-builder' && (
+        <StackBuilderConsole open onClose={() => setSelectedLab(null)} />
+      )}
+
+      {selectedLab && selectedLab.id === 'idea-mutation' && (
+        <IdeaMutationLab open onClose={() => setSelectedLab(null)} />
       )}
     </div>
   );
