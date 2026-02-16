@@ -70,7 +70,13 @@ function extractPathFromResponse(text) {
 }
 
 const AIChat = forwardRef((props, ref) => {
-  const { pageContext = null, compact = false, voiceOnly = false, onSuggestNavigation = null } = props;
+  const {
+    pageContext = null,
+    compact = false,
+    voiceOnly = false,
+    autoStartVoice = false,
+    onSuggestNavigation = null,
+  } = props;
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -100,6 +106,7 @@ const AIChat = forwardRef((props, ref) => {
   const isLoadingRef = useRef(false);
   const liveTranscriptRef = useRef('');
   const levelRef = useRef(0);
+  const autoVoiceStartedRef = useRef(false);
 
   // SpeechRecognition refs
   const recognitionSegmentsRef = useRef([]);
@@ -125,6 +132,21 @@ const AIChat = forwardRef((props, ref) => {
   useEffect(() => { liveTranscriptRef.current = liveTranscript; }, [liveTranscript]);
 
   useEffect(() => { if (voiceOnly) setVoiceChatMode(true); }, [voiceOnly]);
+
+  // Auto-start voice when requested (widget open or AI Lab chat enter)
+  useEffect(() => {
+    if (!autoStartVoice) {
+      autoVoiceStartedRef.current = false;
+      return;
+    }
+    if (autoVoiceStartedRef.current) return;
+
+    // Require an explicit user gesture: in compact mode, only start after widget is opened (isOpen handled upstream);
+    // in non-compact voice-only contexts (AI Lab chat view), start after first render but only once.
+    if (!voiceEnabled || isSpeakingRef.current || isLoadingRef.current || voiceActiveRef.current) return;
+    autoVoiceStartedRef.current = true;
+    startVoiceSession();
+  }, [autoStartVoice, voiceEnabled, startVoiceSession]);
 
   // Hydrate messages from local storage
   useEffect(() => {

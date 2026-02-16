@@ -137,6 +137,7 @@ const AIWidget = () => {
               ref={chatRef}
               pageContext={pageContext}
               compact
+              autoStartVoice
               onSuggestNavigation={handleSuggestNavigation}
             />
           </div>

@@ -24,7 +24,7 @@ const AILab = () => {
           >
             <FaArrowLeft /> Back to AI Lab Hub
           </button>
-          <AIChat />
+          <AIChat autoStartVoice />
         </div>
       )}
     </section>
