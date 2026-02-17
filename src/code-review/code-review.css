@@ -11,6 +11,9 @@
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
   
+  /* Ensure safe area has background */
+  background-color: hsl(var(--background));
+  
   --background: 220 20% 97%;
   --foreground: 220 25% 10%;
 
