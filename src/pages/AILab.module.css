@@ -1,6 +1,6 @@
 .aiLab {
   min-height: 100vh;
-  padding: 120px 20px 60px;
+  padding: calc(120px + env(safe-area-inset-top)) max(20px, env(safe-area-inset-left)) max(60px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-right));
 }
 
 .container {

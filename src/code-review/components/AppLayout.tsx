@@ -89,9 +89,14 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-sidebar-border bg-sidebar transition-transform duration-200 lg:static lg:translate-x-0",
+          "fixed z-50 flex w-64 flex-col border-r border-sidebar-border bg-sidebar transition-transform duration-200 lg:static lg:translate-x-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
+        style={{
+          top: 'env(safe-area-inset-top)',
+          left: 'env(safe-area-inset-left)',
+          bottom: 'env(safe-area-inset-bottom)',
+        }}
       >
         <div className="flex h-14 items-center gap-2 border-b border-sidebar-border px-4">
           <Code2 className="h-6 w-6 text-primary" />
