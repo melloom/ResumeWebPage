@@ -73,26 +73,26 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="relative flex min-h-screen bg-background">
-      {/* Safe-area background for dark theme */}
+      {/* Safe-area background for dark theme - mobile only */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-0 dark:block hidden"
+        className="pointer-events-none absolute inset-0 z-0 dark:block hidden lg:hidden"
         style={{
           background: 'linear-gradient(to bottom, hsl(225 25% 8%), hsl(225 20% 11%))',
         }}
       />
-      {/* Safe-area background for light theme */}
+      {/* Safe-area background for light theme - mobile only */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-0 block dark:hidden"
+        className="pointer-events-none absolute inset-0 z-0 block dark:hidden lg:hidden"
         style={{
           background: 'linear-gradient(to bottom, hsl(220 20% 97%), hsl(220 15% 94%))',
         }}
       />
-      {/* Explicit top safe-area strip to fill iOS notch */}
+      {/* Explicit top safe-area strip to fill iOS notch - mobile only */}
       <div
         aria-hidden
-        className="pointer-events-none fixed top-0 left-0 right-0 z-10"
+        className="pointer-events-none fixed top-0 left-0 right-0 z-10 lg:hidden"
         style={{
           height: 'env(safe-area-inset-top)',
           background: 'hsl(var(--background))',
