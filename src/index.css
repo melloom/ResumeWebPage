@@ -59,6 +59,19 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Fix CodeReview safe area background color */
+.code-review-root::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, hsl(220 20% 97%), hsl(220 15% 94%));
+  z-index: -1;
+  pointer-events: none;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
