@@ -593,15 +593,96 @@
 }
 
 @media (max-width: 768px) {
+  .overlay {
+    padding: 16px;
+  }
+
+  .panelWrap {
+    width: 100%;
+    max-height: 85vh;
+  }
+
   .panel {
-    padding: 20px;
+    padding: 20px 16px;
   }
 
   .toggleGrid {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
   }
 
   .outputGrid {
     grid-template-columns: 1fr;
+  }
+
+  .modeGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .aiPromptRow {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .aiPromptRow input {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .overlay {
+    padding: 8px;
+  }
+
+  .panelWrap {
+    width: 100%;
+    max-height: 90vh;
+    border-radius: 16px;
+  }
+
+  .panel {
+    border-radius: 14px;
+    padding: 16px 12px;
+  }
+
+  .header h1 {
+    font-size: 1.2rem;
+  }
+
+  .header p {
+    font-size: 0.85rem;
+  }
+
+  .closeButton {
+    width: 32px;
+    height: 32px;
+    top: 12px;
+    right: 12px;
+    font-size: 14px;
+  }
+
+  .modeCard {
+    padding: 14px;
+  }
+
+  .stepHeader {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .controlsRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .tabs {
+    justify-content: center;
+  }
+
+  .searchBox {
+    min-width: 100%;
+    max-width: 100%;
   }
 }
