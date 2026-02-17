@@ -4,6 +4,16 @@
   publish = "dist"
   command = "npm run build"
 
+[build.environment]
+  NODE_VERSION = "18"
+
+# Functions directory
+[functions]
+  directory = "netlify/functions"
+
+[functions.node_modules]
+  external_node_modules = ["node-fetch"]
+
 # Force HTTPS - redirect HTTP to HTTPS
 [[redirects]]
   from = "http://mellowsites.com/*"

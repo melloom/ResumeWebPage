@@ -45,8 +45,10 @@ export default defineConfig(({ command }) => {
     },
     resolve: {
       alias: {
-        '@': './src',
-      }
+        '@code-review': '/Users/melvinperalta/Desktop/ResumeWebPage-master/src/code-review',
+        '@': '/Users/melvinperalta/Desktop/ResumeWebPage-master/src',
+      },
+      extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json']
     }
   };
 });

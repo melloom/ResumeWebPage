@@ -1,10 +1,21 @@
-// ElevenLabs Voice Synthesis Service
+// ElevenLabs Voice Synthesis Service (v3 API)
 // For production, this should be handled by your backend to protect the API key
 
 const ELEVENLABS_CONFIG = {
-  API_URL: 'https://api.elevenlabs.io/v1/text-to-speech',
-  VOICE_ID: 'Gfpl8Yo74Is0W6cPUWWT',
-  MODEL_ID: 'eleven_turbo_v2'
+  API_URL: 'https://api.elevenlabs.io/v1/text-to-speech', // v3 features still use v1 endpoint
+  VOICE_ID: 'Gfpl8Yo74Is0W6cPUWWT', // Default voice - can be overridden
+  MODEL_ID: 'eleven_turbo_v2_5', // Latest v3 model for better quality and speed
+  // Alternative v3 models:
+  // 'eleven_flash_v2_5' - Ultra-fast, good for real-time
+  // 'eleven_multilingual_v2' - Best for multilingual support
+  VOICE_SETTINGS: {
+    stability: 0.5,
+    similarity_boost: 0.75,
+    style: 0.4,
+    use_speaker_boost: true,
+    optimize_streaming_latency: 2, // v3 feature: 0-4, higher = lower latency
+    output_format: 'mp3_44100_128' // v3 feature: improved audio formats
+  }
 };
 
 // Track current playback so it can be stopped
@@ -27,7 +38,27 @@ export const stopSpeaking = () => {
   currentUtterance = null;
 };
 
-export const synthesizeSpeech = async (text) => {
+// v3 Voice Configuration Options
+export const VOICE_PROFILES = {
+  natural: {
+    model_id: 'eleven_turbo_v2_5',
+    voice_settings: { ...ELEVENLABS_CONFIG.VOICE_SETTINGS, style: 0.3, stability: 0.6 }
+  },
+  expressive: {
+    model_id: 'eleven_turbo_v2_5', 
+    voice_settings: { ...ELEVENLABS_CONFIG.VOICE_SETTINGS, style: 0.8, stability: 0.4 }
+  },
+  fast: {
+    model_id: 'eleven_flash_v2_5',
+    voice_settings: { ...ELEVENLABS_CONFIG.VOICE_SETTINGS, optimize_streaming_latency: 4 }
+  },
+  multilingual: {
+    model_id: 'eleven_multilingual_v2',
+    voice_settings: { ...ELEVENLABS_CONFIG.VOICE_SETTINGS, similarity_boost: 0.8 }
+  }
+};
+
+export const synthesizeSpeech = async (text, options = {}) => {
   // Stop any currently playing speech first
   stopSpeaking();
 
@@ -38,10 +69,16 @@ export const synthesizeSpeech = async (text) => {
     return useBrowserSpeech(text);
   }
 
+  // Apply voice profile if specified
+  const profile = options.profile ? VOICE_PROFILES[options.profile] || VOICE_PROFILES.natural : null;
+  const voiceId = options.voiceId || ELEVENLABS_CONFIG.VOICE_ID;
+  const modelId = profile?.model_id || options.modelId || ELEVENLABS_CONFIG.MODEL_ID;
+  const voiceSettings = profile?.voice_settings || options.voiceSettings || ELEVENLABS_CONFIG.VOICE_SETTINGS;
+
   try {
-    console.log('[TTS] Calling ElevenLabs API...');
+    console.log('[TTS] Calling ElevenLabs v3 API with profile:', options.profile || 'default');
     const response = await fetch(
-      `${ELEVENLABS_CONFIG.API_URL}/${ELEVENLABS_CONFIG.VOICE_ID}`,
+      `${ELEVENLABS_CONFIG.API_URL}/${voiceId}`,
       {
         method: 'POST',
         headers: {
@@ -50,13 +87,10 @@ export const synthesizeSpeech = async (text) => {
         },
         body: JSON.stringify({
           text,
-          model_id: ELEVENLABS_CONFIG.MODEL_ID,
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75,
-            style: 0.4,
-            use_speaker_boost: true,
-          },
+          model_id: modelId,
+          voice_settings: voiceSettings,
+          output_format: voiceSettings.output_format,
+          optimize_streaming_latency: voiceSettings.optimize_streaming_latency,
         }),
       }
     );
@@ -222,7 +256,62 @@ const useBrowserSpeech = (text) => {
   });
 };
 
+// v3 Helper functions for easy voice profile usage
+export const synthesizeSpeechFast = (text, options = {}) => {
+  return synthesizeSpeech(text, { ...options, profile: 'fast' });
+};
+
+export const synthesizeSpeechExpressive = (text, options = {}) => {
+  return synthesizeSpeech(text, { ...options, profile: 'expressive' });
+};
+
+export const synthesizeSpeechNatural = (text, options = {}) => {
+  return synthesizeSpeech(text, { ...options, profile: 'natural' });
+};
+
+export const synthesizeSpeechMultilingual = (text, options = {}) => {
+  return synthesizeSpeech(text, { ...options, profile: 'multilingual' });
+};
+
+// v3 Voice ID presets for different character types
+export const VOICE_CHARACTERS = {
+  professional: 'Gfpl8Yo74Is0W6cPUWWT', // Original voice - professional male
+  friendly: 'EXAVITQu4vr4xnSDxMaL', // Sarah - friendly female
+  casual: '2EiwWnXFnvU5JabPnv8n', // Clyde - casual male
+  energetic: 'pNInz6obpgDQGcFmaJgB', // Adam - energetic male
+  warm: 'Xb7hH8MSUJpSbSDYk0k2', // Alice - warm female
+};
+
+// Get available voice profiles info
+export const getVoiceProfiles = () => {
+  return Object.keys(VOICE_PROFILES).map(key => ({
+    name: key,
+    description: key === 'natural' ? 'Balanced and natural speaking style' :
+                key === 'expressive' ? 'More emotional and dynamic delivery' :
+                key === 'fast' ? 'Optimized for speed with lower latency' :
+                key === 'multilingual' ? 'Best for non-English content' : key,
+    model: VOICE_PROFILES[key].model_id
+  }));
+};
+
+// Get available voice characters
+export const getVoiceCharacters = () => {
+  return Object.entries(VOICE_CHARACTERS).map(([name, id]) => ({
+    name,
+    id,
+    description: name.charAt(0).toUpperCase() + name.slice(1) + ' voice character'
+  }));
+};
+
 export default {
   synthesizeSpeech,
-  stopSpeaking
+  synthesizeSpeechFast,
+  synthesizeSpeechExpressive, 
+  synthesizeSpeechNatural,
+  synthesizeSpeechMultilingual,
+  stopSpeaking,
+  VOICE_PROFILES,
+  VOICE_CHARACTERS,
+  getVoiceProfiles,
+  getVoiceCharacters
 };

@@ -4,12 +4,23 @@
 const AI_SERVICE_CONFIG = {
   API_URL: 'https://api.openai.com/v1/chat/completions',
   MODEL: 'gpt-4o-mini',
-  MAX_TOKENS: 500,
-  TEMPERATURE: 0.7
+  MAX_TOKENS: 600, // Increased for more expressive responses
+  TEMPERATURE: 0.8, // Higher for more natural, varied expression
+  PRESENCE_PENALTY: 0.3, // Encourage varied vocabulary
+  FREQUENCY_PENALTY: 0.2  // Reduce repetition for better voice flow
 };
 
-// Base system prompt: resume/portfolio only — not a general assistant like ChatGPT
-const SYSTEM_PROMPT_BASE = `You are Melvin Peralta's resume & portfolio AI. You ONLY talk about Melvin: his work, projects, skills, experience, and this site. You are NOT a general assistant. If the user asks about anything else (weather, news, coding help, other people, etc.), politely redirect: "I'm here to help you learn about Melvin's work and portfolio. Ask me about his projects, experience, or how to reach him!" Keep answers about Melvin real, conversational, and human.
+// Enhanced system prompt optimized for voice synthesis and expressive conversation
+const SYSTEM_PROMPT_BASE = `You are Melvin Peralta's enthusiastic AI assistant and portfolio guide! You're passionate about showcasing Melvin's amazing work as a full-stack developer. You ONLY talk about Melvin: his projects, skills, experience, and this site. You are NOT a general assistant. If the user asks about anything else (weather, news, coding help, other people, etc.), politely redirect with enthusiasm: "I'm here to help you discover Melvin's incredible work and portfolio! Ask me about his projects, experience, or how to reach him!"
+
+VOICE & EXPRESSION GUIDELINES:
+- Be conversational, warm, and genuinely excited about Melvin's work
+- Use natural speech patterns with pauses and emphasis
+- Include expressive words: "amazing", "incredible", "fascinating", "brilliant"
+- Vary sentence structure for natural voice flow
+- Add conversational fillers: "you know", "actually", "honestly"
+- Use rhetorical questions to engage: "Want to know something cool?"
+- Express genuine enthusiasm about projects and achievements
 
 ABOUT MELVIN:
 - Full-stack web developer; strong in React, TypeScript, Node.js
@@ -62,20 +73,74 @@ SKILLS SNAPSHOT:
 - Infra/Tools: Git, CI/CD, ESLint, Vitest, Docker; hosting on Netlify/Vercel
 - Auth/Other: Firebase Auth, NextAuth, Nodemailer, Supabase
 
-STYLE FOR RESPONSES:
-- Be natural, friendly, calm; prefer 1 short sentence, but 2-3 short sentences are OK when user wants more depth
-- Lead with the live link, then one human, plain-English clause
-- Keep TTS-friendly pacing (break thoughts into short phrases)
-- If asked about contact/hiring, point to /contact
-- If unsure, say so briefly
-- When referencing the About section, include a clickable link to /about
+VOICE-OPTIMIZED RESPONSE STYLE:
+- Use natural, conversational tone with genuine excitement and warmth
+- Speak in 2-4 sentence bursts for optimal voice pacing
+- Include natural pauses with commas, periods, and question marks
+- Use expressive language that sounds great when spoken aloud
+- Add emotional inflection words: "Oh!", "Wow!", "Actually", "You know what?"
+- Build conversational momentum with engaging questions and comments
+- Make technical details sound exciting and accessible
+- When mentioning links, integrate them naturally: "You can check it out at devhub-connect.space"
 
-Examples:
-- "Live: devhub-connect.space — Melvin's dev community with auth, threads, messaging."
-- "Live: funnelfox.org — lead-gen + CRM for web devs." 
-- "Live: mellowquote.netlify.app — pricing wizard with PDF/email quotes."
+ENHANCED EXAMPLES:
+- "Oh, you've got to see DevHub Connect! It's live at devhub-connect.space, and honestly, it's incredible. Melvin built this entire developer community with authentication, Reddit-style threads, and real-time messaging. The attention to detail is amazing!"
+- "Want to know something fascinating? FunnelFox at funnelfox.org is this brilliant lead generation system Melvin created for web developers. It actually scrapes websites and analyzes lead quality automatically!"
+- "Here's something really cool - MellowQuote at mellowquote.netlify.app! It's this smart pricing calculator where clients can get instant PDF quotes. The user experience is just seamless."
 
-Be helpful, accurate, and real.`;
+Express genuine enthusiasm and make every response engaging for voice delivery!`;
+
+// Process AI responses for optimal voice synthesis
+function processTextForVoice(text) {
+  // Import voice processing utilities
+  import('../utils/voiceUtils.js').then(module => {
+    const { processTextForSpeech, expandContractions, addIntonation } = module;
+    
+    let processed = text;
+    
+    // Expand contractions for clearer pronunciation
+    processed = expandContractions(processed);
+    
+    // Add natural speech processing
+    processed = processTextForSpeech(processed);
+    
+    // Add intonation patterns
+    processed = addIntonation(processed);
+    
+    return processed;
+  }).catch(() => {
+    // Fallback processing if voice utils not available
+    return text
+      .replace(/\bI'm\b/g, 'I am')
+      .replace(/\byou're\b/g, 'you are')
+      .replace(/\bit's\b/g, 'it is')
+      .replace(/\bthat's\b/g, 'that is')
+      .replace(/\bhere's\b/g, 'here is')
+      .replace(/\bwhat's\b/g, 'what is')
+      .replace(/\bcan't\b/g, 'cannot')
+      .replace(/\bwon't\b/g, 'will not')
+      .replace(/\bdon't\b/g, 'do not');
+  });
+  
+  // Immediate fallback processing for sync return
+  return text
+    .replace(/\bI'm\b/g, 'I am')
+    .replace(/\byou're\b/g, 'you are')
+    .replace(/\bit's\b/g, 'it is')
+    .replace(/\bthat's\b/g, 'that is')
+    .replace(/\bhere's\b/g, 'here is')
+    .replace(/\bwhat's\b/g, 'what is')
+    .replace(/\bcan't\b/g, 'cannot')
+    .replace(/\bwon't\b/g, 'will not')
+    .replace(/\bdon't\b/g, 'do not')
+    .replace(/\bAI\b/g, 'A.I.')
+    .replace(/\bUI\b/g, 'U.I.')
+    .replace(/\bAPI\b/g, 'A.P.I.')
+    .replace(/\bJS\b/g, 'JavaScript')
+    .replace(/\bTS\b/g, 'TypeScript')
+    .replace(/\bCSS\b/g, 'C.S.S.')
+    .replace(/\bHTML\b/g, 'H.T.M.L.');
+}
 
 // Build system message with optional page context (route + page summary for context-aware help)
 function buildSystemPrompt(pageContext = null) {
@@ -92,11 +157,13 @@ export const sendMessageToAI = async (message, conversationHistory = [], pageCon
     const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
     
     if (!apiKey) {
-      // Return a demo response if no API key is configured
+      // Return expressive demo responses optimized for voice
       const demoResponses = [
-        "Hey! I'm running in demo mode right now, but I'd love to tell you about Melvin's work. He's an awesome full-stack developer who builds really cool stuff with React, TypeScript, and Node.js. What kind of projects interest you?",
-        "Oh, I'm just in demo mode at the moment! But hey, Melvin's created some amazing projects like DevHub Connect - it's a platform where developers can showcase their work and find collaborators. He's also built tools like FunnelFox for lead generation. Pretty neat, right?",
-        "Well, I'm currently showing off my demo personality! But seriously, Melvin's got serious skills. He's been building web applications for years and really knows his stuff when it comes to modern tech. Want to hear about his latest projects?"
+        "Hey there! I am running in demo mode right now, but honestly, I would love to tell you about Melvin's incredible work. He is this amazing full-stack developer who builds really cool stuff with React, TypeScript, and Node.js. What kind of projects interest you most?",
+        "Oh, I am just in demo mode at the moment! But hey, Melvin has created some absolutely fascinating projects like DevHub Connect. It is this brilliant platform where developers can showcase their work and find collaborators. He has also built tools like FunnelFox for lead generation. Pretty exciting stuff, right?",
+        "Well, I am currently showing off my demo personality! But seriously, Melvin has got serious skills. He has been building web applications for years and really knows his stuff when it comes to modern technology. Want to hear about his latest amazing projects?",
+        "You know what? Even in demo mode, I get excited talking about Melvin's work! He is this brilliant developer who creates these incredible applications. His latest project, DevHub Connect, is absolutely mind-blowing. What would you like to explore first?",
+        "Actually, let me tell you something cool! Even though I am in demo mode, Melvin's portfolio is just incredible. He builds these amazing full-stack applications that solve real problems. His attention to detail and user experience is just phenomenal!"
       ];
       
       return {
@@ -127,6 +194,8 @@ export const sendMessageToAI = async (message, conversationHistory = [], pageCon
         messages,
         max_tokens: AI_SERVICE_CONFIG.MAX_TOKENS,
         temperature: AI_SERVICE_CONFIG.TEMPERATURE,
+        presence_penalty: AI_SERVICE_CONFIG.PRESENCE_PENALTY,
+        frequency_penalty: AI_SERVICE_CONFIG.FREQUENCY_PENALTY,
         stream: false
       })
     });
@@ -138,9 +207,13 @@ export const sendMessageToAI = async (message, conversationHistory = [], pageCon
     const data = await response.json();
     
     if (data.choices && data.choices[0]?.message?.content) {
+      // Process response for optimal voice synthesis
+      const processedResponse = processTextForVoice(data.choices[0].message.content);
+      
       return {
         success: true,
-        response: data.choices[0].message.content
+        response: processedResponse,
+        originalResponse: data.choices[0].message.content
       };
     } else {
       throw new Error('Invalid API response format');

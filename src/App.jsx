@@ -25,6 +25,7 @@ const Contact = lazy(() => import('./pages/Contact'));
 const Projects = lazy(() => import('./pages/Projects'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const AILab = lazy(() => import('./pages/AILab'));
+const CodeReview = lazy(() => import('./pages/CodeReview'));
 
 function AppContent() {
   const { isAuthenticated } = useAuth();
@@ -132,14 +133,19 @@ function AppContent() {
     }
   }, [projects]);
 
+  // Check if we're on the code review page
+  const isCodeReviewPage = location.pathname.startsWith('/code-review');
+
   return (
       <div className="app-container">
         <ThemeProvider>
-        <Header 
-          theme={theme} 
-          toggleTheme={toggleTheme} 
-          onAddProject={handleAddProject}
-        />
+        {!isCodeReviewPage && (
+          <Header 
+            theme={theme} 
+            toggleTheme={toggleTheme} 
+            onAddProject={handleAddProject}
+          />
+        )}
           <Suspense fallback={<PageLoader />}>
             <PageTransition>
               <Routes>
@@ -147,15 +153,20 @@ function AppContent() {
                 <Route path="/about" element={<About />} />
               <Route path="/projects" element={<Projects userProjects={projects} isLoading={isLoadingProjects} onProjectDeleted={handleProjectDeleted} />} />
               <Route path="/ai-lab" element={<AILab />} />
+              <Route path="/code-review/*" element={<CodeReview />} />
                 <Route path="/resume" element={<Resume />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </PageTransition>
           </Suspense>
-          <Footer />
-          <BackToTop />
-          <AIWidget />
+          {!isCodeReviewPage && (
+            <>
+              <Footer />
+              <BackToTop />
+              <AIWidget />
+            </>
+          )}
           <InstallPWA />
         <AdminLoginModal 
           isOpen={isAdminModalOpen} 

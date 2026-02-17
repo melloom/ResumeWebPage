@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaRobot, FaBrain, FaCode, FaPalette, FaDatabase, FaGlobe, FaCogs } from 'react-icons/fa';
 import StackBuilderConsole from './stack-builder/StackBuilderConsole';
 import IdeaMutationLab from './idea-mutation/IdeaMutationLab';
@@ -18,8 +19,8 @@ const labs = [
     title: 'Melvin\'s Code Review Copilot',
     description: 'Deep-dive Melvin\'s repos for quality, style, and optimization opportunities',
     icon: FaCode,
-    status: 'coming-soon',
-    path: '/ai-lab/code-analyzer'
+    status: 'active',
+    path: '/code-review'
   },
   {
     id: 'design-generator',
@@ -59,6 +60,7 @@ const labs = [
 
 const AILabHub = ({ onLaunchChat }) => {
   const [selectedLab, setSelectedLab] = useState(null);
+  const navigate = useNavigate();
 
   const statusWeight = { 'active': 0, 'coming-soon': 1, 'planned': 2 };
   const sortedLabs = [...labs].sort((a, b) => {
@@ -88,11 +90,19 @@ const AILabHub = ({ onLaunchChat }) => {
       <div className={styles.labsGrid}>
         {sortedLabs.map(lab => {
           const Icon = lab.icon;
+          const handleClick = () => {
+            if (lab.id === 'code-analyzer') {
+              navigate('/code-review');
+            } else if (lab.status === 'active') {
+              setSelectedLab(lab);
+            }
+          };
+
           return (
             <div
               key={lab.id}
-              className={`${styles.labCard} ${lab.status === 'active' ? styles.activeCard : ''}`}
-              onClick={() => lab.status === 'active' && setSelectedLab(lab)}
+              className={`${styles.labCard} ${(lab.status === 'active' || lab.id === 'code-analyzer') ? styles.activeCard : ''}`}
+              onClick={handleClick}
             >
               <div className={styles.labIcon}>
                 {Icon ? <Icon /> : null}
