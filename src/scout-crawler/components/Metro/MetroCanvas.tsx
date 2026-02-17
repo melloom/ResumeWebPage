@@ -38,7 +38,7 @@ export function MetroCanvas() {
     <div
       className="flex-1 relative overflow-hidden bg-[var(--canvas-bg)]"
       {...handlers}
-      style={{ touchAction: 'none' }}
+      style={{ touchAction: 'pan-x pan-y pinch-zoom' }}
     >
       {/* Grid pattern */}
       <div

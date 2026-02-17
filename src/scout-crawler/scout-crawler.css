@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 .scout-crawler-root {
+  /* Enable touch gestures and zoom on mobile */
+  touch-action: pan-x pan-y pinch-zoom;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  
   /* Dark theme tokens (default) */
   --bg-primary: #0a0e1a;
   --bg-secondary: #111827;
