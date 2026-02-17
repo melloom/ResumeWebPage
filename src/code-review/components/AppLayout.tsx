@@ -167,7 +167,14 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="flex-1" />
         </header>
 
-        <main className="flex-1 overflow-auto">
+        <main 
+          className="flex-1 overflow-auto"
+          style={{
+            paddingBottom: 'env(safe-area-inset-bottom)',
+            paddingLeft: 'env(safe-area-inset-left)',
+            paddingRight: 'env(safe-area-inset-right)',
+          }}
+        >
           {children}
         </main>
 
