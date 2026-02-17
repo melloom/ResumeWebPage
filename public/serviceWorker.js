@@ -1,7 +1,16 @@
 // Cache names
-const CACHE_NAME = 'melvin-peralta-portfolio-v7'; // Increment version to force cache refresh
+const CACHE_NAME = 'melvin-peralta-portfolio-v8'; // Increment version to force cache refresh
 const RUNTIME_CACHE = 'runtime-cache-v1';
 const OFFLINE_URL = '/offline.html';
+
+// Error handling for service worker
+self.addEventListener('error', (event) => {
+  console.error('Service Worker error:', event.error);
+});
+
+self.addEventListener('unhandledrejection', (event) => {
+  console.error('Service Worker unhandled promise rejection:', event.reason);
+});
 
 // Assets to cache immediately on install
 const ASSETS_TO_CACHE = [
