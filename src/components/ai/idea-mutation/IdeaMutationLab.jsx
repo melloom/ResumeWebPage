@@ -19,9 +19,12 @@ import {
   Copy,
   Check,
   X,
+  Zap,
+  Bot,
 } from 'lucide-react';
 import styles from './IdeaMutationLab.module.css';
 import { generateMutations, regenerateSingleMutation } from './mutationEngine';
+import { generateMutationsAI, regenerateSingleMutationAI, isAIAvailable } from './aiMutationService';
 import MutationNode from './MutationNode';
 import MutationModal from './MutationModal';
 
@@ -47,6 +50,8 @@ const IdeaMutationLab = ({ open, onClose }) => {
   const [filterCompetition, setFilterCompetition] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [aiPowered, setAiPowered] = useState(false);
+  const [aiError, setAiError] = useState(null);
 
   // Load history on mount
   useEffect(() => {
@@ -141,38 +146,66 @@ const IdeaMutationLab = ({ open, onClose }) => {
     setHasGenerated(true);
   }, []);
 
-  const runGeneration = useCallback((sourceIdea) => {
+  const runGeneration = useCallback(async (sourceIdea) => {
     const cleanIdea = (sourceIdea || '').trim();
     if (!cleanIdea || isGenerating) return;
     setIsGenerating(true);
+    setAiError(null);
 
-    setTimeout(() => {
-      const mutations = generateMutations(cleanIdea);
-      setCurrentMutations(mutations);
-      setIdea(cleanIdea);
+    let mutations;
+    let usedAI = false;
 
-      const newHistoryItem = {
-        id: Date.now().toString(),
-        idea: cleanIdea,
-        timestamp: new Date(),
-        mutations,
-      };
-      const newHistory = [newHistoryItem, ...history].slice(0, 10);
-      setHistory(newHistory);
-      persistHistory(newHistory);
+    // Try AI-powered generation first, fall back to local engine
+    if (isAIAvailable()) {
+      try {
+        mutations = await generateMutationsAI({ idea: cleanIdea, count: 5 });
+        usedAI = true;
+      } catch (err) {
+        console.warn('[IdeaMutation] AI generation failed, falling back to local engine:', err.message);
+        setAiError('AI unavailable — using local engine');
+        mutations = generateMutations(cleanIdea);
+      }
+    } else {
+      mutations = generateMutations(cleanIdea);
+    }
 
-      createNodesAndEdges(cleanIdea, mutations);
-      setIsGenerating(false);
-    }, 350);
+    setAiPowered(usedAI);
+    setCurrentMutations(mutations);
+    setIdea(cleanIdea);
+
+    const newHistoryItem = {
+      id: Date.now().toString(),
+      idea: cleanIdea,
+      timestamp: new Date(),
+      mutations,
+      aiPowered: usedAI,
+    };
+    const newHistory = [newHistoryItem, ...history].slice(0, 10);
+    setHistory(newHistory);
+    persistHistory(newHistory);
+
+    createNodesAndEdges(cleanIdea, mutations);
+    setIsGenerating(false);
   }, [createNodesAndEdges, history, isGenerating, persistHistory]);
 
   const handleMutate = useCallback(() => {
     runGeneration(idea);
   }, [runGeneration, idea]);
 
-  const handleRegenerateMutation = (index) => {
+  const handleRegenerateMutation = async (index) => {
     const excludeIdeas = currentMutations.map((m) => m.idea);
-    const newMutation = regenerateSingleMutation(idea, excludeIdeas);
+
+    let newMutation;
+    if (isAIAvailable()) {
+      try {
+        newMutation = await regenerateSingleMutationAI({ idea, excludeIdeas });
+      } catch {
+        newMutation = regenerateSingleMutation(idea, excludeIdeas);
+      }
+    } else {
+      newMutation = regenerateSingleMutation(idea, excludeIdeas);
+    }
+
     const updatedMutations = [...currentMutations];
     updatedMutations[index] = newMutation;
     setCurrentMutations(updatedMutations);
@@ -189,11 +222,14 @@ const IdeaMutationLab = ({ open, onClose }) => {
     setFilterRevenue(null);
     setFilterCompetition(null);
     setShowFilters(false);
+    setAiPowered(false);
+    setAiError(null);
   };
 
   const loadFromHistory = (item) => {
     setIdea(item.idea);
     setCurrentMutations(item.mutations);
+    setAiPowered(!!item.aiPowered);
     createNodesAndEdges(item.idea, item.mutations);
     setShowHistory(false);
   };
@@ -253,8 +289,18 @@ const IdeaMutationLab = ({ open, onClose }) => {
               <Network size={20} />
             </div>
             <div>
-              <div className={styles.title}>Idea Mutation Lab</div>
-              <div className={styles.subtitle}>Generate and map idea variations visually</div>
+              <div className={styles.title}>
+                Idea Mutation Lab
+                {aiPowered && hasGenerated && (
+                  <span className={styles.aiBadge}><Bot size={12} /> AI</span>
+                )}
+              </div>
+              <div className={styles.subtitle}>
+                {isGenerating
+                  ? (isAIAvailable() ? 'AI is generating mutations...' : 'Generating mutations...')
+                  : 'Generate and map idea variations visually'}
+              </div>
+              {aiError && <div className={styles.aiError}>{aiError}</div>}
             </div>
           </div>
 
@@ -292,8 +338,8 @@ const IdeaMutationLab = ({ open, onClose }) => {
             placeholder="Enter your startup idea (e.g., SaaS for restaurant management)"
           />
           <button onClick={handleMutate} disabled={!idea.trim() || isGenerating} className={styles.primaryBtn}>
-            <Sparkles size={16} />
-            {isGenerating ? 'Generating…' : 'Generate Mutations'}
+            {isAIAvailable() ? <Zap size={16} /> : <Sparkles size={16} />}
+            {isGenerating ? 'Generating…' : (isAIAvailable() ? 'AI Generate' : 'Generate Mutations')}
           </button>
           {hasGenerated && (
             <button onClick={handleReset} className={styles.secondaryGhost}>

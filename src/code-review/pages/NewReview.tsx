@@ -37,6 +37,7 @@ import { useToast } from "@code-review/hooks/use-toast";
 import { githubService, GitHubFile } from "@code-review/lib/github";
 import { codeAnalyzer, AnalysisResult } from "@code-review/lib/analyzer";
 import { enhancedCodeAnalyzer } from "@code-review/lib/analyzer-enhanced";
+import { analyzeCodeWithAI, isAIAvailable } from "@code-review/lib/ai-review-service";
 import { WebhookService } from "@code-review/lib/webhooks";
 import { FileUpload } from "@code-review/components/FileUpload";
 import GitHubConnectionStatus from "@code-review/components/GitHubConnectionStatus";
@@ -269,6 +270,21 @@ const NewReview = () => {
     await WebhookService.sendAnalysisStarted('Uploaded Files');
 
     try {
+      // Run AI-powered deep analysis on uploaded files too
+      if (isAIAvailable() && analysisData.parsedFiles) {
+        try {
+          const codeFiles = analysisData.parsedFiles
+            .filter((f: any) => f.content && f.content.length > 0)
+            .map((f: any) => ({ path: f.path, content: f.content }));
+          const aiIssues = await analyzeCodeWithAI(codeFiles, analysisData.issues.length);
+          if (aiIssues.length > 0) {
+            analysisData.issues.push(...aiIssues);
+          }
+        } catch (aiErr) {
+          console.warn('[AI Review] AI analysis failed for uploads, continuing:', aiErr);
+        }
+      }
+
       // Filter issues by enabled categories
       const enabledCategories = Object.entries(categories)
         .filter(([, enabled]) => enabled)
@@ -491,11 +507,26 @@ const NewReview = () => {
 
       // Perform enhanced code analysis with timeout
       const analysisPromise = enhancedCodeAnalyzer.analyzeFiles(files);
-      const timeoutPromise = new Promise((_, reject) => 
+      const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('Analysis timeout - repository too large')), 30000)
       );
-      
+
       const analysisResult = await Promise.race([analysisPromise, timeoutPromise]) as ExtendedAnalysisResult;
+
+      // Run AI-powered deep code analysis in parallel (non-blocking)
+      if (isAIAvailable()) {
+        try {
+          const codeFiles = files
+            .filter((f) => f.content && f.content.length > 0)
+            .map((f) => ({ path: f.path, content: f.content! }));
+          const aiIssues = await analyzeCodeWithAI(codeFiles, analysisResult.issues.length);
+          if (aiIssues.length > 0) {
+            analysisResult.issues.push(...aiIssues);
+          }
+        } catch (aiErr) {
+          console.warn('[AI Review] AI analysis failed, continuing with local results:', aiErr);
+        }
+      }
 
       // Filter issues by enabled categories
       const enabledCategories = Object.entries(categories)

@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { slideInRightVariants, slideUpVariants } from '../../animations';
 import { useStore } from '../../store';
 import { getLineColor } from '../../constants/lines';
 import { Badge, ProgressBar } from '../common';
+import { isAIAvailable, analyzeStationWithAI, analyzeScanWithAI, type AiScanInsights } from '../../engine/ai-analysis';
 import type { Station, Transfer } from '../../types';
 
 function extractMetadata(rawText: string): Array<{ key: string; value: string }> {
@@ -194,6 +195,63 @@ function InspectorContent({ station, lineInfo, color, transfers, currentResult, 
   const confidencePercent = Math.round(station.confidence * 100);
   const confidenceLevel = station.confidence > 0.85 ? 'High' : station.confidence > 0.6 ? 'Medium' : 'Low';
 
+  // AI Station Insight state
+  const [aiInsight, setAiInsight] = useState<string | null>(null);
+  const [aiInsightLoading, setAiInsightLoading] = useState(false);
+  const [aiInsightError, setAiInsightError] = useState(false);
+
+  // AI Scan Analysis state
+  const [scanInsights, setScanInsights] = useState<AiScanInsights | null>(null);
+  const [scanInsightsLoading, setScanInsightsLoading] = useState(false);
+  const [scanInsightsError, setScanInsightsError] = useState(false);
+
+  const fetchStationInsight = useCallback(async () => {
+    if (aiInsightLoading || aiInsight) return;
+    setAiInsightLoading(true);
+    setAiInsightError(false);
+    try {
+      const lineName = currentResult?.lines.find((l) => l.id === station.lineId)?.name || station.lineId;
+      const result = await analyzeStationWithAI({
+        url: currentResult?.url || '',
+        lineName,
+        label: station.label,
+        value: station.value,
+        evidence: station.evidence,
+      });
+      setAiInsight(result);
+    } catch {
+      setAiInsightError(true);
+    } finally {
+      setAiInsightLoading(false);
+    }
+  }, [station, currentResult, aiInsight, aiInsightLoading]);
+
+  const fetchScanInsights = useCallback(async () => {
+    if (scanInsightsLoading || scanInsights) return;
+    setScanInsightsLoading(true);
+    setScanInsightsError(false);
+    try {
+      const result = await analyzeScanWithAI({
+        url: currentResult?.url || '',
+        title: currentResult?.title,
+        lines: currentResult?.lines.map((l) => ({
+          id: l.id,
+          name: l.name,
+          stations: l.stations.map((s) => ({
+            label: s.label,
+            value: s.value,
+            confidence: s.confidence,
+          })),
+        })) || [],
+      });
+      setScanInsights(result);
+    } catch {
+      setScanInsightsError(true);
+    } finally {
+      setScanInsightsLoading(false);
+    }
+  }, [currentResult, scanInsights, scanInsightsLoading]);
+
   return (
     <div className="flex flex-col h-full">
       {/* Color accent bar at top */}
@@ -372,6 +430,45 @@ function InspectorContent({ station, lineInfo, color, transfers, currentResult, 
         </div>
       </div>
 
+      {/* AI Station Insight */}
+      {isAIAvailable() && (
+        <div className="px-4 py-3 border-b border-[var(--border-subtle)]">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-[11px] font-medium text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
+              <svg className="w-3.5 h-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+              AI Insight
+            </p>
+          </div>
+          {!aiInsight && !aiInsightLoading && !aiInsightError && (
+            <button
+              onClick={fetchStationInsight}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 transition-colors cursor-pointer border border-purple-500/20"
+            >
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              Analyze with AI
+            </button>
+          )}
+          {aiInsightLoading && (
+            <div className="flex items-center gap-2 py-1">
+              <div className="w-3.5 h-3.5 border-2 border-purple-400 border-t-transparent rounded-full animate-spin" />
+              <span className="text-[11px] text-[var(--text-muted)]">AI analyzing...</span>
+            </div>
+          )}
+          {aiInsight && (
+            <div className="p-2.5 rounded-lg bg-purple-500/10 border border-purple-500/20">
+              <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">{aiInsight}</p>
+            </div>
+          )}
+          {aiInsightError && (
+            <p className="text-[10px] text-yellow-500/80">AI analysis unavailable</p>
+          )}
+        </div>
+      )}
+
       {/* Related connections */}
       {transfers.length > 0 && (
         <div className="px-4 py-3 border-b border-[var(--border-subtle)]">
@@ -400,6 +497,106 @@ function InspectorContent({ station, lineInfo, color, transfers, currentResult, 
               );
             })}
           </div>
+        </div>
+      )}
+
+      {/* AI Full Scan Analysis */}
+      {isAIAvailable() && currentResult && (
+        <div className="px-4 py-3 border-b border-[var(--border-subtle)]">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-[11px] font-medium text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
+              <svg className="w-3.5 h-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              </svg>
+              AI Site Analysis
+            </p>
+          </div>
+
+          {!scanInsights && !scanInsightsLoading && !scanInsightsError && (
+            <button
+              onClick={fetchScanInsights}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] bg-blue-500/10 text-blue-300 hover:bg-blue-500/20 transition-colors cursor-pointer border border-blue-500/20"
+            >
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              </svg>
+              Full AI Site Analysis
+            </button>
+          )}
+
+          {scanInsightsLoading && (
+            <div className="flex items-center gap-2 py-1">
+              <div className="w-3.5 h-3.5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+              <span className="text-[11px] text-[var(--text-muted)]">AI analyzing full scan...</span>
+            </div>
+          )}
+
+          {scanInsightsError && (
+            <p className="text-[10px] text-yellow-500/80">AI site analysis unavailable</p>
+          )}
+
+          {scanInsights && (
+            <div className="space-y-2.5">
+              {/* Business Summary */}
+              <div className="p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                <p className="text-[10px] font-medium text-blue-300 mb-1">Business</p>
+                <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">{scanInsights.businessSummary}</p>
+              </div>
+
+              {/* Tech Assessment */}
+              {scanInsights.techAssessment && (
+                <div className="p-2.5 rounded-lg bg-[var(--bg-tertiary)]">
+                  <p className="text-[10px] font-medium text-emerald-300 mb-1">Tech Stack</p>
+                  <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">{scanInsights.techAssessment}</p>
+                </div>
+              )}
+
+              {/* SEO Insights */}
+              {scanInsights.seoInsights.length > 0 && (
+                <div className="p-2.5 rounded-lg bg-[var(--bg-tertiary)]">
+                  <p className="text-[10px] font-medium text-amber-300 mb-1">SEO</p>
+                  <div className="space-y-1">
+                    {scanInsights.seoInsights.map((seo, i) => (
+                      <div key={i} className="flex items-start gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1 flex-shrink-0" />
+                        <p className="text-[10px] text-[var(--text-secondary)]">{seo}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Key Findings */}
+              {scanInsights.keyFindings.length > 0 && (
+                <div className="p-2.5 rounded-lg bg-[var(--bg-tertiary)]">
+                  <p className="text-[10px] font-medium text-purple-300 mb-1">Key Findings</p>
+                  <div className="space-y-1">
+                    {scanInsights.keyFindings.map((finding, i) => (
+                      <div key={i} className="flex items-start gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1 flex-shrink-0" />
+                        <p className="text-[10px] text-[var(--text-secondary)]">{finding}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Competitive Notes */}
+              {scanInsights.competitiveNotes.length > 0 && (
+                <div className="p-2.5 rounded-lg bg-[var(--bg-tertiary)]">
+                  <p className="text-[10px] font-medium text-cyan-300 mb-1">Competitive</p>
+                  <div className="space-y-1">
+                    {scanInsights.competitiveNotes.map((note, i) => (
+                      <div key={i} className="flex items-start gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-1 flex-shrink-0" />
+                        <p className="text-[10px] text-[var(--text-secondary)]">{note}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
 

@@ -12,6 +12,12 @@ import {
   Folder,
   File,
   X,
+  Bot,
+  Sparkles,
+  Shield,
+  ThumbsUp,
+  Lightbulb,
+  Layers,
 } from "lucide-react";
 import { Button } from "@code-review/components/ui/button";
 import {
@@ -38,6 +44,12 @@ import {
   type ReviewIssue,
   type Review,
 } from "@code-review/lib/types";
+import {
+  isAIAvailable,
+  generateReviewInsights,
+  getAISuggestion,
+  type AiReviewInsights,
+} from "@code-review/lib/ai-review-service";
 
 const severityConfig: Record<
   Severity,
@@ -61,6 +73,27 @@ function SeverityBadge({ severity }: { severity: Severity }) {
 function IssueCard({ issue, reviewId }: { issue: ReviewIssue; reviewId: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [codeSnippet, setCodeSnippet] = useState<string[]>([]);
+  const [aiSuggestion, setAiSuggestion] = useState<string | null>(null);
+  const [aiSuggestionLoading, setAiSuggestionLoading] = useState(false);
+
+  const fetchAISuggestion = async () => {
+    if (aiSuggestion || aiSuggestionLoading || !isAIAvailable()) return;
+    setAiSuggestionLoading(true);
+    try {
+      const result = await getAISuggestion({
+        title: issue.title,
+        description: issue.description,
+        file: issue.file,
+        line: issue.line,
+        codeSnippet: codeSnippet.join('\n'),
+      });
+      setAiSuggestion(result);
+    } catch {
+      setAiSuggestion('AI suggestion unavailable.');
+    } finally {
+      setAiSuggestionLoading(false);
+    }
+  };
 
   // Fetch code snippet when modal opens
   const fetchActualCode = async () => {
@@ -192,7 +225,37 @@ function IssueCard({ issue, reviewId }: { issue: ReviewIssue; reviewId: string }
                 <p className="text-sm font-mono text-code-foreground">{issue.suggestion}</p>
               </div>
             </div>
-            
+
+            {/* AI-Enhanced Suggestion */}
+            {isAIAvailable() && (
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <h5 className="font-medium text-sm flex items-center gap-1.5">
+                    <Bot className="h-3.5 w-3.5 text-purple-400" /> AI Fix Suggestion
+                  </h5>
+                  {!aiSuggestion && !aiSuggestionLoading && (
+                    <button
+                      onClick={fetchAISuggestion}
+                      className="text-xs text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1"
+                    >
+                      <Sparkles className="h-3 w-3" /> Generate
+                    </button>
+                  )}
+                </div>
+                {aiSuggestionLoading && (
+                  <div className="flex items-center gap-2 p-3 rounded-md bg-purple-500/5 border border-purple-500/20">
+                    <div className="animate-spin rounded-full h-3.5 w-3.5 border-2 border-purple-400 border-t-transparent" />
+                    <span className="text-xs text-muted-foreground">AI is analyzing this issue...</span>
+                  </div>
+                )}
+                {aiSuggestion && (
+                  <div className="rounded-md bg-purple-500/5 border border-purple-500/20 p-3">
+                    <p className="text-sm text-foreground/90 whitespace-pre-wrap">{aiSuggestion}</p>
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="grid grid-cols-3 gap-2 text-xs">
               <div className="rounded bg-background p-2 text-center">
                 <p className="text-muted-foreground">Category</p>
@@ -349,6 +412,175 @@ function FileTree({ issues, onFileSelect, selectedFile }: {
         <p className="text-sm text-muted-foreground text-center py-4">No files analyzed</p>
       )}
     </div>
+  );
+}
+
+function AIInsightsPanel({ review }: { review: Review }) {
+  const [insights, setInsights] = useState<AiReviewInsights | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState(true);
+
+  const fetchInsights = async () => {
+    if (insights || loading) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await generateReviewInsights({
+        score: review.score,
+        totalIssues: review.totalIssues || 0,
+        critical: review.critical,
+        warnings: review.warnings,
+        improvements: review.improvements,
+        issues: review.issues.slice(0, 30),
+        languageStats: review.languageStats,
+        recommendations: review.recommendations,
+        linesOfCode: review.linesOfCode,
+      });
+      setInsights(result);
+    } catch (err) {
+      setError('AI analysis unavailable');
+      console.warn('AI insights failed:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Auto-fetch on mount
+  useEffect(() => {
+    if (isAIAvailable()) {
+      fetchInsights();
+    }
+  }, [review.id]);
+
+  if (!isAIAvailable()) return null;
+
+  return (
+    <Card className="glass-card border-purple-500/20 bg-gradient-to-r from-purple-500/5 to-blue-500/5">
+      <CardHeader className="pb-3 cursor-pointer" onClick={() => setExpanded(!expanded)}>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2 text-base">
+            <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-purple-500/20">
+              <Bot className="h-4 w-4 text-purple-400" />
+            </div>
+            AI Insights
+            <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-[10px] gap-1">
+              <Sparkles className="h-2.5 w-2.5" /> GPT-4o
+            </Badge>
+          </CardTitle>
+          <ChevronRight className={`h-4 w-4 text-muted-foreground transition-transform ${expanded ? 'rotate-90' : ''}`} />
+        </div>
+      </CardHeader>
+
+      {expanded && (
+        <CardContent className="space-y-4">
+          {loading && (
+            <div className="flex items-center gap-3 py-4">
+              <div className="animate-spin rounded-full h-5 w-5 border-2 border-purple-400 border-t-transparent" />
+              <span className="text-sm text-muted-foreground">AI is analyzing your code review...</span>
+            </div>
+          )}
+
+          {error && (
+            <p className="text-sm text-yellow-500/80">{error}</p>
+          )}
+
+          {insights && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-4"
+            >
+              {/* Summary */}
+              <div className="p-3 rounded-lg bg-background/50 border border-border/30">
+                <p className="text-sm leading-relaxed text-foreground/90">{insights.summary}</p>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                {/* Priority Fixes */}
+                {insights.priorityFixes.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                      <Lightbulb className="h-3.5 w-3.5 text-amber-400" /> Priority Fixes
+                    </h4>
+                    <div className="space-y-1.5">
+                      {insights.priorityFixes.map((fix, i) => (
+                        <div key={i} className="flex items-start gap-2 text-sm">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 text-[10px] font-bold flex items-center justify-center mt-0.5">
+                            {i + 1}
+                          </span>
+                          <span className="text-foreground/80">{fix}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Architecture Insights */}
+                {insights.architectureInsights.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                      <Layers className="h-3.5 w-3.5 text-blue-400" /> Architecture
+                    </h4>
+                    <div className="space-y-1.5">
+                      {insights.architectureInsights.map((insight, i) => (
+                        <div key={i} className="flex items-start gap-2 text-sm">
+                          <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0" />
+                          <span className="text-foreground/80">{insight}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Security Notes */}
+                {insights.securityNotes.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                      <Shield className="h-3.5 w-3.5 text-red-400" /> Security
+                    </h4>
+                    <div className="space-y-1.5">
+                      {insights.securityNotes.map((note, i) => (
+                        <div key={i} className="flex items-start gap-2 text-sm">
+                          <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5 flex-shrink-0" />
+                          <span className="text-foreground/80">{note}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Positives */}
+                {insights.positives.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+                      <ThumbsUp className="h-3.5 w-3.5 text-emerald-400" /> Strengths
+                    </h4>
+                    <div className="space-y-1.5">
+                      {insights.positives.map((pos, i) => (
+                        <div key={i} className="flex items-start gap-2 text-sm">
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
+                          <span className="text-foreground/80">{pos}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+
+          {!loading && !insights && !error && (
+            <button
+              onClick={fetchInsights}
+              className="flex items-center gap-2 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+            >
+              <Sparkles className="h-4 w-4" /> Generate AI Insights
+            </button>
+          )}
+        </CardContent>
+      )}
+    </Card>
   );
 }
 
@@ -610,6 +842,9 @@ const ReviewResults = () => {
           </Card>
         ))}
       </div>
+
+      {/* AI Insights */}
+      <AIInsightsPanel review={review} />
 
       <div className="grid gap-4 lg:grid-cols-4">
         {/* File tree */}
