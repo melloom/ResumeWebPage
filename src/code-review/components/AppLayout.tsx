@@ -72,7 +72,16 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="relative flex min-h-screen bg-background">
+    <div 
+      className="relative flex min-h-screen"
+      style={{
+        background: 'linear-gradient(to bottom, hsl(225 25% 8%), hsl(225 20% 11%))',
+        paddingTop: 'env(safe-area-inset-top)',
+        paddingLeft: 'env(safe-area-inset-left)',
+        paddingRight: 'env(safe-area-inset-right)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+      }}
+    >
       {/* Safe-area / notch background overlay */}
       <div
         aria-hidden
