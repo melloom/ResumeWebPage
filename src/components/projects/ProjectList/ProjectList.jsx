@@ -26,6 +26,16 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
   // Static projects data - moved outside component to prevent recreation
   const staticProjects = useMemo(() => [
     {
+      id: 19,
+      title: 'CodeGuardian',
+      description: 'AI-Powered Code Review & Debugging Platform - An intelligent platform designed to streamline code review and debugging processes using artificial intelligence to help developers identify and resolve code issues more efficiently.',
+      image: '/Codeguard.png',
+      technologies: ['JavaScript', 'React', 'AI/ML', 'Node.js', 'Netlify', 'Firebase'],
+      link: 'https://thecodeguard.netlify.app',
+      github: 'https://github.com/melloom/code-guardian',
+      category: 'Tools'
+    },
+    {
       id: 18,
       title: 'DevHub Connect',
       description: 'A modern developer community platform to showcase projects, discover collaborators, and keep the conversation going. Features an immersive landing experience, Firebase authentication, project discovery, Reddit-style community threads, realtime comments, messaging, feedback endpoints with Nodemailer, and a security-first middleware layer. Responsive UI with dark/light theming support.',
@@ -148,9 +158,9 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
     },
     {
       id: 6,
-      title: 'Personal Portfolio',
+      title: 'mellowsites',
       description: 'My personal portfolio website built with React, showcasing my skills, experience, and projects. Features a modern, responsive design with dark/light mode and smooth animations.',
-      image: '/screenshots/portfolio-portfolio-thumbnail.png',
+      image: '/mellowsites_melvin_peralta_fixed.png',
       technologies: ['React', 'Vite', 'CSS Modules', 'Netlify'],
       link: 'https://melvinworks.netlify.app',
       github: 'https://github.com/melloom/my-resume-website',
@@ -200,7 +210,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       id: 11,
       title: 'Would You Rather Survival',
       description: 'A chilling local horror adventure game where an all-knowing AI tests your survival instincts through impossible choices. Features psychological horror, adaptive AI personalities, and multiple game modes.',
-      image: '/screenshots/would-you-rather-survival-thumbnail.png',
+      image: '/would you rather.png',
       technologies: ['JavaScript', 'React', 'CSS3', 'Vite'],
       link: 'https://wouldyouratherio.netlify.app',
       github: 'https://github.com/melloom/adventure-game',

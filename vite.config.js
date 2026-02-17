@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -45,8 +46,8 @@ export default defineConfig(({ command }) => {
     },
     resolve: {
       alias: {
-        '@code-review': '/Users/melvinperalta/Desktop/ResumeWebPage-master/src/code-review',
-        '@': '/Users/melvinperalta/Desktop/ResumeWebPage-master/src',
+        '@code-review': path.resolve(__dirname, 'src/code-review'),
+        '@': path.resolve(__dirname, 'src'),
       },
       extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json']
     }
