@@ -31,6 +31,10 @@ export function InspectorToggle() {
         transition-all duration-300
         ${inspectorOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}
       `}
+      style={{
+        top: 'max(0.75rem, env(safe-area-inset-top))',
+        right: 'max(0.75rem, env(safe-area-inset-right))',
+      }}
       title={inspectorOpen ? 'Close inspector' : 'Open inspector'}
     >
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

@@ -17,6 +17,10 @@ export function ScanOverlay() {
           exit={{ opacity: 0, y: 12 }}
           transition={{ type: 'spring', stiffness: 280, damping: 26 }}
           className="pointer-events-none fixed bottom-6 right-6 z-30"
+          style={{
+            bottom: 'max(1.5rem, env(safe-area-inset-bottom))',
+            right: 'max(1.5rem, env(safe-area-inset-right))',
+          }}
         >
           <div className="pointer-events-auto w-72 rounded-2xl bg-[var(--panel)] shadow-xl border border-white/5 backdrop-blur-md px-4 py-3 space-y-3">
             <div className="flex items-center gap-3">
