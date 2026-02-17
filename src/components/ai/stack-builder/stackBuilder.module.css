@@ -5,11 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* PWA Safe Area Support */
-  padding-top: max(24px, env(safe-area-inset-top));
-  padding-left: max(24px, env(safe-area-inset-left));
-  padding-right: max(24px, env(safe-area-inset-right));
-  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding: 24px;
 }
 
 .backdrop {
