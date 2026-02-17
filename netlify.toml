@@ -12,7 +12,7 @@
   directory = "netlify/functions"
 
 [functions.node_modules]
-  external_node_modules = ["node-fetch"]
+  external_node_modules = ["node-fetch", "nodemailer"]
 
 # Force HTTPS - redirect HTTP to HTTPS
 [[redirects]]
