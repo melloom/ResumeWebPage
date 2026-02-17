@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import {
   FaBriefcase, FaBuilding, FaCalendarAlt, FaMapMarkerAlt, FaMedal
@@ -12,9 +11,7 @@ import styles from './Experience.module.css';
 const ExperienceModal = lazy(() => import('./ExperienceModal'));
 
 const Experience = React.forwardRef((props, forwardedRef) => {
-  // Animation control for scroll reveal
-  const controls = useAnimation();
-  const [inViewRef, inView] = useInView({
+  const [inViewRef] = useInView({
     threshold: 0.1,
     triggerOnce: true
   });
@@ -57,20 +54,6 @@ const Experience = React.forwardRef((props, forwardedRef) => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  // Animation effect based on view
-  useEffect(() => {
-    if (inView) {
-      controls.start(i => ({
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: 0.5,
-          delay: 0.1 + (i * 0.1)
-        }
-      }));
-    }
-  }, [controls, inView]);
 
   // Mouse event handlers
   const handleMouseEnter = useCallback((jobId) => {
@@ -139,33 +122,6 @@ const Experience = React.forwardRef((props, forwardedRef) => {
     setHasError(false);
   }, []);
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08
-      }
-    }
-  };
-
-  // Fix the syntax error in cardVariants - missing closing brace
-  const cardVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: i => ({
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        delay: i * 0.08,
-        mass: 1
-      }
-    }) // Fixed by adding proper closing braces
-  };
-
   if (hasError) {
     return (
       <section ref={setRefs} className={styles.experience} id="experience">
@@ -185,11 +141,8 @@ const Experience = React.forwardRef((props, forwardedRef) => {
     >
       <div className={styles.backgroundGradient}></div>
       <div className="container">
-        <motion.div
+        <div
           className={styles.sectionHeader}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
         >
           <h2 className={styles.sectionTitle}>
             <span className={styles.titleIcon}><FaBriefcase /></span>
@@ -199,19 +152,14 @@ const Experience = React.forwardRef((props, forwardedRef) => {
           <p className={styles.sectionSubtitle}>
             My journey building exceptional client relationships and driving revenue growth
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           className={styles.experienceGrid}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
         >
           {experienceData.map((job, index) => (
-            <motion.div
+            <div
               key={job.id}
-              custom={index}
-              variants={cardVariants}
               className={`${styles.experienceCard} ${hoveredJob === job.id ? styles.hovered : ''}`}
               onMouseEnter={() => handleMouseEnter(job.id)}
               onMouseLeave={handleMouseLeave}
@@ -273,9 +221,9 @@ const Experience = React.forwardRef((props, forwardedRef) => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* View Full Resume Button */}
         <div className={styles.viewResumeContainer}>

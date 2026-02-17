@@ -5,7 +5,7 @@ export const educationData = [
     degree: "MBA in Business Administration and Management",
     period: "2023 - Present",
     location: "Arnold, MD",
-    status: "In Progress",
+    status: "Graduated",
     description: "Pursuing a comprehensive business education with focus on organizational leadership and strategic management. Specializing in sales optimization, client relationship management, and business development strategies.",
     achievements: [
       "Dean's List 2023-2024",
@@ -31,7 +31,7 @@ export const educationData = [
     degree: "Technical Certification",
     period: "2018 - 2020",
     location: "Severn, Maryland",
-    status: "Completed",
+    status: "Graduated",
     description: "Completed specialized technical education focused on practical skills and career preparation. Gained comprehensive training in business technology, client management systems, and professional communication.",
     achievements: [
       "Technical Excellence Award recipient",

@@ -8,7 +8,7 @@ const AboutMe = React.forwardRef((_, ref) => {
   // const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   // InView hook for animation triggers
-  const [inViewRef, inView] = useInView({
+  const [inViewRef] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
@@ -183,14 +183,7 @@ const AboutMe = React.forwardRef((_, ref) => {
             <h3 className={styles.strengthsTitle}>Core Strengths</h3>
 
             <div className={styles.strengthsGrid}>
-              <div
-                className={styles.strengthCard}
-                style={{
-                  opacity: inView ? 1 : 0,
-                  transform: inView ? 'translateY(0)' : 'translateY(30px)',
-                  transition: 'opacity 0.5s ease-out 0.1s, transform 0.5s ease-out 0.1s'
-                }}
-              >
+              <div className={styles.strengthCard}>
                 <div className={styles.cardIcon}>
                   <FaRocket />
                 </div>
@@ -200,14 +193,7 @@ const AboutMe = React.forwardRef((_, ref) => {
                 </p>
               </div>
 
-              <div
-                className={styles.strengthCard}
-                style={{
-                  opacity: inView ? 1 : 0,
-                  transform: inView ? 'translateY(0)' : 'translateY(30px)',
-                  transition: 'opacity 0.5s ease-out 0.2s, transform 0.5s ease-out 0.2s'
-                }}
-              >
+              <div className={styles.strengthCard}>
                 <div className={styles.cardIcon}>
                   <FaHandshake />
                 </div>
@@ -217,14 +203,7 @@ const AboutMe = React.forwardRef((_, ref) => {
                 </p>
               </div>
 
-              <div
-                className={styles.strengthCard}
-                style={{
-                  opacity: inView ? 1 : 0,
-                  transform: inView ? 'translateY(0)' : 'translateY(30px)',
-                  transition: 'opacity 0.5s ease-out 0.3s, transform 0.5s ease-out 0.3s'
-                }}
-              >
+              <div className={styles.strengthCard}>
                 <div className={styles.cardIcon}>
                   <FaChartLine />
                 </div>
@@ -234,14 +213,7 @@ const AboutMe = React.forwardRef((_, ref) => {
                 </p>
               </div>
 
-              <div
-                className={styles.strengthCard}
-                style={{
-                  opacity: inView ? 1 : 0,
-                  transform: inView ? 'translateY(0)' : 'translateY(30px)',
-                  transition: 'opacity 0.5s ease-out 0.4s, transform 0.5s ease-out 0.4s'
-                }}
-              >
+              <div className={styles.strengthCard}>
                 <div className={styles.cardIcon}>
                   <FaUsers />
                 </div>

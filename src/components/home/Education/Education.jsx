@@ -58,7 +58,7 @@ const Education = () => {
   const modalRef = useRef(null);
 
   // Intersection observer for animation triggers
-  const { ref, inView } = useInView({
+  const { ref } = useInView({
     threshold: 0.1,
     triggerOnce: true,
     rootMargin: '150px 0px', // Start loading earlier
@@ -74,31 +74,6 @@ const Education = () => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  // Animation variants
-  const sectionVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: isMobile ? 0.2 : 0.4,
-        staggerChildren: isMobile ? 0.05 : (lowPerformance ? 0.1 : 0.15),
-        delayChildren: isMobile ? 0 : 0.2
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: isMobile ? 10 : 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: isMobile ? 0.2 : 0.3,
-        ease: "easeOut"
-      }
-    }
-  };
 
   // Enhanced modal handling
   const openSchoolModal = useCallback((school, e) => {
@@ -220,11 +195,8 @@ const Education = () => {
       <div className={styles.educationGlow}></div>
 
       <div className="container">
-        <motion.div
+        <div
           className={styles.sectionHeader}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.7 }}
         >
           <h2 className={styles.sectionTitle}>Education & Training</h2>
           <div className={styles.titleDecoration}>
@@ -235,29 +207,20 @@ const Education = () => {
           <p className={styles.sectionSubtitle}>
             My academic journey and professional development path
           </p>
-        </motion.div>
+        </div>
 
         {/* Education Grid */}
-        <motion.div
+        <div
           className={styles.educationGrid}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          variants={sectionVariants}
         >
           {educationData.map((school, index) => (
-            <motion.div
+            <div
               key={school.id}
-              custom={index}
-              variants={cardVariants}
               className={styles.educationCard + " " + styles.educationCardEnhanced}
               style={{ '--card-color': school.color }}
             >
               <div className={styles.cardInner}>
                 <div className={styles.cardHeader}>
-                  <div className={styles.statusBadge}>
-                    {school.status}
-                  </div>
-
                   {/* Picture box for school image */}
                   <div className={styles.schoolImageContainer}>
                     {imageErrors[school.id] ? (
@@ -309,6 +272,9 @@ const Education = () => {
                 </div>
 
                 <div className={styles.cardFooter}>
+                  <span className={styles.statusBadge}>
+                    {school.status}
+                  </span>
                   <button
                     className={styles.detailsButton}
                     onClick={(e) => openSchoolModal(school, e)}
@@ -317,9 +283,9 @@ const Education = () => {
                   </button>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Certifications & Honors Section */}
         <div className={styles.certificationsSection}>

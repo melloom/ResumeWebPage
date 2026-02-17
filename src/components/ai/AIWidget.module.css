@@ -396,27 +396,27 @@ body.contact-page .overlay {
   .overlay {
     align-items: flex-end;
     justify-content: stretch;
-    padding: 0 0.5rem;
+    padding: 0;
   }
 
   .card {
     max-width: 100%;
     width: 100%;
-    max-height: 55vh;
-    min-height: 280px;
-    border-radius: 18px 18px 0 0;
+    max-height: 42vh;
+    min-height: 220px;
+    border-radius: 16px 16px 0 0;
   }
 
   .overlayVisible .card {
-    height: 55vh;
+    height: 42vh;
   }
 
   .cardHeader {
-    padding: 0.6rem 0.85rem;
+    padding: 0.5rem 0.75rem;
   }
 
   .cardTitle {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .cardClose {
@@ -432,34 +432,68 @@ body.contact-page .overlay {
   }
 
   .chips {
-    padding: 0.35rem 0.65rem;
-    gap: 0.25rem;
+    padding: 0.3rem 0.6rem;
+    gap: 0.2rem;
   }
 
   .chip {
-    padding: 0.2rem 0.5rem;
-    font-size: 0.6rem;
+    padding: 0.18rem 0.45rem;
+    font-size: 0.58rem;
   }
 
   .chatWrap {
-    padding: 0 0.5rem 0.5rem;
+    padding: 0 0.4rem 0.4rem;
   }
 
   .fab {
-    bottom: 1rem;
-    right: 1rem;
+    bottom: 0.75rem;
+    right: 0.75rem;
     left: auto;
-    padding: 0.6rem 0.95rem 0.6rem 0.75rem;
-    font-size: 0.8rem;
+    padding: 0.5rem 0.85rem 0.5rem 0.65rem;
+    font-size: 0.75rem;
+    gap: 0.35rem;
   }
 
   body.resume-page .fab,
   body.contact-page .fab {
-    left: 1rem;
+    left: 0.75rem;
     right: auto;
   }
 
   .fabIcon {
-    font-size: 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* PWA standalone mode — even smaller widget */
+@media (max-width: 480px) and (display-mode: standalone) {
+  .card {
+    max-height: 38vh;
+    min-height: 200px;
+  }
+
+  .overlayVisible .card {
+    height: 38vh;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .card {
+    max-height: 40vh;
+    min-height: 200px;
+  }
+
+  .overlayVisible .card {
+    height: 40vh;
+  }
+
+  .fab {
+    padding: 0.45rem 0.7rem 0.45rem 0.55rem;
+    font-size: 0.7rem;
+  }
+
+  .fabLabel {
+    display: none;
   }
 }

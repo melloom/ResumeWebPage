@@ -150,17 +150,15 @@
   }
 
   .statusBadge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
     background: var(--card-color, var(--primary-color, #6366f1));
     color: white;
     font-size: 0.75rem;
     font-weight: 600;
     padding: 4px 10px;
     border-radius: 20px;
-    z-index: 3;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .schoolImageContainer {
@@ -276,7 +274,10 @@
   .cardFooter {
     padding: 1rem 1.25rem;
     border-top: 1px solid rgba(99, 102, 241, 0.1);
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
   }
 
   .detailsButton {

@@ -253,28 +253,111 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
+  .labHub {
+    padding: 24px 16px;
+  }
+
+  .header {
+    margin-bottom: 32px;
+  }
+
   .header h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
-  
+
   .header p {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
-  
+
   .labsGrid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 16px;
   }
-  
+
   .labCard {
-    padding: 20px;
+    padding: 18px;
+  }
+
+  .labIcon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+    margin-bottom: 14px;
+  }
+
+  .labInfo h3 {
+    font-size: 1.15rem;
+  }
+
+  .labInfo p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
   }
 
   .modalContent {
-    padding: 30px 20px;
+    padding: 24px 16px;
+    width: 95%;
+    max-width: 420px;
   }
 
   .stackBuilderGrid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .labHub {
+    padding: 16px 12px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+  }
+
+  .labCard {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .labIcon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  .labInfo h3 {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+
+  .labInfo p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .statusBadge {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+
+  .modalContent {
+    width: 96%;
+    padding: 20px 14px;
+    border-radius: 14px;
+  }
+
+  .launchButton {
+    padding: 12px 20px;
+    font-size: 0.9rem;
   }
 }
