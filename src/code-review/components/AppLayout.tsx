@@ -72,16 +72,24 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div
-      className="flex min-h-screen bg-background"
-      style={{
-        background: 'linear-gradient(180deg, hsl(220 20% 97%), hsl(220 15% 94%))',
-        paddingTop: 'env(safe-area-inset-top)',
-        paddingLeft: 'env(safe-area-inset-left)',
-        paddingRight: 'env(safe-area-inset-right)',
-        paddingBottom: 'env(safe-area-inset-bottom)',
-      }}
-    >
+    <div className="relative flex min-h-screen bg-background">
+      {/* Safe-area / notch background overlay */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background: 'linear-gradient(180deg, hsl(220 20% 97%), hsl(220 15% 94%))',
+        }}
+      />
+      {/* Explicit top safe-area strip to fill iOS notch */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed top-0 left-0 right-0 z-10"
+        style={{
+          height: 'env(safe-area-inset-top)',
+          background: 'hsl(220 20% 97%)',
+        }}
+      />
       {/* Mobile overlay */}
       <AnimatePresence>
         {sidebarOpen && (
