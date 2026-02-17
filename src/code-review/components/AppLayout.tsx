@@ -181,7 +181,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Main content */}
       <div className="flex flex-1 flex-col">
         <header 
-          className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-background/95 backdrop-blur-sm px-4"
+          className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-background/95 backdrop-blur-sm px-4 lg:relative lg:top-auto lg:z-auto"
           style={{
             top: 'env(safe-area-inset-top)',
             left: 'env(safe-area-inset-left)',
