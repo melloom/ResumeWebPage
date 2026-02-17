@@ -68,8 +68,34 @@ button:focus-visible {
   right: 0;
   bottom: 0;
   background: linear-gradient(to bottom, hsl(220 20% 97%), hsl(220 15% 94%));
-  z-index: -1;
+  z-index: 1;
   pointer-events: none;
+}
+
+/* Additional CodeReview safe area fix */
+.code-review-root {
+  position: relative;
+}
+
+.code-review-root::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: hsl(220 20% 97%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Direct body override for CodeReview pages */
+body:has(.code-review-root) {
+  background: linear-gradient(to bottom, hsl(220 20% 97%), hsl(220 15% 94%)) !important;
+}
+
+body:has(.code-review-root)::before {
+  background: linear-gradient(to bottom, hsl(220 20% 97%), hsl(220 15% 94%)) !important;
 }
 
 @media (prefers-color-scheme: light) {
