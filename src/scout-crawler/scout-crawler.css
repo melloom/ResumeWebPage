@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scout-crawler-root {
+  /* Dark theme tokens (default) */
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #111827;
+  --bg-tertiary: #1f2937;
+  --bg-surface: #1a1f2e;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border: #374151;
+  --border-subtle: #1f2937;
+  --accent: #818cf8;
+  --accent-hover: #6366f1;
+  --canvas-bg: #0a0e1a;
+  --canvas-grid: #1a1f2e;
+  --glow-opacity: 0.6;
+  --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --input-bg: #1f2937;
+  --input-border: #374151;
+  --input-focus: #818cf8;
+  --badge-bg: rgba(129,140,248,0.15);
+  --badge-text: #818cf8;
+  --scrollbar-track: #111827;
+  --scrollbar-thumb: #374151;
+}
+
+.scout-crawler-root * {
+  box-sizing: border-box;
+}
+
+.scout-crawler-root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Scrollbar styling scoped to scout-crawler */
+.scout-crawler-root ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scout-crawler-root ::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+.scout-crawler-root ::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+.scout-crawler-root ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

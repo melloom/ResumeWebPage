@@ -8,7 +8,8 @@ export function useTheme() {
 
   useEffect(() => {
     const tokens = theme === 'dark' ? darkTokens : lightTokens;
-    const root = document.documentElement;
+    const root = document.querySelector('.scout-crawler-root') as HTMLElement | null;
+    if (!root) return;
     for (const [key, value] of Object.entries(tokens)) {
       root.style.setProperty(key, value);
     }

@@ -50,11 +50,11 @@ const labs = [
   },
   {
     id: 'web-scraper',
-    title: 'Scout Crawler',
-    description: 'Gather research and competitive intel to inform Melvin\'s next build',
+    title: 'Metascan',
+    description: 'Website intelligence tool for analyzing site structure and extracting metadata',
     icon: FaGlobe,
-    status: 'planned',
-    path: '/ai-lab/scraper'
+    status: 'active',
+    path: '/scout-crawler'
   }
 ];
 
@@ -93,6 +93,8 @@ const AILabHub = ({ onLaunchChat }) => {
           const handleClick = () => {
             if (lab.id === 'code-analyzer') {
               navigate('/code-review');
+            } else if (lab.id === 'web-scraper') {
+              navigate('/scout-crawler');
             } else if (lab.status === 'active') {
               setSelectedLab(lab);
             }
@@ -101,7 +103,7 @@ const AILabHub = ({ onLaunchChat }) => {
           return (
             <div
               key={lab.id}
-              className={`${styles.labCard} ${(lab.status === 'active' || lab.id === 'code-analyzer') ? styles.activeCard : ''}`}
+              className={`${styles.labCard} ${(lab.status === 'active' || lab.id === 'code-analyzer' || lab.id === 'web-scraper') ? styles.activeCard : ''}`}
               onClick={handleClick}
             >
               <div className={styles.labIcon}>

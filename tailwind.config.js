@@ -3,7 +3,9 @@ module.exports = {
   darkMode: ["class"],
   content: [
     "./src/code-review/**/*.{ts,tsx,js,jsx}",
+    "./src/scout-crawler/**/*.{ts,tsx,js,jsx}",
     "./src/pages/CodeReview.jsx",
+    "./src/pages/ScoutCrawler.jsx",
   ],
   prefix: "",
   theme: {

@@ -26,6 +26,7 @@ const Projects = lazy(() => import('./pages/Projects'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const AILab = lazy(() => import('./pages/AILab'));
 const CodeReview = lazy(() => import('./pages/CodeReview'));
+const ScoutCrawler = lazy(() => import('./pages/ScoutCrawler'));
 
 function AppContent() {
   const { isAuthenticated } = useAuth();
@@ -135,11 +136,13 @@ function AppContent() {
 
   // Check if we're on the code review page
   const isCodeReviewPage = location.pathname.startsWith('/code-review');
+  const isScoutCrawlerPage = location.pathname.startsWith('/scout-crawler');
+  const isFullScreenPage = isCodeReviewPage || isScoutCrawlerPage;
 
   return (
       <div className="app-container">
         <ThemeProvider>
-        {!isCodeReviewPage && (
+        {!isFullScreenPage && (
           <Header 
             theme={theme} 
             toggleTheme={toggleTheme} 
@@ -154,13 +157,14 @@ function AppContent() {
               <Route path="/projects" element={<Projects userProjects={projects} isLoading={isLoadingProjects} onProjectDeleted={handleProjectDeleted} />} />
               <Route path="/ai-lab" element={<AILab />} />
               <Route path="/code-review/*" element={<CodeReview />} />
+              <Route path="/scout-crawler" element={<ScoutCrawler />} />
                 <Route path="/resume" element={<Resume />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </PageTransition>
           </Suspense>
-          {!isCodeReviewPage && (
+          {!isFullScreenPage && (
             <>
               <Footer />
               <BackToTop />

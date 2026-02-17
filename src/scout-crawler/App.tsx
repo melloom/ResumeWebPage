@@ -9,8 +9,9 @@ import { MetroCanvas } from './components/Metro';
 import { Inspector } from './components/Inspector';
 import { InspectorToggle } from './components/Inspector';
 import type { ScanStatus } from './types';
+import './scout-crawler.css';
 
-export default function App() {
+export default function ScoutCrawlerApp() {
   useTheme();
 
   const setScanStatus = useStore((s) => s.setScanStatus);
@@ -89,7 +90,7 @@ export default function App() {
   }, [selectStation]);
 
   return (
-    <div className="h-screen w-screen flex overflow-hidden bg-[var(--bg-primary)] text-[var(--text-primary)]">
+    <div className="scout-crawler-root h-screen w-screen flex overflow-hidden bg-[var(--bg-primary)] text-[var(--text-primary)]">
       <Sidebar
         onScan={handleScan}
         onSelectDemo={handleSelectDemo}
