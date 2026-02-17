@@ -96,7 +96,7 @@
   width: 100%;
   padding: 0 2rem; /* Add horizontal padding */
   box-sizing: border-box;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   flex-wrap: wrap; /* Add this to prevent squishing */
 }
@@ -110,7 +110,7 @@
 }
 
 .title {
-  font-size: 3.5rem;
+  font-size: 4rem;
   font-weight: 800;
   margin-bottom: 1rem;
   background: linear-gradient(to right, #fff, #e0e7ff);
@@ -122,7 +122,7 @@
 }
 
 .description {
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 2.5rem;
@@ -252,7 +252,7 @@
 
 /* Add these styles to properly constrain the image */
 .image {
-  max-width: 300px;
+  max-width: 350px;
   height: auto;
   position: relative;
   margin: 0 auto;
