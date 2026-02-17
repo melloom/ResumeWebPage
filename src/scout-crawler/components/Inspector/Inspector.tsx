@@ -161,6 +161,10 @@ export function Inspector() {
               bg-[var(--bg-secondary)] border-t border-[var(--border)]
               rounded-t-2xl
             "
+            style={{
+              touchAction: 'pan-y',
+              WebkitOverflowScrolling: 'touch',
+            }}
           >
             <div className="w-10 h-1 rounded-full bg-[var(--border)] mx-auto mt-2 mb-1" />
             <InspectorContent
@@ -253,7 +257,7 @@ function InspectorContent({ station, lineInfo, color, transfers, currentResult, 
   }, [currentResult, scanInsights, scanInsightsLoading]);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full" style={{ touchAction: 'pan-y' }}>
       {/* Color accent bar at top */}
       <div className="h-1 w-full" style={{ backgroundColor: color }} />
 
