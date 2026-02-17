@@ -138,6 +138,7 @@ function AppContent() {
   const isCodeReviewPage = location.pathname.startsWith('/code-review');
   const isScoutCrawlerPage = location.pathname.startsWith('/scout-crawler');
   const isFullScreenPage = isCodeReviewPage || isScoutCrawlerPage;
+  const isAILabChat = location.pathname === '/ai-lab' && location.hash === '#chat';
 
   return (
       <div className="app-container">
@@ -168,9 +169,9 @@ function AppContent() {
             <>
               <Footer />
               <BackToTop />
-              <AIWidget />
             </>
           )}
+          {!isAILabChat && <AIWidget />}
           <InstallPWA />
         <AdminLoginModal 
           isOpen={isAdminModalOpen} 

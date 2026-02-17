@@ -328,9 +328,8 @@ const AIChat = forwardRef((props, ref) => {
         if (path) onSuggestNavigation(path);
       }
 
-      // Always speak if voice is enabled and we're in voice chat mode
-      // Use voiceChatMode state OR voiceActiveRef — either means voice session
-      const shouldSpeak = voiceEnabled && (voiceActiveRef.current || voiceChatMode);
+      // Speak if voice is enabled (for both voice mode and text input)
+      const shouldSpeak = voiceEnabled;
       if (shouldSpeak) {
         // Re-activate voice if it was lost during processing
         if (!voiceActiveRef.current) {
@@ -340,7 +339,7 @@ const AIChat = forwardRef((props, ref) => {
         console.log('[Voice] AI responded, speaking now...');
         speakMessage(responseContent);
       } else {
-        console.log('[Voice] AI responded, no voice mode active');
+        console.log('[Voice] AI responded, voice is disabled');
         resumeListening();
       }
     } catch (error) {

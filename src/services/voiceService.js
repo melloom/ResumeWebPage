@@ -3,7 +3,7 @@
 
 const ELEVENLABS_CONFIG = {
   API_URL: 'https://api.elevenlabs.io/v1/text-to-speech', // v3 features still use v1 endpoint
-  VOICE_ID: 'Gfpl8Yo74Is0W6cPUWWT', // Default voice - can be overridden
+  VOICE_ID: 'EXAVITQu4vr4xnSDxMaL', // Sarah - friendly female voice (v3)
   MODEL_ID: 'eleven_turbo_v2_5', // Latest v3 model for better quality and speed
   // Alternative v3 models:
   // 'eleven_flash_v2_5' - Ultra-fast, good for real-time
@@ -275,8 +275,8 @@ export const synthesizeSpeechMultilingual = (text, options = {}) => {
 
 // v3 Voice ID presets for different character types
 export const VOICE_CHARACTERS = {
+  friendly: 'EXAVITQu4vr4xnSDxMaL', // Sarah - friendly female (default)
   professional: 'Gfpl8Yo74Is0W6cPUWWT', // Original voice - professional male
-  friendly: 'EXAVITQu4vr4xnSDxMaL', // Sarah - friendly female
   casual: '2EiwWnXFnvU5JabPnv8n', // Clyde - casual male
   energetic: 'pNInz6obpgDQGcFmaJgB', // Adam - energetic male
   warm: 'Xb7hH8MSUJpSbSDYk0k2', // Alice - warm female

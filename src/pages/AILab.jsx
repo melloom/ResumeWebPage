@@ -5,7 +5,25 @@ import { FaArrowLeft } from 'react-icons/fa';
 import styles from './AILab.module.css';
 
 const AILab = () => {
-  const [currentView, setCurrentView] = useState('hub'); // 'hub' or 'chat'
+  // Use hash to determine view - default to hub
+  const [currentView, setCurrentView] = useState(() => {
+    return window.location.hash === '#chat' ? 'chat' : 'hub';
+  });
+
+  // Update hash when view changes
+  useEffect(() => {
+    window.location.hash = currentView === 'chat' ? '#chat' : '';
+  }, [currentView]);
+
+  // Listen for hash changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      const newView = window.location.hash === '#chat' ? 'chat' : 'hub';
+      setCurrentView(newView);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   // Scroll to top once on mount
   useEffect(() => {
