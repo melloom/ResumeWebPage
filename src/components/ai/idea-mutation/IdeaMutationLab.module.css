@@ -14,7 +14,7 @@
 
 .shell {
   width: min(1280px, 96vw);
-  height: min(92vh, 900px);
+  height: min(100vh, 900px);
   background: rgba(10, 14, 26, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 20px;
