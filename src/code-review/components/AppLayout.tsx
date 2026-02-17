@@ -72,7 +72,16 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div
+      className="flex min-h-screen bg-background"
+      style={{
+        background: 'linear-gradient(180deg, hsl(220 20% 97%), hsl(220 15% 94%))',
+        paddingTop: 'env(safe-area-inset-top)',
+        paddingLeft: 'env(safe-area-inset-left)',
+        paddingRight: 'env(safe-area-inset-right)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+      }}
+    >
       {/* Mobile overlay */}
       <AnimatePresence>
         {sidebarOpen && (

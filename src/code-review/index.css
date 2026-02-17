@@ -5,6 +5,25 @@
 @tailwind utilities;
 
 @layer base {
+  /* Ensure safe area / notch is filled when on CodeReview pages */
+  body:has(.code-review-root) {
+    background: linear-gradient(180deg, hsl(220 20% 97%), hsl(220 15% 94%)) !important;
+    color: hsl(var(--foreground)) !important;
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  body:has(.code-review-root)::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, hsl(220 20% 97%), hsl(220 15% 94%));
+    z-index: -1;
+    pointer-events: none;
+  }
+
   :root {
     --background: 220 20% 97%;
     --foreground: 220 25% 10%;
