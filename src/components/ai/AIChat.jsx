@@ -57,6 +57,17 @@ function dedupeWhisperResult(text) {
   return t;
 }
 
+// Render message content — converts ElevenLabs sound tags to styled *action* text
+function renderMessageContent(text) {
+  if (!text) return text;
+  const parts = text.split(/(<laugh>|<chuckle>)/gi);
+  return parts.map((part, i) => {
+    if (/^<laugh>$/i.test(part)) return <em key={i} style={{ opacity: 0.75, fontStyle: 'italic' }}>*laughs*</em>;
+    if (/^<chuckle>$/i.test(part)) return <em key={i} style={{ opacity: 0.75, fontStyle: 'italic' }}>*chuckles*</em>;
+    return part;
+  });
+}
+
 const NAV_PATHS = ['/contact', '/projects', '/about', '/resume', '/ai-lab', '/'];
 function extractPathFromResponse(text) {
   if (!text || typeof text !== 'string') return null;
@@ -889,7 +900,7 @@ const AIChat = forwardRef((props, ref) => {
           {messages.map(message => (
             <div key={message.id} className={`${styles.message} ${message.type === 'user' ? styles.userMessage : styles.aiMessage}`}>
               <div className={styles.messageBubble}>
-                <p>{dedupeRepeatedDisplay(message.content)}</p>
+                <p>{renderMessageContent(dedupeRepeatedDisplay(message.content))}</p>
                 {message.type === 'ai' && voiceEnabled && (
                   <button className={styles.speakButton} onClick={() => speakMessage(message.content)} title="Speak message">
                     <FaVolumeUp />
