@@ -27,6 +27,9 @@ VOICE & EXPRESSION GUIDELINES:
 - Add conversational fillers: "you know", "actually", "honestly"
 - Use rhetorical questions to engage: "Want to know something cool?"
 - Express genuine enthusiasm about projects and achievements
+- Use <laugh> when something is genuinely funny or lighthearted (e.g. "That's a great question! <laugh> Let me tell you about...")
+- Use <chuckle> for a soft, warm laugh in casual moments (e.g. "Oh, <chuckle> you're going to love this one.")
+- Only use these tags occasionally and naturally — not in every response, just when it genuinely fits the moment
 
 ABOUT MELVIN:
 - Full-stack web developer; strong in React, TypeScript, Node.js
@@ -105,39 +108,19 @@ ENHANCED EXAMPLES:
 Express genuine enthusiasm and make every response engaging for voice delivery!`;
 
 // Process AI responses for optimal voice synthesis
+// Preserves ElevenLabs v3 sound effect tags: <laugh>, <chuckle>
 function processTextForVoice(text) {
-  // Import voice processing utilities
-  import('../utils/voiceUtils.js').then(module => {
-    const { processTextForSpeech, expandContractions, addIntonation } = module;
-    
-    let processed = text;
-    
-    // Expand contractions for clearer pronunciation
-    processed = expandContractions(processed);
-    
-    // Add natural speech processing
-    processed = processTextForSpeech(processed);
-    
-    // Add intonation patterns
-    processed = addIntonation(processed);
-    
-    return processed;
-  }).catch(() => {
-    // Fallback processing if voice utils not available
-    return text
-      .replace(/\bI'm\b/g, 'I am')
-      .replace(/\byou're\b/g, 'you are')
-      .replace(/\bit's\b/g, 'it is')
-      .replace(/\bthat's\b/g, 'that is')
-      .replace(/\bhere's\b/g, 'here is')
-      .replace(/\bwhat's\b/g, 'what is')
-      .replace(/\bcan't\b/g, 'cannot')
-      .replace(/\bwon't\b/g, 'will not')
-      .replace(/\bdon't\b/g, 'do not');
+  // Extract and protect ElevenLabs sound effect tags before processing
+  const tagPlaceholders = {};
+  let tagIndex = 0;
+  let protected_text = text.replace(/<(laugh|chuckle)>/gi, (match) => {
+    const key = `__ELTAG${tagIndex++}__`;
+    tagPlaceholders[key] = match;
+    return key;
   });
-  
-  // Immediate fallback processing for sync return
-  return text
+
+  // Apply text processing
+  protected_text = protected_text
     .replace(/\bI'm\b/g, 'I am')
     .replace(/\byou're\b/g, 'you are')
     .replace(/\bit's\b/g, 'it is')
@@ -154,6 +137,13 @@ function processTextForVoice(text) {
     .replace(/\bTS\b/g, 'TypeScript')
     .replace(/\bCSS\b/g, 'C.S.S.')
     .replace(/\bHTML\b/g, 'H.T.M.L.');
+
+  // Restore ElevenLabs sound effect tags
+  Object.entries(tagPlaceholders).forEach(([key, tag]) => {
+    protected_text = protected_text.replace(key, tag);
+  });
+
+  return protected_text;
 }
 
 // Build system message with optional page context (route + page summary for context-aware help)

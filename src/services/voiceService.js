@@ -2,19 +2,16 @@
 // For production, this should be handled by your backend to protect the API key
 
 const ELEVENLABS_CONFIG = {
-  API_URL: 'https://api.elevenlabs.io/v1/text-to-speech', // v3 features still use v1 endpoint
-  VOICE_ID: 'EXAVITQu4vr4xnSDxMaL', // Sarah - friendly female voice (v3)
-  MODEL_ID: 'eleven_turbo_v2_5', // Latest v3 model for better quality and speed
-  // Alternative v3 models:
-  // 'eleven_flash_v2_5' - Ultra-fast, good for real-time
-  // 'eleven_multilingual_v2' - Best for multilingual support
+  API_URL: 'https://api.elevenlabs.io/v1/text-to-speech',
+  VOICE_ID: 'EXAVITQu4vr4xnSDxMaL', // Sarah - friendly female voice
+  MODEL_ID: 'eleven_multilingual_v2', // Best expressiveness + supports <laugh>/<chuckle> sound effects
   VOICE_SETTINGS: {
-    stability: 0.5,
+    stability: 0.35,          // Lower = more expressive, human-like variation
     similarity_boost: 0.75,
-    style: 0.4,
+    style: 0.75,              // High style for personality and emotion
     use_speaker_boost: true,
-    optimize_streaming_latency: 2, // v3 feature: 0-4, higher = lower latency
-    output_format: 'mp3_44100_128' // v3 feature: improved audio formats
+    optimize_streaming_latency: 2,
+    output_format: 'mp3_44100_128'
   }
 };
 
