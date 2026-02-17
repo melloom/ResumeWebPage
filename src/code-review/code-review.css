@@ -5,13 +5,6 @@
 @tailwind utilities;
 
 .code-review-root {
-  /* PWA Safe Area Support */
-  padding-top: env(safe-area-inset-top);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  padding-bottom: env(safe-area-inset-bottom);
-  
-  /* Ensure safe area has background */
   background-color: hsl(var(--background));
   
   --background: 220 20% 97%;
