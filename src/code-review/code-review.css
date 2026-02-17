@@ -5,6 +5,8 @@
 @tailwind utilities;
 
 .code-review-root {
+  /* PWA Safe Area Support - Top only to prevent content under notch */
+  padding-top: env(safe-area-inset-top);
   
   --background: 220 20% 97%;
   --foreground: 220 25% 10%;

@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 .scout-crawler-root {
+  /* PWA Safe Area Support - Top only to prevent content under notch */
+  padding-top: env(safe-area-inset-top);
   
   /* Dark theme tokens (default) */
   --bg-primary: #0a0e1a;
