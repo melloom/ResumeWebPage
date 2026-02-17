@@ -87,6 +87,11 @@ export function Sidebar({ onScan, onSelectDemo, onSelectStation }: Props) {
           bg-[var(--bg-secondary)] border-r border-[var(--border)]
           flex flex-col overflow-hidden
         "
+        style={{
+          top: 'env(safe-area-inset-top)',
+          left: 'env(safe-area-inset-left)',
+          height: 'calc(100% - env(safe-area-inset-top))',
+        }}
       >
         {/* Header */}
         <div className="px-4 py-4 flex items-center justify-between border-b border-[var(--border)]">
