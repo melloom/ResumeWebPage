@@ -12,6 +12,7 @@ export function UrlInput({ onScan }: Props) {
   const scanStatus = useStore((s) => s.scanStatus);
   const scanProgress = useStore((s) => s.scanProgress);
   const scanError = useStore((s) => s.scanError);
+  const setSidebarOpen = useStore((s) => s.setSidebarOpen);
 
   const isScanning = scanStatus !== 'idle' && scanStatus !== 'done' && scanStatus !== 'error';
 
@@ -19,6 +20,10 @@ export function UrlInput({ onScan }: Props) {
     e.preventDefault();
     if (!url.trim() || isScanning) return;
     onScan(url.trim());
+    // Auto-collapse sidebar on mobile after starting scan
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false);
+    }
   };
 
   return (

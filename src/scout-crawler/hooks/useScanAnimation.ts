@@ -5,6 +5,7 @@ export function useScanAnimation() {
   const setAnimationPhase = useStore((s) => s.setAnimationPhase);
   const currentResult = useStore((s) => s.currentResult);
   const timeoutsRef = useRef<number[]>([]);
+  const setSidebarOpen = useStore((s) => s.setSidebarOpen);
 
   const startAnimation = useCallback(() => {
     // Clear any pending phase transitions
@@ -13,6 +14,11 @@ export function useScanAnimation() {
 
     console.log('Starting animation sequence...');
     console.log('Current result lines:', currentResult?.lines?.length || 0);
+    
+    // Auto-collapse sidebar on mobile when animation starts
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false);
+    }
     
     // Start with lines phase immediately
     setAnimationPhase('lines');
@@ -71,6 +77,20 @@ export function useScanAnimation() {
       timeoutsRef.current.forEach(clearTimeout);
     };
   }, []);
+
+  // Handle window resize - auto-collapse sidebar on mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [setSidebarOpen]);
 
   return { startAnimation, skipAnimation };
 }

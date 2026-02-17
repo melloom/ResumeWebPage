@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useStore } from '../../store';
 
 interface Props {
   onSelectDemo: (demoId: string) => void;
@@ -11,6 +12,16 @@ const DEMOS = [
 ];
 
 export function DemoSelector({ onSelectDemo }: Props) {
+  const setSidebarOpen = useStore((s) => s.setSidebarOpen);
+  
+  const handleSelectDemo = (demoId: string) => {
+    onSelectDemo(demoId);
+    // Auto-collapse sidebar on mobile after selecting a demo
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false);
+    }
+  };
+
   return (
     <div className="px-4 py-2">
       <p className="text-[11px] font-medium text-[var(--text-muted)] uppercase tracking-wider mb-2">
@@ -20,7 +31,7 @@ export function DemoSelector({ onSelectDemo }: Props) {
         {DEMOS.map((demo) => (
           <motion.button
             key={demo.id}
-            onClick={() => onSelectDemo(demo.id)}
+            onClick={() => handleSelectDemo(demo.id)}
             whileHover={{ x: 4 }}
             whileTap={{ scale: 0.98 }}
             className="
