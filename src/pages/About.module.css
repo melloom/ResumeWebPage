@@ -4,6 +4,7 @@
   width: 100%;
   position: relative;
   overflow: hidden;
+  padding: calc(80px + env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(60px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
 }
 
 .section {
