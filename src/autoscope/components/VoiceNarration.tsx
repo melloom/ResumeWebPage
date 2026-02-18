@@ -62,7 +62,14 @@ const SENTENCES: string[] = cleanText
   .map(s => s.trim())
   .filter(s => s.length > 0);
 
-const TOTAL_WORDS = SENTENCES.reduce((n, s) => n + s.split(/\s+/).length, 0);
+// Character-based timing: longer sentences get proportionally more time
+const SENT_CHARS = SENTENCES.map(s => s.length + 1); // +1 for inter-sentence gap
+const TOTAL_CHARS = SENT_CHARS.reduce((a, b) => a + b, 0);
+// Cumulative end-position (in chars) for each sentence
+const SENT_END: number[] = SENT_CHARS.reduce((acc: number[], c) => {
+  acc.push((acc[acc.length - 1] ?? 0) + c);
+  return acc;
+}, []);
 
 // ─── Component ───────────────────────────────────────────────────────────────
 interface VoiceNarrationProps {
@@ -96,10 +103,12 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
       const ct = audio.currentTime;
       setCurrentTime(ct);
 
-      // Map audio position → word index → sentence index
-      const wordIdx  = Math.min(Math.floor((ct / dur) * TOTAL_WORDS), TOTAL_WORDS - 1);
-      const ratio    = Math.min(wordIdx / TOTAL_WORDS, 0.9999);
-      const sentIdx  = Math.min(Math.floor(ratio * SENTENCES.length), SENTENCES.length - 1);
+      // Character-based sentence lookup — longer sentences get more time
+      const charPos = (ct / dur) * TOTAL_CHARS;
+      let sentIdx = SENTENCES.length - 1;
+      for (let i = 0; i < SENT_END.length; i++) {
+        if (charPos <= SENT_END[i]) { sentIdx = i; break; }
+      }
       setActiveSentenceIdx(sentIdx);
 
       if (isPlayingRef.current) rafRef.current = requestAnimationFrame(tick);
@@ -231,7 +240,7 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
               padding: '0 24px',
             }}
           >
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', maxWidth: '640px', textAlign: 'center', marginBottom: '100px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', maxWidth: '640px', textAlign: 'center' }}>
 
               <AnimatePresence mode="wait">
                 {prev && (
