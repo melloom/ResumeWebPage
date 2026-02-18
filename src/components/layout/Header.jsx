@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaFileAlt, FaEnvelope, FaUser, FaCode, FaShareAlt, FaSignOutAlt, FaPlus, FaBlog, FaRobot, FaShieldAlt, FaCrosshairs } from 'react-icons/fa';
+import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaFileAlt, FaEnvelope, FaUser, FaCode, FaShareAlt, FaSignOutAlt, FaPlus, FaBlog, FaRobot, FaShieldAlt } from 'react-icons/fa';
 import { preloadRouteComponent } from '../../utils/routePreloader';
 import ShareButton from '../common/ShareButton';
 import { useAuth } from '../../context/AuthContext';
@@ -191,16 +191,6 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
               </li>
               <li className={styles.navItem}>
                 <Link
-                  to="/autoscope"
-                  className={`${styles.navLink} ${isActive('/autoscope') ? styles.active : ''}`}
-                  onMouseEnter={() => handleLinkHover('/autoscope')}
-                  onFocus={() => handleLinkHover('/autoscope')}
-                >
-                  <FaCrosshairs className={styles.navIcon} /> AutoScope
-                </Link>
-              </li>
-              <li className={styles.navItem}>
-                <Link
                   to="/resume"
                   className={`${styles.navLink} ${isActive('/resume') ? styles.active : ''}`}
                   onMouseEnter={() => handleLinkHover('/resume')}
@@ -350,14 +340,6 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                   className={`${styles.sidebarLink} ${isActive('/ai-lab') ? styles.active : ''}`}
                 >
                   <FaRobot className={styles.sidebarIcon} /> AI Lab
-                </Link>
-              </li>
-              <li className={styles.sidebarItem}>
-                <Link
-                  to="/autoscope"
-                  className={`${styles.sidebarLink} ${isActive('/autoscope') ? styles.active : ''}`}
-                >
-                  <FaCrosshairs className={styles.sidebarIcon} /> AutoScope
                 </Link>
               </li>
               <li className={styles.sidebarItem}>

@@ -104,6 +104,7 @@ interface VoiceNarrationProps {
 const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [activeSentenceIdx, setActiveSentenceIdx] = useState(-1);
@@ -136,71 +137,28 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
     cancelAnimationFrame(rafRef.current);
   }, []);
 
-  // ─── Browser speech ────────────────────────────────────────────────────────
-  const playBrowser = useCallback(() => {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(lifeStoryClean);
-    const voices = speechSynthesis.getVoices();
-    utterance.voice =
-      voices.find(v => /daniel|alex|arthur|fred/i.test(v.name) && v.lang.startsWith('en')) ||
-      voices.find(v => v.lang.startsWith('en-US')) ||
-      voices[0] || null;
-    utterance.rate = 0.88;
-    utterance.pitch = 0.72;
-    utterance.volume = isMuted ? 0 : 1.0;
-
-    // onboundary fires at every word — charIndex lets us know exact sentence
-    utterance.onboundary = (e) => {
-      if (e.name === 'word') {
-        setActiveSentenceIdx(sentenceFromChar(e.charIndex));
-      }
-    };
-    utterance.onend = () => {
-      setIsPlaying(false);
-      isPlayingRef.current = false;
-      setActiveSentenceIdx(-1);
-      onNarrationChange?.(false);
-    };
-    utterance.onerror = () => {
-      setIsPlaying(false);
-      isPlayingRef.current = false;
-      setActiveSentenceIdx(-1);
-      onNarrationChange?.(false);
-    };
-
-    setActiveSentenceIdx(0);
-    speechSynthesis.speak(utterance);
-    setIsPlaying(true);
-    isPlayingRef.current = true;
-    onNarrationChange?.(true);
-  }, [isMuted, onNarrationChange]);
-
-  // ─── ElevenLabs: start browser immediately, generate in background ─────────
+  // ─── ElevenLabs generation (no fallback — waits as long as needed) ────────
   const generateAudio = async () => {
     setHasTriedGenerate(true);
-    playBrowser(); // instant — zero wait
-    if (elevenLabsService.isConfigured()) {
-      const timeout = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('timeout')), 15000)
-      );
-      try {
-        const blob = await Promise.race([
-          elevenLabsService.generateVoiceAudio(lifeStoryRaw),
-          timeout,
-        ]) as Blob;
-        setAudioUrl(URL.createObjectURL(blob));
-      } catch (_err) {
-        // ElevenLabs timed out or failed — browser speech is already playing
-      }
+    setIsLoading(true);
+    try {
+      const blob = await elevenLabsService.generateVoiceAudio(lifeStoryRaw);
+      setAudioUrl(URL.createObjectURL(blob));
+    } catch (_err) {
+      // Generation failed — reset so user can try again
+      setHasTriedGenerate(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Auto-play ElevenLabs when URL becomes available
+  // Auto-play as soon as ElevenLabs audio URL is ready
   useEffect(() => {
     if (!audioUrl || !audioRef.current) return;
     audioRef.current.play().then(() => {
       setIsPlaying(true);
       isPlayingRef.current = true;
+      setActiveSentenceIdx(0);
       startRAF();
       onNarrationChange?.(true);
     }).catch(() => {});
@@ -208,6 +166,7 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
 
   // ─── Toggle play / pause ───────────────────────────────────────────────────
   const togglePlay = async () => {
+    if (isLoading) return; // already generating
     if (audioUrl && audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -226,16 +185,6 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
     }
     if (!hasTriedGenerate) {
       generateAudio();
-      return;
-    }
-    if (isPlaying) {
-      window.speechSynthesis.cancel();
-      setIsPlaying(false);
-      isPlayingRef.current = false;
-      setActiveSentenceIdx(-1);
-      onNarrationChange?.(false);
-    } else {
-      playBrowser();
     }
   };
 
@@ -248,7 +197,6 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
 
   useEffect(() => () => {
     stopRAF();
-    window.speechSynthesis?.cancel();
     if (audioUrl) URL.revokeObjectURL(audioUrl);
   }, [audioUrl, stopRAF]);
 
@@ -351,15 +299,18 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
         </div>
 
         <span className="text-xs text-white/65 font-medium whitespace-nowrap select-none">
-          {isPlaying ? 'Narrating' : 'Hear My Story'}
+          {isLoading ? 'Generating...' : isPlaying ? 'Narrating' : 'Hear My Story'}
         </span>
 
         <button
           onClick={togglePlay}
+          disabled={isLoading}
           aria-label={isPlaying ? 'Pause' : 'Play'}
-          className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 transition-colors flex-shrink-0"
+          className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 transition-colors disabled:opacity-50 flex-shrink-0"
         >
-          {isPlaying ? (
+          {isLoading ? (
+            <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          ) : isPlaying ? (
             <Pause className="w-3.5 h-3.5 text-white" />
           ) : (
             <Play className="w-3.5 h-3.5 text-white" />
