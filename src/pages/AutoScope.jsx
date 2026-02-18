@@ -12,7 +12,7 @@ const AutoScope = () => {
   useEffect(() => {
     const audio = new Audio(MUSIC_URL);
     audio.loop = true;
-    audio.volume = 0.09;
+    audio.volume = 0.12;
     musicRef.current = audio;
 
     const tryPlay = () => {
