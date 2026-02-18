@@ -144,6 +144,22 @@ self.addEventListener('fetch', (event) => {
               return caches.match(OFFLINE_URL);
             }
             
+            // For image requests that fail, return a transparent pixel
+            if (event.request.destination === 'image') {
+              return new Response('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==', {
+                status: 200,
+                headers: { 'Content-Type': 'image/png' }
+              });
+            }
+            
+            // For script requests that fail, try to return a basic response
+            if (event.request.destination === 'script') {
+              return new Response('console.warn("Script failed to load, ServiceWorker fallback");', {
+                status: 200,
+                headers: { 'Content-Type': 'application/javascript' }
+              });
+            }
+            
             return new Response('Network error happened', {
               status: 408,
               headers: { 'Content-Type': 'text/plain' }
