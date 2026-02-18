@@ -2548,8 +2548,13 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
         )}
       </div>
 
-      {/* ── Voice narration pill — bottom-center ── */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
+      {/* ── Voice narration pill — bottom-center with safe area ── */}
+      <div 
+        className="absolute left-1/2 -translate-x-1/2 z-20"
+        style={{
+          bottom: 'max(1.5rem, env(safe-area-inset-bottom) + 1rem)'
+        }}
+      >
         <VoiceNarration onNarrationChange={onNarrationChange} />
       </div>
     </div>
