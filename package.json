@@ -105,7 +105,8 @@
     "favicons": "node scripts/copy-favicon-to-root.js",
     "generate-icons": "node scripts/generate-icons.js",
     "push": "git add . && git commit -m \"update\" && git push origin master && npm run build && netlify deploy --prod --dir=dist",
-    "proxy": "node proxy-server.js"
+    "proxy": "node proxy-server.js",
+    "generate-narration": "node scripts/generate-narration.js"
   },
   "browserslist": {
     "production": [

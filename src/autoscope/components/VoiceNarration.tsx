@@ -134,18 +134,33 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
 
   const stopRAF = useCallback(() => cancelAnimationFrame(rafRef.current), []);
 
-  // ─── Generate both chunks in parallel ─────────────────────────────────────
+  // ─── Load audio — static files first, API fallback ────────────────────────
   const generate = async () => {
-    if (!elevenLabsService.isConfigured()) {
-      setErrorMsg('ElevenLabs API key not set. Add VITE_ELEVENLABS_API_KEY to your .env file.');
-      return;
-    }
     setStarted(true);
     setIsLoading(true);
     setErrorMsg(null);
 
     try {
-      // Generate both parts in parallel — part 1 is shorter so it arrives first
+      // Try pre-generated static files first (zero quota cost, instant load)
+      const [r1, r2] = await Promise.all([
+        fetch('/narration-1.mp3'),
+        fetch('/narration-2.mp3'),
+      ]);
+
+      if (r1.ok && r2.ok) {
+        const [b1, b2] = await Promise.all([r1.blob(), r2.blob()]);
+        setUrl1(URL.createObjectURL(b1));
+        setUrl2(URL.createObjectURL(b2));
+        return;
+      }
+
+      // Static files not found — fall back to ElevenLabs API
+      if (!elevenLabsService.isConfigured()) {
+        setErrorMsg('Voice narration is currently down — come back later!');
+        setStarted(false);
+        return;
+      }
+
       const [blob1, blob2] = await Promise.all([
         elevenLabsService.generateVoiceAudio(lifeStoryRaw),
         elevenLabsService.generateVoiceAudio(lifeStoryRaw2),
