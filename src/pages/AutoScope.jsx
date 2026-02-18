@@ -9,10 +9,12 @@ const AutoScope = () => {
   const musicRef = useRef(null);
   const blobUrlRef = useRef(null);
 
-  // Load music via fetch (avoids browser URI issues with spaces/parens in filename)
+  // Enhanced music loading for PWA compatibility
   useEffect(() => {
     let cancelled = false;
     let audio = null;
+    let playAttempts = 0;
+    const MAX_ATTEMPTS = 3;
 
     const loadAndPlay = async () => {
       try {
@@ -25,21 +27,74 @@ const AutoScope = () => {
         audio = new Audio(blobUrl);
         audio.loop = true;
         audio.volume = 0.06;
+        audio.muted = false; // Ensure unmuted
+        audio.preload = 'auto';
+        
+        // Set audio attributes for better PWA compatibility
+        audio.setAttribute('playsinline', '');
+        audio.setAttribute('webkit-playsinline', '');
+        
         musicRef.current = audio;
 
-        audio.play().catch(() => {
-          const unlock = () => {
-            audio.play().catch(() => {});
-            document.removeEventListener('click', unlock);
-            document.removeEventListener('touchstart', unlock);
-            document.removeEventListener('keydown', unlock);
-          };
-          document.addEventListener('click', unlock);
-          document.addEventListener('touchstart', unlock);
-          document.addEventListener('keydown', unlock);
-        });
+        // Enhanced PWA audio playback with multiple fallback strategies
+        const attemptPlay = async () => {
+          if (playAttempts >= MAX_ATTEMPTS) {
+            console.log('[AutoScope] Max play attempts reached, waiting for user interaction');
+            return;
+          }
+          playAttempts++;
+
+          try {
+            // Ensure audio is ready
+            if (audio.readyState < 2) {
+              await new Promise(resolve => {
+                if (audio.readyState >= 2) resolve();
+                else audio.addEventListener('loadeddata', resolve, { once: true });
+              });
+            }
+
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+              await playPromise;
+              console.log('[AutoScope] Background music playing successfully');
+            }
+          } catch (error) {
+            console.log(`[AutoScope] Play attempt ${playAttempts} failed:`, error.message);
+            
+            // Set up user interaction listeners for subsequent attempts
+            const unlock = async () => {
+              try {
+                await audio.play();
+                console.log('[AutoScope] Music unlocked by user interaction');
+                document.removeEventListener('click', unlock);
+                document.removeEventListener('touchstart', unlock);
+                document.removeEventListener('keydown', unlock);
+              } catch (e) {
+                // Try again on next interaction
+                if (playAttempts < MAX_ATTEMPTS) {
+                  playAttempts++;
+                }
+              }
+            };
+            
+            document.addEventListener('click', unlock, { once: true });
+            document.addEventListener('touchstart', unlock, { once: true });
+            document.addEventListener('keydown', unlock, { once: true });
+          }
+        };
+
+        // Initial play attempt
+        attemptPlay();
+
+        // Also try playing after a short delay (helps with some PWA contexts)
+        setTimeout(() => {
+          if (!cancelled && audio && audio.paused) {
+            attemptPlay();
+          }
+        }, 1000);
+
       } catch (_e) {
-        // Music failed to load — not critical
+        console.log('[AutoScope] Music failed to load — not critical');
       }
     };
 
@@ -47,8 +102,16 @@ const AutoScope = () => {
 
     return () => {
       cancelled = true;
-      if (audio) { audio.pause(); audio.src = ''; }
-      if (blobUrlRef.current) { URL.revokeObjectURL(blobUrlRef.current); blobUrlRef.current = null; }
+      if (audio) { 
+        audio.pause(); 
+        audio.src = ''; 
+        audio.removeAttribute('playsinline');
+        audio.removeAttribute('webkit-playsinline');
+      }
+      if (blobUrlRef.current) { 
+        URL.revokeObjectURL(blobUrlRef.current); 
+        blobUrlRef.current = null; 
+      }
       musicRef.current = null;
     };
   }, []);
