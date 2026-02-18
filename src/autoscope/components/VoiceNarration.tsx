@@ -71,6 +71,9 @@ const SENT_END: number[] = SENT_CHARS.reduce((acc: number[], c) => {
   return acc;
 }, []);
 
+// Global audio context reference for reuse
+let globalAudioContext: AudioContext | null = null;
+
 // ─── Component ───────────────────────────────────────────────────────────────
 interface VoiceNarrationProps {
   className?: string;
@@ -163,7 +166,60 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
     if (!audioUrl || !audioRef.current) return;
     // Don't auto-play in PWA/mobile - require user interaction
     // This fixes audio playback issues in mobile browsers and PWA mode
-    console.log('[VoiceNarration] Audio ready, attempting to play');
+    console.log('[VoiceNarration] Audio URL ready, setting up audio context...');
+    
+    // Initialize AudioContext immediately when page loads
+    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+    if (AudioContext) {
+      const audioContext = new AudioContext();
+      console.log('[VoiceNarration] AudioContext initialized on load, state:', audioContext.state);
+      
+      // Resume audio context if suspended (common in mobile/PWA)
+      if (audioContext.state === 'suspended') {
+        console.log('[VoiceNarration] Auto-resuming audio context on load');
+        audioContext.resume().then(() => {
+          console.log('[VoiceNarration] AudioContext auto-resumed successfully');
+        }).catch(e => {
+          console.log('[VoiceNarration] Failed to auto-resume audio context:', e);
+        });
+      }
+    }
+    
+    // Set up a one-time user interaction listener to "wake up" audio
+    const wakeUpAudio = () => {
+      console.log('[VoiceNarration] User interaction detected, waking up audio');
+      document.removeEventListener('click', wakeUpAudio);
+      document.removeEventListener('touchstart', wakeUpAudio);
+      document.removeEventListener('keydown', wakeUpAudio);
+      
+      // Try to play a silent audio to "wake up" the audio context
+      const wakeAudio = new Audio('data:audio/wav;base64,UklGRiQAAABAAAAAAYAFZAAA=');
+      wakeAudio.volume = 0;
+      wakeAudio.play().catch(() => {
+        console.log('[VoiceNarration] Wake-up audio failed (expected)');
+      }).finally(() => {
+        // Clean up wake-up audio
+        wakeAudio.src = '';
+      });
+    };
+    
+    // Add one-time listeners for user interaction
+    document.addEventListener('click', wakeUpAudio, { once: true });
+    document.addEventListener('touchstart', wakeUpAudio, { once: true });
+    document.addEventListener('keydown', wakeUpAudio, { once: true });
+    
+    // Auto-play after a short delay if not in PWA
+    const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
+                 (window.navigator as any).standalone === true;
+    
+    if (!isPWA) {
+      setTimeout(() => {
+        if (audioRef.current && !isPlayingRef.current) {
+          console.log('[VoiceNarration] Attempting auto-play on desktop...');
+          togglePlay();
+        }
+      }, 1000);
+    }
   }, [audioUrl]);
 
   // ─── Toggle play / pause ──────────────────────────────────────────────────
