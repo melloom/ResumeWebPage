@@ -7,7 +7,7 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/?source=pwa",
-  "orientation": "portrait",
+  "orientation": "any",
   "icons": [
     {
       "src": "icons/favicon.ico",

@@ -2378,6 +2378,75 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
     mouseRef.current.active = false;
   };
 
+  // Enhanced touch detection for PWA
+  const isPWAStandalone = () => {
+    return window.matchMedia('(display-mode: standalone)').matches || 
+           (window.navigator as any).standalone === true;
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    
+    const t = e.touches[0];
+    const x = t.clientX - rect.left;
+    const y = t.clientY - rect.top;
+    
+    // Enhanced touch feedback for PWA
+    if (isPWAStandalone()) {
+      // Add haptic feedback if available
+      if ('vibrate' in navigator) {
+        navigator.vibrate(10); // Light vibration on touch
+      }
+    }
+    
+    // Treat touch start like mouse down
+    createDrawing(x, y);
+    mouseRef.current.isDrawing = true;
+    mouseRef.current.x = x;
+    mouseRef.current.y = y;
+    mouseRef.current.active = true;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent scrolling/zooming
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    
+    const t = e.touches[0];
+    const x = t.clientX - rect.left;
+    const y = t.clientY - rect.top;
+    
+    // Update mouse position for touch
+    const prevX = mouseRef.current.x;
+    const prevY = mouseRef.current.y;
+    const movedDistance = Math.sqrt(Math.pow(x - prevX, 2) + Math.pow(y - prevY, 2));
+    
+    if (movedDistance < 2) {
+      mouseRef.current.stationaryTime++;
+    } else {
+      mouseRef.current.stationaryTime = 0;
+    }
+    
+    mouseRef.current.x = x;
+    mouseRef.current.y = y;
+    mouseRef.current.active = true;
+    
+    // Create drawing trail if drawing
+    if (mouseRef.current.isDrawing) {
+      createDrawing(x, y);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    // Treat touch end like mouse up
+    if (mouseRef.current.isDrawing) {
+      finishDrawing();
+      mouseRef.current.isDrawing = false;
+    }
+    mouseRef.current.active = false;
+  };
+
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     // Space key creates particle effects and also triggers shape formation
     if (e.key === ' ') {
@@ -2426,11 +2495,15 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full cursor-crosshair"
+        style={{ touchAction: 'none' }}
         onMouseMove={handleMouseMove}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       />
       
       <AnimatePresence>

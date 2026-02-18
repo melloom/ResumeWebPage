@@ -48,4 +48,32 @@
 .autoscope-root canvas {
   display: block;
   touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* PWA-specific enhancements */
+@media (display-mode: standalone) {
+  .autoscope-root {
+    height: 100vh;
+    height: 100dvh;
+  }
+  
+  .autoscope-root canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* iOS Safari PWA fixes */
+@supports (-webkit-touch-callout: none) {
+  .autoscope-root {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
