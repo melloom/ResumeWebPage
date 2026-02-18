@@ -2552,7 +2552,7 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       <div 
         className="absolute left-1/2 -translate-x-1/2 z-20"
         style={{
-          bottom: 'max(3rem, env(safe-area-inset-bottom) + 2.5rem)'
+          bottom: 'max(4rem, env(safe-area-inset-bottom) + 3rem)'
         }}
       >
         <VoiceNarration onNarrationChange={onNarrationChange} />
