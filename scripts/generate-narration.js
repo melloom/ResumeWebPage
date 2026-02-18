@@ -10,7 +10,8 @@
 
 const fs      = require('fs');
 const path    = require('path');
-require('dotenv').config();
+require('dotenv').config({ path: '.env.local' });
+require('dotenv').config(); // fallback to .env
 
 const API_KEY  = process.env.VITE_ELEVENLABS_API_KEY;
 const VOICE_ID = 'c6SfcYrb2t09NHXiT80T';
