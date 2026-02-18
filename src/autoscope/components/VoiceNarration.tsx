@@ -547,7 +547,7 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
               // Set narration volume - lower for PWA, normal for web
               const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
                            window.navigator.standalone === true;
-              audioRef.current.volume = isPWA ? 0.6 : 0.8; // 60% for PWA, 80% for web
+              audioRef.current.volume = isPWA ? 0.4 : 0.8; // 40% for PWA, 80% for web
             }
           }}
           onEnded={onEnded}
