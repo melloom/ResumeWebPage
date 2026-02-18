@@ -72,12 +72,12 @@ const Index = () => {
             <span className="font-semibold text-foreground">Lite Version</span> — Try the analyzer without signing in. 
             For GitHub integration, data storage, and advanced features, visit{" "}
             <a 
-              href="https://codeguard.netlify.app" 
+              href="https://thecodeguard.netlify.app" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-primary hover:underline font-medium"
             >
-              codeguard.netlify.app
+              thecodeguard.netlify.app
             </a>
           </p>
         </div>
@@ -178,7 +178,7 @@ const Index = () => {
             Get GitHub integration, data storage, trend charts, and historical reviews with the full version.
           </p>
           <Button asChild className="mt-6 gap-2 rounded-full" size="lg">
-            <a href="https://codeguard.netlify.app" target="_blank" rel="noopener noreferrer">
+            <a href="https://thecodeguard.netlify.app" target="_blank" rel="noopener noreferrer">
               Visit Full Version <ArrowRight className="h-4 w-4" />
             </a>
           </Button>

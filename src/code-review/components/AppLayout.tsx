@@ -217,7 +217,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="flex items-center gap-4">
               <a
-                href="https://codeguard.netlify.app"
+                href="https://thecodeguard.netlify.app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-foreground transition-colors"
