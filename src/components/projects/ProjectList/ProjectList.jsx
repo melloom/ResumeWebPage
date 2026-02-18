@@ -216,37 +216,6 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       github: 'https://github.com/melloom/adventure-game',
       category: 'Apps'
     },
-    // Demo projects
-    {
-      id: 'demo-rosies',
-      title: "Rosie's Kitchen",
-      description: "Single-page restaurant website demo with elegant design and smooth interactions. Features modern responsive layout, beautiful animations, interactive menu sections, and professional contact form.",
-      image: '/rosie.png',
-      technologies: ['React', 'JavaScript', 'HTML5', 'CSS3'],
-      link: 'https://rosiekitchen.netlify.app',
-      github: 'https://github.com/melloom/cozy-corner-site',
-      category: 'Demo'
-    },
-    {
-      id: 'demo-flavorhaven',
-      title: 'FlavorHaven Demo',
-      description: 'Multi-page restaurant demonstration with advanced routing and dynamic content management. Showcases separate pages for menu, reservations, about us, and gallery with smooth navigation.',
-      image: '/Flavor.png',
-      technologies: ['React', 'Multi-Page', 'Routing', 'Dynamic'],
-      link: 'https://flavorhavendemo.netlify.app',
-      github: 'https://github.com/melloom/FlavorHaven-Multi-Page-Demo-',
-      category: 'Demo'
-    },
-    {
-      id: 'demo-pizza',
-      title: "Tony's Pizza Shack",
-      description: "Family-owned wood-fired pizza restaurant demo. Full restaurant experience with menu, ordering flow, and modern responsive design. Built with React, TypeScript, and Drizzle.",
-      image: '/Tony%20Pizza.png',
-      technologies: ['React', 'TypeScript', 'Vite', 'Drizzle', 'Netlify'],
-      link: 'https://pizzashopdemos.netlify.app',
-      github: 'https://github.com/melloom/Pizza-Demo-',
-      category: 'Demo'
-    }
   ], []);
 
   // Handle project deletion - memoized

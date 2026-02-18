@@ -520,29 +520,29 @@
 
 @media (max-width: 992px) {
   .aboutContentGrid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-    text-align: center;
+    grid-template-columns: minmax(250px, 0.8fr) 1.2fr;
+    gap: 2rem;
+    text-align: left;
   }
 
   .imageContainer {
-    max-width: 400px;
+    max-width: 350px;
     margin: 0 auto;
   }
 
   .aboutTextColumn {
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 100%;
+    margin: 0;
   }
 
   .aboutGreeting,
   .taglineContainer {
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .taglineContainer {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .aboutDescription {
@@ -565,13 +565,15 @@
   }
 
   .aboutContentGrid {
-    gap: 2rem;
+    grid-template-columns: minmax(200px, 0.7fr) 1.3fr;
+    gap: 1.5rem;
+    align-items: start;
   }
 
   .imageContainer {
-    max-width: 300px;
+    max-width: 280px;
     transform: none;
-    aspect-ratio: 1 / 1.1;
+    aspect-ratio: 1 / 1.15;
   }
 
   .philosophyContent {
@@ -652,6 +654,12 @@
     padding: 2.5rem 0;
   }
 
+  .aboutContentGrid {
+    grid-template-columns: minmax(180px, 0.65fr) 1.35fr;
+    gap: 1rem;
+    align-items: start;
+  }
+
   .profileStats {
     flex-direction: column;
     gap: 1.5rem;
@@ -692,7 +700,8 @@
   }
 
   .imageContainer {
-    max-width: 250px;
+    max-width: 220px;
+    aspect-ratio: 1 / 1.2;
   }
 
   .philosophyContent {

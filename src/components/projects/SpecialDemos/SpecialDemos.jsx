@@ -71,30 +71,34 @@ const SpecialDemos = () => {
                 </button>
               </div>
               
-              <p className={styles.projectDescription}>Single-page restaurant website demo with elegant design and smooth interactions. Features modern responsive layout, beautiful animations, interactive menu sections, and professional contact form.</p>
-              
-              <div className={styles.links}>
-                <a 
-                  href="https://github.com/melloom/cozy-corner-site"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${styles.link} ${styles.githubLink}`}
-                  aria-label="View Rosie's Kitchen source code on GitHub"
-                >
-                  <FaGithub /> GitHub
-                </a>
-                <a 
-                  href="https://rosiekitchen.netlify.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${styles.link} ${styles.demoLink}`}
-                  aria-label="View live demo of Rosie's Kitchen"
-                >
-                  <FaExternalLinkAlt /> Live Demo
-                </a>
+              <div className={styles.projectContent}>
+                <div className={styles.projectInfo}>
+                  <p className={styles.projectDescription}>Single-page restaurant website demo with elegant design and smooth interactions. Features modern responsive layout, beautiful animations, interactive menu sections, and professional contact form.</p>
+                </div>
+                
+                <div className={styles.projectLinks}>
+                  <a 
+                    href="https://github.com/melloom/cozy-corner-site"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.link} ${styles.githubLink}`}
+                    aria-label="View Rosie's Kitchen source code on GitHub"
+                  >
+                    <FaGithub /> GitHub
+                  </a>
+                  <a 
+                    href="https://rosiekitchen.netlify.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.link} ${styles.demoLink}`}
+                    aria-label="View live demo of Rosie's Kitchen"
+                  >
+                    <FaExternalLinkAlt /> Live Demo
+                  </a>
+                </div>
               </div>
               
-              <div className={styles.technologies}>
+              <div className={styles.projectTech}>
                 <span className={styles.tech}>
                   <FaTag className={styles.techIcon} /> React
                 </span>
@@ -128,30 +132,34 @@ const SpecialDemos = () => {
                 </button>
               </div>
               
-              <p className={styles.projectDescription}>Multi-page restaurant demonstration with advanced routing and dynamic content management. Showcases separate pages for menu, reservations, about us, and gallery with smooth navigation.</p>
-              
-              <div className={styles.links}>
-                <a 
-                  href="https://github.com/melloom/FlavorHaven-Multi-Page-Demo-"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${styles.link} ${styles.githubLink}`}
-                  aria-label="View FlavorHaven source code on GitHub"
-                >
-                  <FaGithub /> GitHub
-                </a>
-                <a 
-                  href="https://flavorhavendemo.netlify.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${styles.link} ${styles.demoLink}`}
-                  aria-label="View live demo of FlavorHaven"
-                >
-                  <FaExternalLinkAlt /> Live Demo
-                </a>
+              <div className={styles.projectContent}>
+                <div className={styles.projectInfo}>
+                  <p className={styles.projectDescription}>Multi-page restaurant demonstration with advanced routing and dynamic content management. Showcases separate pages for menu, reservations, about us, and gallery with smooth navigation.</p>
+                </div>
+                
+                <div className={styles.projectLinks}>
+                  <a 
+                    href="https://github.com/melloom/FlavorHaven-Multi-Page-Demo-"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.link} ${styles.githubLink}`}
+                    aria-label="View FlavorHaven source code on GitHub"
+                  >
+                    <FaGithub /> GitHub
+                  </a>
+                  <a 
+                    href="https://flavorhavendemo.netlify.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.link} ${styles.demoLink}`}
+                    aria-label="View live demo of FlavorHaven"
+                  >
+                    <FaExternalLinkAlt /> Live Demo
+                  </a>
+                </div>
               </div>
               
-              <div className={styles.technologies}>
+              <div className={styles.projectTech}>
                 <span className={styles.tech}>
                   <FaTag className={styles.techIcon} /> React
                 </span>
@@ -185,30 +193,34 @@ const SpecialDemos = () => {
                 </button>
               </div>
               
-              <p className={styles.projectDescription}>Classic pizza restaurant website with online ordering system. Features menu customization, real-time order tracking, and customer loyalty program integration.</p>
-              
-              <div className={styles.links}>
-                <a 
-                  href="https://github.com/melloom/tony-pizza-demo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${styles.link} ${styles.githubLink}`}
-                  aria-label="View Tony's Pizza source code on GitHub"
-                >
-                  <FaGithub /> GitHub
-                </a>
-                <a 
-                  href="https://tonypizzademo.netlify.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${styles.link} ${styles.demoLink}`}
-                  aria-label="View live demo of Tony's Pizza"
-                >
-                  <FaExternalLinkAlt /> Live Demo
-                </a>
+              <div className={styles.projectContent}>
+                <div className={styles.projectInfo}>
+                  <p className={styles.projectDescription}>Classic pizza restaurant website with online ordering system. Features menu customization, real-time order tracking, and customer loyalty program integration.</p>
+                </div>
+                
+                <div className={styles.projectLinks}>
+                  <a 
+                    href="https://github.com/melloom/tony-pizza-demo"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.link} ${styles.githubLink}`}
+                    aria-label="View Tony's Pizza source code on GitHub"
+                  >
+                    <FaGithub /> GitHub
+                  </a>
+                  <a 
+                    href="https://tonypizzademo.netlify.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.link} ${styles.demoLink}`}
+                    aria-label="View live demo of Tony's Pizza"
+                  >
+                    <FaExternalLinkAlt /> Live Demo
+                  </a>
+                </div>
               </div>
               
-              <div className={styles.technologies}>
+              <div className={styles.projectTech}>
                 <span className={styles.tech}>
                   <FaTag className={styles.techIcon} /> React
                 </span>
