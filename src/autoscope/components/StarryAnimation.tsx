@@ -1456,7 +1456,6 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
           const centerX = cw() / 2 + (Math.random() - 0.5) * 200;
           const centerY = ch() / 2 + (Math.random() - 0.5) * 200;
           formShape(shape, centerX, centerY);
-          console.log(`Forming shape: ${shape} at (${centerX}, ${centerY})`); // Debug log
         }
       }
     }, 3000); // Every 3 seconds (was 8 seconds)
@@ -2204,7 +2203,6 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
         
         blackHolesRef.current.push(blackHole);
         mouseRef.current.stationaryTime = 0; // Reset timer
-        console.log(`SUPER BLACK HOLE created with 100x gravitational force!`); // Debug log
       }
       
       // Add mouse attraction effect when stationary for 3+ seconds

@@ -189,8 +189,8 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
           timeout,
         ]) as Blob;
         setAudioUrl(URL.createObjectURL(blob));
-      } catch (err) {
-        console.warn('ElevenLabs background generation failed:', err);
+      } catch (_err) {
+        // ElevenLabs timed out or failed — browser speech is already playing
       }
     }
   };
