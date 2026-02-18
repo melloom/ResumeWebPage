@@ -24,11 +24,12 @@ const labs = [
   },
   {
     id: 'design-generator',
-    title: 'Studio Palette by Melvin',
-    description: 'Spin up on-brand UI explorations and component kits for Melvin\'s projects',
+    title: 'AutoBio',
+    description: 'AI-powered auto-bio narration showcasing my journey, skills, and expertise.',
     icon: FaPalette,
-    status: 'coming-soon',
-    path: '/ai-lab/design-generator'
+    status: 'active',
+    badge: 'Live Demo',
+    path: '/autoscope'
   },
   {
     id: 'stack-builder',
@@ -69,15 +70,16 @@ const AILabHub = ({ onLaunchChat }) => {
     return aw - bw;
   });
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status, badge) => {
     const statusConfig = {
       'active': { text: 'Active', class: styles.active },
       'coming-soon': { text: 'Coming Soon', class: styles.comingSoon },
       'planned': { text: 'Planned', class: styles.planned }
     };
-    
+
     const config = statusConfig[status] || statusConfig.planned;
-    return <span className={`${styles.statusBadge} ${config.class}`}>{config.text}</span>;
+    const label = badge || config.text;
+    return <span className={`${styles.statusBadge} ${config.class}`}>{label}</span>;
   };
 
   return (
@@ -95,6 +97,8 @@ const AILabHub = ({ onLaunchChat }) => {
               navigate('/code-review');
             } else if (lab.id === 'web-scraper') {
               navigate('/scout-crawler');
+            } else if (lab.id === 'design-generator') {
+              navigate('/autoscope');
             } else if (lab.status === 'active') {
               setSelectedLab(lab);
             }
@@ -112,7 +116,7 @@ const AILabHub = ({ onLaunchChat }) => {
               <div className={styles.labInfo}>
                 <h3>{lab.title}</h3>
                 <p>{lab.description}</p>
-                {getStatusBadge(lab.status)}
+                {getStatusBadge(lab.status, lab.badge)}
               </div>
             </div>
           );

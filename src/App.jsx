@@ -27,6 +27,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const AILab = lazy(() => import('./pages/AILab'));
 const CodeReview = lazy(() => import('./pages/CodeReview'));
 const ScoutCrawler = lazy(() => import('./pages/ScoutCrawler'));
+const AutoScope = lazy(() => import('./pages/AutoScope'));
 
 function AppContent() {
   const { isAuthenticated } = useAuth();
@@ -137,7 +138,8 @@ function AppContent() {
   // Check if we're on the code review page
   const isCodeReviewPage = location.pathname.startsWith('/code-review');
   const isScoutCrawlerPage = location.pathname.startsWith('/scout-crawler');
-  const isFullScreenPage = isCodeReviewPage || isScoutCrawlerPage;
+  const isAutoScopePage = location.pathname.startsWith('/autoscope');
+  const isFullScreenPage = isCodeReviewPage || isScoutCrawlerPage || isAutoScopePage;
   const isAILabChat = location.pathname === '/ai-lab' && location.hash === '#chat';
 
   return (
@@ -159,6 +161,7 @@ function AppContent() {
               <Route path="/ai-lab" element={<AILab />} />
               <Route path="/code-review/*" element={<CodeReview />} />
               <Route path="/scout-crawler" element={<ScoutCrawler />} />
+              <Route path="/autoscope" element={<AutoScope />} />
                 <Route path="/resume" element={<Resume />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="*" element={<NotFound />} />
@@ -171,7 +174,7 @@ function AppContent() {
               <BackToTop />
             </>
           )}
-          {!isAILabChat && <AIWidget />}
+          {!isAILabChat && !isAutoScopePage && <AIWidget />}
           <InstallPWA />
         <AdminLoginModal 
           isOpen={isAdminModalOpen} 

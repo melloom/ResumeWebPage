@@ -4,8 +4,10 @@ module.exports = {
   content: [
     "./src/code-review/**/*.{ts,tsx,js,jsx}",
     "./src/scout-crawler/**/*.{ts,tsx,js,jsx}",
+    "./src/autoscope/**/*.{ts,tsx,js,jsx}",
     "./src/pages/CodeReview.jsx",
     "./src/pages/ScoutCrawler.jsx",
+    "./src/pages/AutoScope.jsx",
   ],
   prefix: "",
   theme: {

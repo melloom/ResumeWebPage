@@ -6,6 +6,7 @@ import Resume from './pages/Resume';
 import Projects from './pages/Projects';
 import AdminLogin from './pages/AdminLogin';
 import NotFound from './pages/NotFound';
+import AutoScope from './pages/AutoScope';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: '/projects',
     element: <Projects />,
+  },
+  {
+    path: '/autoscope',
+    element: <AutoScope />,
   },
   {
     path: '/admin',

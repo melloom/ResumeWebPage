@@ -11,6 +11,7 @@ const routeComponentMap = {
   '/resume': () => import('../pages/Resume'),
   '/contact': () => import('../pages/Contact'),
   '/projects': () => import('../pages/Projects'),
+  '/autoscope': () => import('../pages/AutoScope'),
 };
 
 // Track which components have been preloaded

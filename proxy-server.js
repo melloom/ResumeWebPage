@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config({ path: '.env.local' }); // Load environment variables from .env.local file
 
 const app = express();
 const PORT = 3001;
@@ -51,6 +52,54 @@ app.post('/oauth/token', async (req, res) => {
       error: 'Internal server error',
       message: error.message 
     });
+  }
+});
+
+// ElevenLabs proxy endpoint
+app.post('/api/elevenlabs/text-to-speech/:voiceId', async (req, res) => {
+  try {
+    const { voiceId } = req.params;
+    const { text, model_id = 'eleven_monolingual_v1', voice_settings } = req.body;
+    
+    const ELEVENLABS_API_KEY = process.env.VITE_ELEVENLABS_API_KEY || process.env.ELEVENLABS_API_KEY;
+    
+    console.log('Checking API key:', !!ELEVENLABS_API_KEY ? 'Found' : 'Not found');
+    console.log('Available env vars starting with VITE:', Object.keys(process.env).filter(k => k.startsWith('VITE_')).slice(0, 3));
+    
+    if (!ELEVENLABS_API_KEY) {
+      return res.status(500).json({ error: 'ElevenLabs API key not configured' });
+    }
+
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: 'POST',
+      headers: {
+        'xi-api-key': ELEVENLABS_API_KEY,
+        'Content-Type': 'application/json',
+        'Accept': 'audio/mpeg',
+      },
+      body: JSON.stringify({
+        text,
+        model_id,
+        voice_settings,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('ElevenLabs API error:', response.status, errorText);
+      return res.status(response.status).json({ 
+        error: `ElevenLabs API error: ${response.status}`,
+        details: errorText 
+      });
+    }
+
+    // Stream the audio response
+    res.setHeader('Content-Type', 'audio/mpeg');
+    response.body.pipe(res);
+    
+  } catch (error) {
+    console.error('ElevenLabs proxy error:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
