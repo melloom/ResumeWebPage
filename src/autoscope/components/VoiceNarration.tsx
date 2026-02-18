@@ -211,17 +211,23 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
         audio.setAttribute('playsinline', '');
         audio.setAttribute('webkit-playsinline', '');
         
-        // Create audio context if needed (helps with mobile PWA)
-        if (!window.AudioContext) {
-          window.AudioContext = (window as any).webkitAudioContext;
-        }
-        
-        // Resume audio context if suspended (common PWA issue)
-        if (window.AudioContext) {
+        // Force audio context creation and resume (critical for PWA)
+        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioContext) {
           const audioContext = new AudioContext();
           if (audioContext.state === 'suspended') {
+            console.log('[VoiceNarration] Resuming suspended audio context');
             await audioContext.resume();
           }
+        }
+        
+        // Force load the audio if not already loaded
+        if (audio.readyState < 3) { // HAVE_FUTURE_DATA
+          console.log('[VoiceNarration] Loading audio data...');
+          await new Promise(resolve => {
+            if (audio.readyState >= 3) resolve();
+            else audio.addEventListener('canplay', resolve, { once: true });
+          });
         }
         
         // Attempt to play with user gesture context

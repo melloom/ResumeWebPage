@@ -156,45 +156,6 @@ const AutoScope = () => {
         <meta name="twitter:image" content="https://mellowsites.com/screenshots/portfolio-portfolio-thumbnail.png" />
       </Helmet>
 
-      {/* Debug button for testing audio */}
-      <button
-        onClick={() => {
-          if (musicRef.current) {
-            console.log('Audio state:', {
-              paused: musicRef.current.paused,
-              currentTime: musicRef.current.currentTime,
-              volume: musicRef.current.volume,
-              muted: musicRef.current.muted,
-              readyState: musicRef.current.readyState
-            });
-            if (musicRef.current.paused) {
-              musicRef.current.play().then(() => {
-                console.log('Manual play successful');
-              }).catch(e => {
-                console.log('Manual play failed:', e.message);
-              });
-            } else {
-              musicRef.current.pause();
-              console.log('Audio paused');
-            }
-          }
-        }}
-        style={{
-          position: 'fixed',
-          top: '10px',
-          right: '10px',
-          zIndex: 1000,
-          background: 'red',
-          color: 'white',
-          border: 'none',
-          padding: '5px 10px',
-          borderRadius: '5px',
-          cursor: 'pointer'
-        }}
-      >
-        Test Audio
-      </button>
-
       <div className="autoscope-root">
         <StarryAnimation />
       </div>
