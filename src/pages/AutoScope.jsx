@@ -26,7 +26,7 @@ const AutoScope = () => {
         blobUrlRef.current = blobUrl;
         audio = new Audio(blobUrl);
         audio.loop = true;
-        audio.volume = 0.06;
+        audio.volume = 0.02; // Reduced from 0.06 to 0.02 for better balance with narration
         audio.muted = false; // Ensure unmuted
         audio.preload = 'auto';
         
