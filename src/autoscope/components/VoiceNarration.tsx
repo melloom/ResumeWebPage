@@ -450,8 +450,10 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
             if (audioRef.current) {
               durRef.current = audioRef.current.duration;
               setDuration(audioRef.current.duration);
-              // Set narration volume to be much louder than background music
-              audioRef.current.volume = 0.8; // 80% volume for clear narration
+              // Set narration volume - lower for PWA, normal for web
+              const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
+                           (window.navigator as any).standalone === true;
+              audioRef.current.volume = isPWA ? 0.6 : 0.8; // 60% for PWA, 80% for web
             }
           }}
           onEnded={onEnded}

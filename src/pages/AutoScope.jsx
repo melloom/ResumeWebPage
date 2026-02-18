@@ -26,7 +26,10 @@ const AutoScope = () => {
         blobUrlRef.current = blobUrl;
         audio = new Audio(blobUrl);
         audio.loop = true;
-        audio.volume = 0.01; // Further reduced from 0.02 to 0.01 for much better narration balance
+        // Set different volumes for PWA vs web
+        const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
+                     (window.navigator as any).standalone === true;
+        audio.volume = isPWA ? 0.02 : 0.06; // 2% for PWA, 6% for web
         audio.muted = false; // Ensure unmuted
         audio.preload = 'auto';
         
