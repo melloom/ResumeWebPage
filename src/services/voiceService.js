@@ -194,7 +194,7 @@ const useBrowserSpeech = (text) => {
       utterance.voice = selectedVoice;
       utterance.rate = 0.95;
       utterance.pitch = 1.0;
-      utterance.volume = 0.9;
+      utterance.volume = 1.0;
       currentUtterance = utterance;
 
       utterance.onend = () => {

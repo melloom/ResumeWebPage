@@ -24,7 +24,7 @@ const AutoScope = () => {
         blobUrlRef.current = blobUrl;
         audio = new Audio(blobUrl);
         audio.loop = true;
-        audio.volume = 0.12;
+        audio.volume = 0.06;
         musicRef.current = audio;
 
         audio.play().catch(() => {

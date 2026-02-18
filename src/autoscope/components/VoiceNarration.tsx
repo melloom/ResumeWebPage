@@ -388,6 +388,8 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
           }}
           onEnded={onEnded}
           preload="auto"
+          playsInline
+          crossOrigin="anonymous"
         />
       )}
     </>
