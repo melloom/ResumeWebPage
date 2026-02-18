@@ -29,7 +29,7 @@ const AutoScope = () => {
         // Set different volumes for PWA vs web
         const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
                      window.navigator.standalone === true;
-        audio.volume = isPWA ? 0.02 : 0.12; // 2% for PWA, 12% for web (balanced desktop volume)
+        audio.volume = isPWA ? 0.02 : 0.08; // 2% for PWA, 8% for web (very subtle)
         audio.muted = false; // Ensure unmuted
         audio.preload = 'auto';
         
