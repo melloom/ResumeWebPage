@@ -59,7 +59,7 @@ const AutoScope = () => {
             const playPromise = audio.play();
             if (playPromise !== undefined) {
               await playPromise;
-              console.log('[AutoScope] Background music playing successfully');
+              console.log('[AutoScope] Background music playing successfully, volume:', audio.volume);
             }
           } catch (error) {
             console.log(`[AutoScope] Play attempt ${playAttempts} failed:`, error.message);
@@ -68,11 +68,12 @@ const AutoScope = () => {
             const unlock = async () => {
               try {
                 await audio.play();
-                console.log('[AutoScope] Music unlocked by user interaction');
+                console.log('[AutoScope] Music unlocked by user interaction, volume:', audio.volume);
                 document.removeEventListener('click', unlock);
                 document.removeEventListener('touchstart', unlock);
                 document.removeEventListener('keydown', unlock);
               } catch (e) {
+                console.log('[AutoScope] Still failed after user interaction:', e.message);
                 // Try again on next interaction
                 if (playAttempts < MAX_ATTEMPTS) {
                   playAttempts++;
@@ -154,6 +155,45 @@ const AutoScope = () => {
         />
         <meta name="twitter:image" content="https://mellowsites.com/screenshots/portfolio-portfolio-thumbnail.png" />
       </Helmet>
+
+      {/* Debug button for testing audio */}
+      <button
+        onClick={() => {
+          if (musicRef.current) {
+            console.log('Audio state:', {
+              paused: musicRef.current.paused,
+              currentTime: musicRef.current.currentTime,
+              volume: musicRef.current.volume,
+              muted: musicRef.current.muted,
+              readyState: musicRef.current.readyState
+            });
+            if (musicRef.current.paused) {
+              musicRef.current.play().then(() => {
+                console.log('Manual play successful');
+              }).catch(e => {
+                console.log('Manual play failed:', e.message);
+              });
+            } else {
+              musicRef.current.pause();
+              console.log('Audio paused');
+            }
+          }
+        }}
+        style={{
+          position: 'fixed',
+          top: '10px',
+          right: '10px',
+          zIndex: 1000,
+          background: 'red',
+          color: 'white',
+          border: 'none',
+          padding: '5px 10px',
+          borderRadius: '5px',
+          cursor: 'pointer'
+        }}
+      >
+        Test Audio
+      </button>
 
       <div className="autoscope-root">
         <StarryAnimation />
