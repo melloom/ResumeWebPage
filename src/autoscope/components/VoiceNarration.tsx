@@ -450,6 +450,8 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
             if (audioRef.current) {
               durRef.current = audioRef.current.duration;
               setDuration(audioRef.current.duration);
+              // Set narration volume to be much louder than background music
+              audioRef.current.volume = 0.8; // 80% volume for clear narration
             }
           }}
           onEnded={onEnded}
