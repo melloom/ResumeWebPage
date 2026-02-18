@@ -118,7 +118,7 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
 
   const stopRAF = useCallback(() => cancelAnimationFrame(rafRef.current), []);
 
-  // ─── Load audio — static file first, API fallback ─────────────────────────
+  // Load audio — static file first, API fallback ─────────────────────────
   const generate = async () => {
     setStarted(true);
     setIsLoading(true);
@@ -130,6 +130,7 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
       if (r.ok) {
         const blob = await r.blob();
         setAudioUrl(URL.createObjectURL(blob));
+        console.log('[VoiceNarration] Static narration file loaded successfully');
         return;
       }
 
@@ -142,6 +143,7 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
 
       const blob = await elevenLabsService.generateVoiceAudio(lifeStoryRaw);
       setAudioUrl(URL.createObjectURL(blob));
+      console.log('[VoiceNarration] ElevenLabs narration generated successfully');
     } catch (err: unknown) {
       const msg = (err instanceof Error ? err.message : String(err)).toLowerCase();
       const isQuota = msg.includes('quota') || msg.includes('429') || msg.includes('exceeded') || msg.includes('limit');
@@ -150,28 +152,30 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
         : 'Voice generation failed. Please try again.'
       );
       setStarted(false);
+      console.error('[VoiceNarration] Generation failed:', err);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Auto-play when URL is ready
+  // Auto-play when URL is ready (disabled for PWA compatibility)
   useEffect(() => {
     if (!audioUrl || !audioRef.current) return;
-    audioRef.current.play().then(() => {
-      setIsPlaying(true);
-      isPlayingRef.current = true;
-      setActiveSentenceIdx(0);
-      startRAF();
-      onNarrationChange?.(true);
-    }).catch(() => {});
-  }, [audioUrl, startRAF, onNarrationChange]);
+    // Don't auto-play in PWA/mobile - require user interaction
+    // This fixes audio playback issues in mobile browsers and PWA mode
+    console.log('[VoiceNarration] Audio ready, waiting for user interaction');
+  }, [audioUrl]);
 
   // ─── Toggle play / pause ──────────────────────────────────────────────────
   const togglePlay = async () => {
     if (isLoading) return;
     setErrorMsg(null);
-    if (!started) { generate(); return; }
+    
+    if (!started) { 
+      generate(); 
+      return; 
+    }
+    
     const audio = audioRef.current;
     if (!audio) return;
 
@@ -182,11 +186,56 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
       stopRAF();
       onNarrationChange?.(false);
     } else {
-      await audio.play();
-      setIsPlaying(true);
-      isPlayingRef.current = true;
-      startRAF();
-      onNarrationChange?.(true);
+      // Enhanced mobile audio playback with better error handling
+      try {
+        console.log('[VoiceNarration] Attempting to play audio...');
+        
+        // Ensure audio is ready
+        if (audio.readyState < 2) { // HAVE_NOTHING or LOADING
+          console.log('[VoiceNarration] Audio not ready, waiting...');
+          await new Promise(resolve => {
+            const checkReady = () => {
+              if (audio.readyState >= 2) resolve();
+              else audio.addEventListener('loadeddata', resolve, { once: true });
+            };
+            checkReady();
+          });
+        }
+        
+        // Reset audio to beginning if needed
+        if (audio.currentTime === 0 || audio.ended) {
+          audio.currentTime = 0;
+        }
+        
+        // Attempt to play with user gesture context
+        const playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+          await playPromise;
+          console.log('[VoiceNarration] Audio playing successfully');
+          setIsPlaying(true);
+          isPlayingRef.current = true;
+          setActiveSentenceIdx(0);
+          startRAF();
+          onNarrationChange?.(true);
+        }
+      } catch (error) {
+        console.error('[VoiceNarration] Audio play failed:', error);
+        
+        // Handle common mobile audio errors
+        if (error.name === 'NotAllowedError') {
+          setErrorMsg('Tap again to enable audio playback');
+        } else if (error.name === 'NotSupportedError') {
+          setErrorMsg('Audio format not supported on this device');
+        } else {
+          setErrorMsg('Audio playback failed. Try again.');
+        }
+        
+        // Reset state
+        setIsPlaying(false);
+        isPlayingRef.current = false;
+        stopRAF();
+      }
     }
   };
 
