@@ -207,6 +207,23 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
           audio.currentTime = 0;
         }
         
+        // Set audio attributes for better mobile PWA compatibility
+        audio.setAttribute('playsinline', '');
+        audio.setAttribute('webkit-playsinline', '');
+        
+        // Create audio context if needed (helps with mobile PWA)
+        if (!window.AudioContext) {
+          window.AudioContext = (window as any).webkitAudioContext;
+        }
+        
+        // Resume audio context if suspended (common PWA issue)
+        if (window.AudioContext) {
+          const audioContext = new AudioContext();
+          if (audioContext.state === 'suspended') {
+            await audioContext.resume();
+          }
+        }
+        
         // Attempt to play with user gesture context
         const playPromise = audio.play();
         
