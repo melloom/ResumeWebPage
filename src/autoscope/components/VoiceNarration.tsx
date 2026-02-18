@@ -153,8 +153,12 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
       setUrl1(URL.createObjectURL(blob1));
       setUrl2(URL.createObjectURL(blob2));
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : String(err);
-      setErrorMsg(`Voice generation failed: ${msg}`);
+      const msg = (err instanceof Error ? err.message : String(err)).toLowerCase();
+      const isQuota = msg.includes('quota') || msg.includes('429') || msg.includes('exceeded') || msg.includes('limit');
+      setErrorMsg(isQuota
+        ? 'Voice narration is currently down — come back later!'
+        : 'Voice generation failed. Please try again.'
+      );
       setStarted(false);
     } finally {
       setIsLoading(false);
