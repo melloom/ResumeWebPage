@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { Play, Pause, Volume2, VolumeX, Mic } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { elevenLabsService } from '@/autoscope/services/elevenLabsService';
 
-// ─── Narration text ─────────────────────────────────────────────────────────
+// ─── Narration text (must match generate-narration.js exactly) ───────────────
 const lifeStoryRaw = `I'm Melvin Peralta.
 
 I grew up in New York. In the Bronx. With a single parent. We didn't have much. I'm not saying that for sympathy — it's just the truth. When you grow up like that, you learn what pressure feels like early. You learn what it means to hear "no" a lot. You learn how to make things stretch, how to read a room, how to stay tough even when you're tired, and how to keep going... without anyone promising you it's going to work out.
@@ -16,9 +17,9 @@ I didn't have a clear map. I didn't have people handing me opportunities. I didn
 
 At first, I tried to do it the normal way. Keep my head down, get through things, hope the right doors appear. But I realized something. Doors don't always open for people like me. Sometimes you have to build your own.
 
-That's what building became for me.`;
+That's what building became for me.
 
-const lifeStoryRaw2 = `I got pulled into tech because it felt like one of the few places where the work can speak louder than your background. Code doesn't care where you're from. A working product doesn't care what you started with. Either it runs or it doesn't. Either the UI makes sense or it doesn't. Either you shipped or you didn't.
+I got pulled into tech because it felt like one of the few places where the work can speak louder than your background. Code doesn't care where you're from. A working product doesn't care what you started with. Either it runs or it doesn't. Either the UI makes sense or it doesn't. Either you shipped or you didn't.
 
 And I loved that. <chuckle> Because for the first time, effort had a clear outcome. I could put time into something and actually see progress. Even if I was learning slow, even if I messed up, I could keep going and the results would show up right in front of me. That was addictive — in the best way.
 
@@ -48,38 +49,20 @@ If something here matches what you're building — reach out. I'm easy to work w
 
 And no matter what I build next, the goal stays the same: keep turning pressure into progress.`;
 
-// Clean each part (strip expression tags)
+// Clean expression tags
 const clean = (raw: string) =>
   raw.replace(/<(laugh|chuckle|sigh|gasp)>/gi, '').replace(/\s+/g, ' ').trim();
 
-const cleanPart1 = clean(lifeStoryRaw);
-const cleanPart2 = clean(lifeStoryRaw2);
-const fullClean = cleanPart1 + ' ' + cleanPart2;
+const cleanText = clean(lifeStoryRaw);
 
-// ─── Sentence splitting (over full text) ────────────────────────────────────
-const SENTENCES: string[] = fullClean
+// ─── Sentence splitting ───────────────────────────────────────────────────────
+const SENTENCES: string[] = cleanText
   .replace(/([.!?])\s+/g, '$1\n')
   .split('\n')
   .map(s => s.trim())
   .filter(s => s.length > 0);
 
-// Sentence boundaries per part (for audio time → sentence mapping)
-const part1Sentences = cleanPart1
-  .replace(/([.!?])\s+/g, '$1\n')
-  .split('\n')
-  .map(s => s.trim())
-  .filter(s => s.length > 0);
-const PART1_SENTENCE_COUNT = part1Sentences.length;
-
-// Word counts for time-based sync
-const wordsIn = (s: string) => s.split(/\s+/).length;
-const PART1_WORDS = part1Sentences.reduce((n, s) => n + wordsIn(s), 0);
-const PART2_WORDS = SENTENCES.slice(PART1_SENTENCE_COUNT).reduce((n, s) => n + wordsIn(s), 0);
-
-const sentenceFromWord = (wordIdx: number, totalWords: number, sentenceOffset: number, sentenceCount: number) => {
-  const ratio = Math.min(wordIdx / totalWords, 0.9999);
-  return sentenceOffset + Math.min(Math.floor(ratio * sentenceCount), sentenceCount - 1);
-};
+const TOTAL_WORDS = SENTENCES.reduce((n, s) => n + s.split(/\s+/).length, 0);
 
 // ─── Component ───────────────────────────────────────────────────────────────
 interface VoiceNarrationProps {
@@ -88,45 +71,37 @@ interface VoiceNarrationProps {
 }
 
 const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationProps) => {
-  const [isPlaying, setIsPlaying]       = useState(false);
-  const [isMuted, setIsMuted]           = useState(false);
-  const [isLoading, setIsLoading]       = useState(false);
-  const [errorMsg, setErrorMsg]         = useState<string | null>(null);
+  const [isPlaying, setIsPlaying]               = useState(false);
+  const [isMuted, setIsMuted]                   = useState(false);
+  const [isLoading, setIsLoading]               = useState(false);
+  const [errorMsg, setErrorMsg]                 = useState<string | null>(null);
   const [activeSentenceIdx, setActiveSentenceIdx] = useState(-1);
-  const [currentTime, setCurrentTime]   = useState(0);
-  const [duration, setDuration]         = useState(0);
+  const [currentTime, setCurrentTime]           = useState(0);
+  const [duration, setDuration]                 = useState(0);
+  const [audioUrl, setAudioUrl]                 = useState<string | null>(null);
+  const [started, setStarted]                   = useState(false);
 
-  // Two audio chunks
-  const [url1, setUrl1] = useState<string | null>(null);
-  const [url2, setUrl2] = useState<string | null>(null);
-  const [started, setStarted] = useState(false); // whether generation has been triggered
-  const currentPartRef = useRef<1 | 2>(1);
-
-  const audio1Ref = useRef<HTMLAudioElement>(null);
-  const audio2Ref = useRef<HTMLAudioElement>(null);
-  const rafRef    = useRef<number>(0);
-  const dur1Ref   = useRef(0);
-  const dur2Ref   = useRef(0);
+  const audioRef     = useRef<HTMLAudioElement>(null);
+  const rafRef       = useRef<number>(0);
+  const durRef       = useRef(0);
   const isPlayingRef = useRef(false);
 
-  // ─── RAF sync ──────────────────────────────────────────────────────────────
-  const startRAF = useCallback((part: 1 | 2) => {
+  // ─── RAF sync (60fps audio → sentence mapping) ────────────────────────────
+  const startRAF = useCallback(() => {
     const tick = () => {
-      const audio = part === 1 ? audio1Ref.current : audio2Ref.current;
-      const dur   = part === 1 ? dur1Ref.current   : dur2Ref.current;
-      const sentOff   = part === 1 ? 0 : PART1_SENTENCE_COUNT;
-      const sentCount = part === 1 ? PART1_SENTENCE_COUNT : SENTENCES.length - PART1_SENTENCE_COUNT;
-      const totalW    = part === 1 ? PART1_WORDS : PART2_WORDS;
+      const audio = audioRef.current;
+      const dur   = durRef.current;
+      if (!audio || !dur) { rafRef.current = requestAnimationFrame(tick); return; }
 
-      if (!audio || !dur) {
-        rafRef.current = requestAnimationFrame(tick);
-        return;
-      }
       const ct = audio.currentTime;
       setCurrentTime(ct);
-      const wordDur = dur / totalW;
-      const wordIdx = Math.min(Math.floor(ct / wordDur), totalW - 1);
-      setActiveSentenceIdx(sentenceFromWord(wordIdx, totalW, sentOff, sentCount));
+
+      // Map audio position → word index → sentence index
+      const wordIdx  = Math.min(Math.floor((ct / dur) * TOTAL_WORDS), TOTAL_WORDS - 1);
+      const ratio    = Math.min(wordIdx / TOTAL_WORDS, 0.9999);
+      const sentIdx  = Math.min(Math.floor(ratio * SENTENCES.length), SENTENCES.length - 1);
+      setActiveSentenceIdx(sentIdx);
+
       if (isPlayingRef.current) rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
@@ -134,39 +109,30 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
 
   const stopRAF = useCallback(() => cancelAnimationFrame(rafRef.current), []);
 
-  // ─── Load audio — static files first, API fallback ────────────────────────
+  // ─── Load audio — static file first, API fallback ─────────────────────────
   const generate = async () => {
     setStarted(true);
     setIsLoading(true);
     setErrorMsg(null);
 
     try {
-      // Try pre-generated static files first (zero quota cost, instant load)
-      const [r1, r2] = await Promise.all([
-        fetch('/narration-1.mp3'),
-        fetch('/narration-2.mp3'),
-      ]);
-
-      if (r1.ok && r2.ok) {
-        const [b1, b2] = await Promise.all([r1.blob(), r2.blob()]);
-        setUrl1(URL.createObjectURL(b1));
-        setUrl2(URL.createObjectURL(b2));
+      // Try pre-generated static file first (zero quota cost)
+      const r = await fetch('/narration.mp3');
+      if (r.ok) {
+        const blob = await r.blob();
+        setAudioUrl(URL.createObjectURL(blob));
         return;
       }
 
-      // Static files not found — fall back to ElevenLabs API
+      // Static file not found — fall back to ElevenLabs API
       if (!elevenLabsService.isConfigured()) {
         setErrorMsg('Voice narration is currently down — come back later!');
         setStarted(false);
         return;
       }
 
-      const [blob1, blob2] = await Promise.all([
-        elevenLabsService.generateVoiceAudio(lifeStoryRaw),
-        elevenLabsService.generateVoiceAudio(lifeStoryRaw2),
-      ]);
-      setUrl1(URL.createObjectURL(blob1));
-      setUrl2(URL.createObjectURL(blob2));
+      const blob = await elevenLabsService.generateVoiceAudio(lifeStoryRaw);
+      setAudioUrl(URL.createObjectURL(blob));
     } catch (err: unknown) {
       const msg = (err instanceof Error ? err.message : String(err)).toLowerCase();
       const isQuota = msg.includes('quota') || msg.includes('429') || msg.includes('exceeded') || msg.includes('limit');
@@ -180,78 +146,47 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
     }
   };
 
-  // Auto-play part 1 when its URL is ready
+  // Auto-play when URL is ready
   useEffect(() => {
-    if (!url1 || !audio1Ref.current) return;
-    currentPartRef.current = 1;
-    audio1Ref.current.play().then(() => {
+    if (!audioUrl || !audioRef.current) return;
+    audioRef.current.play().then(() => {
       setIsPlaying(true);
       isPlayingRef.current = true;
       setActiveSentenceIdx(0);
-      startRAF(1);
+      startRAF();
       onNarrationChange?.(true);
     }).catch(() => {});
-  }, [url1, startRAF, onNarrationChange]);
+  }, [audioUrl, startRAF, onNarrationChange]);
 
   // ─── Toggle play / pause ──────────────────────────────────────────────────
   const togglePlay = async () => {
     if (isLoading) return;
     setErrorMsg(null);
-
     if (!started) { generate(); return; }
-
-    const curAudio = currentPartRef.current === 1 ? audio1Ref.current : audio2Ref.current;
-    if (!curAudio) return;
+    const audio = audioRef.current;
+    if (!audio) return;
 
     if (isPlaying) {
-      curAudio.pause();
+      audio.pause();
       setIsPlaying(false);
       isPlayingRef.current = false;
       stopRAF();
       onNarrationChange?.(false);
     } else {
-      await curAudio.play();
+      await audio.play();
       setIsPlaying(true);
       isPlayingRef.current = true;
-      startRAF(currentPartRef.current);
+      startRAF();
       onNarrationChange?.(true);
     }
   };
 
   const toggleMute = () => {
-    if (audio1Ref.current) audio1Ref.current.muted = !isMuted;
-    if (audio2Ref.current) audio2Ref.current.muted = !isMuted;
+    if (audioRef.current) audioRef.current.muted = !isMuted;
     setIsMuted(v => !v);
   };
 
-  // Part 1 ended → start part 2
-  const onPart1Ended = useCallback(() => {
-    stopRAF();
-    if (!audio2Ref.current || !url2) {
-      // Part 2 not ready yet — wait for it (url2 effect will trigger play)
-      currentPartRef.current = 2;
-      return;
-    }
-    currentPartRef.current = 2;
-    audio2Ref.current.play().then(() => {
-      startRAF(2);
-    }).catch(() => {});
-  }, [url2, stopRAF, startRAF]);
-
-  // If part 2 URL arrives while we're waiting for it after part 1 ended
-  useEffect(() => {
-    if (!url2 || !audio2Ref.current) return;
-    if (currentPartRef.current === 2 && !isPlaying) {
-      audio2Ref.current.play().then(() => {
-        setIsPlaying(true);
-        isPlayingRef.current = true;
-        startRAF(2);
-      }).catch(() => {});
-    }
-  }, [url2, isPlaying, startRAF]);
-
-  // Part 2 ended
-  const onPart2Ended = useCallback(() => {
+  const onEnded = useCallback(() => {
     stopRAF();
     setIsPlaying(false);
     isPlayingRef.current = false;
@@ -260,40 +195,43 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
     onNarrationChange?.(false);
   }, [stopRAF, onNarrationChange]);
 
-  const fmt = (t: number) => `${Math.floor(t / 60)}:${Math.floor(t % 60).toString().padStart(2, '00')}`;
+  const fmt = (t: number) => `${Math.floor(t / 60)}:${Math.floor(t % 60).toString().padStart(2, '0')}`;
 
   useEffect(() => () => {
     stopRAF();
-    if (url1) URL.revokeObjectURL(url1);
-    if (url2) URL.revokeObjectURL(url2);
-  }, [url1, url2, stopRAF]);
+    if (audioUrl) URL.revokeObjectURL(audioUrl);
+  }, [audioUrl, stopRAF]);
 
   // ─── Derive visible sentences ─────────────────────────────────────────────
   const prev = activeSentenceIdx > 0 ? SENTENCES[activeSentenceIdx - 1] : null;
   const curr = activeSentenceIdx >= 0 && activeSentenceIdx < SENTENCES.length ? SENTENCES[activeSentenceIdx] : null;
   const next = activeSentenceIdx >= 0 && activeSentenceIdx < SENTENCES.length - 1 ? SENTENCES[activeSentenceIdx + 1] : null;
 
-  const totalDur = dur1Ref.current + dur2Ref.current;
-  const elapsed  = currentPartRef.current === 1
-    ? currentTime
-    : dur1Ref.current + currentTime;
-
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <>
-      {/* ── Transcript overlay — true center of viewport ── */}
-      <AnimatePresence>
-        {isPlaying && activeSentenceIdx >= 0 && (
+      {/* ── Transcript — rendered via portal to escape parent transforms ── */}
+      {isPlaying && activeSentenceIdx >= 0 && createPortal(
+        <AnimatePresence>
           <motion.div
             key="transcript"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 pointer-events-none z-40 flex flex-col items-center justify-center px-6"
+            style={{
+              position: 'fixed',
+              inset: 0,
+              pointerEvents: 'none',
+              zIndex: 40,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0 24px',
+            }}
           >
-            {/* Inner content — offset up by half the pill height so it looks truly centered */}
-            <div className="flex flex-col items-center gap-3 max-w-xl sm:max-w-2xl text-center" style={{ marginBottom: '80px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', maxWidth: '640px', textAlign: 'center', marginBottom: '100px' }}>
 
               <AnimatePresence mode="wait">
                 {prev && (
@@ -303,7 +241,7 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
-                    className="text-sm sm:text-base font-medium leading-relaxed select-none text-white/25"
+                    style={{ fontSize: '14px', fontWeight: 500, lineHeight: 1.6, userSelect: 'none', color: 'rgba(255,255,255,0.22)', margin: 0 }}
                   >
                     {prev}
                   </motion.p>
@@ -318,7 +256,15 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 1.03 }}
                     transition={{ duration: 0.18 }}
-                    className="text-xl sm:text-3xl font-bold leading-snug select-none text-white drop-shadow-[0_0_22px_rgba(96,165,250,0.75)]"
+                    style={{
+                      fontSize: 'clamp(18px, 3vw, 28px)',
+                      fontWeight: 700,
+                      lineHeight: 1.35,
+                      userSelect: 'none',
+                      color: '#ffffff',
+                      textShadow: '0 0 22px rgba(96,165,250,0.75)',
+                      margin: 0,
+                    }}
                   >
                     {curr}
                   </motion.p>
@@ -333,37 +279,51 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.2 }}
-                    className="text-sm sm:text-base font-medium leading-relaxed select-none text-white/25"
+                    style={{ fontSize: '14px', fontWeight: 500, lineHeight: 1.6, userSelect: 'none', color: 'rgba(255,255,255,0.22)', margin: 0 }}
                   >
                     {next}
                   </motion.p>
                 )}
               </AnimatePresence>
 
-              {/* Progress bar (once part 1 duration is known) */}
-              {totalDur > 0 && (
-                <div className="mt-4 flex flex-col items-center gap-1">
-                  <div className="w-32 sm:w-48 h-px bg-white/12 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-blue-400/50 rounded-full"
-                      style={{ width: `${(elapsed / totalDur) * 100}%`, transition: 'width 0.1s linear' }}
-                    />
+              {duration > 0 && (
+                <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ width: '160px', height: '1px', background: 'rgba(255,255,255,0.1)', borderRadius: '999px', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', background: 'rgba(96,165,250,0.5)', borderRadius: '999px', width: `${(currentTime / duration) * 100}%`, transition: 'width 0.1s linear' }} />
                   </div>
-                  <span className="text-xs text-white/20 font-mono tabular-nums tracking-widest">
-                    {fmt(elapsed)} / {fmt(totalDur)}
+                  <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.18)', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
+                    {fmt(currentTime)} / {fmt(duration)}
                   </span>
                 </div>
               )}
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
 
-      {/* Error message */}
-      {errorMsg && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-red-900/80 backdrop-blur border border-red-500/40 text-red-200 text-xs px-4 py-2 rounded-full max-w-xs text-center pointer-events-none">
+      {/* Error message — also portalled so it escapes transforms */}
+      {errorMsg && createPortal(
+        <div style={{
+          position: 'fixed',
+          top: '16px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 50,
+          background: 'rgba(127,29,29,0.85)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(239,68,68,0.4)',
+          color: 'rgba(252,165,165,1)',
+          fontSize: '12px',
+          padding: '8px 16px',
+          borderRadius: '999px',
+          maxWidth: '280px',
+          textAlign: 'center',
+          pointerEvents: 'none',
+        }}>
           {errorMsg}
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* ── Compact pill control ── */}
@@ -379,7 +339,7 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
         </div>
 
         <span className="text-xs text-white/65 font-medium whitespace-nowrap select-none">
-          {isLoading ? 'Generating...' : isPlaying ? 'Narrating' : 'Hear My Story'}
+          {isLoading ? 'Loading...' : isPlaying ? 'Narrating' : 'Hear My Story'}
         </span>
 
         <button
@@ -406,26 +366,18 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
         </button>
       </div>
 
-      {/* Hidden audio elements */}
-      {url1 && (
+      {/* Hidden audio element */}
+      {audioUrl && (
         <audio
-          ref={audio1Ref}
-          src={url1}
+          ref={audioRef}
+          src={audioUrl}
           onLoadedMetadata={() => {
-            if (audio1Ref.current) { dur1Ref.current = audio1Ref.current.duration; setDuration(d => d + audio1Ref.current!.duration); }
+            if (audioRef.current) {
+              durRef.current = audioRef.current.duration;
+              setDuration(audioRef.current.duration);
+            }
           }}
-          onEnded={onPart1Ended}
-          preload="auto"
-        />
-      )}
-      {url2 && (
-        <audio
-          ref={audio2Ref}
-          src={url2}
-          onLoadedMetadata={() => {
-            if (audio2Ref.current) { dur2Ref.current = audio2Ref.current.duration; setDuration(d => d + audio2Ref.current!.duration); }
-          }}
-          onEnded={onPart2Ended}
+          onEnded={onEnded}
           preload="auto"
         />
       )}

@@ -245,9 +245,9 @@ interface BlackHole {
 
 type ShapePattern = 'circle' | 'heart' | 'spiral' | 'infinity' | 'star' | 'random';
 
-const MAX_STARS = 300; // Doubled from 150 to 300
-const MAX_PARTICLES = 100;
-const MAX_FLOATING_WORDS = 12;
+const MAX_STARS = 250; // Reduced from 300 for performance
+const MAX_PARTICLES = 60; // Reduced from 100 for performance
+const MAX_FLOATING_WORDS = 10; // Reduced from 12 for performance
 const CURSOR_RADIUS = 120;
 const FORMATION_RADIUS = 100;
 
@@ -1421,18 +1421,18 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       starsRef.current.push(createStar());
     }
 
-    // Start ambient word generation
+    // Start ambient word generation - optimized
     const ambientWordInterval = setInterval(() => {
-      if (Math.random() > 0.4 && floatingWordsRef.current.length < MAX_FLOATING_WORDS) { // 60% chance to spawn
+      if (Math.random() > 0.5 && floatingWordsRef.current.length < MAX_FLOATING_WORDS) { // 50% chance instead of 60%
         const x = Math.random() * cw();
         const y = Math.random() * ch();
         floatingWordsRef.current.push(createFloatingWord(x, y, true));
       }
-    }, 3000);
+    }, 4000); // Increased from 3000ms to 4000ms
     
-    // Create shooting stars occasionally
+    // Create shooting stars occasionally - optimized
     const shootingStarInterval = setInterval(() => {
-      if (shootingStarsRef.current.length < 3 && Math.random() > 0.7) {
+      if (shootingStarsRef.current.length < 2 && Math.random() > 0.8) { // Reduced max and increased threshold
         shootingStarsRef.current.push({
           x: Math.random() * cw(),
           y: Math.random() * ch() * 0.3,
@@ -1444,7 +1444,7 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
           trail: []
         });
       }
-    }, 3000);
+    }, 5000); // Increased from 3000ms to 5000ms
 
     // Create random shapes occasionally - More frequent for better visibility
     const shapeMakerInterval = setInterval(() => {
@@ -1464,73 +1464,56 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       frameRef.current++;
       const W = canvas.offsetWidth;
       const H = canvas.offsetHeight;
-      frameRef.current++;
 
-      // Clear with fade effect
-      ctx.fillStyle = 'rgba(10, 10, 30, 0.08)';
+      // Clear with fade effect - optimized
+      ctx.fillStyle = 'rgba(10, 10, 30, 0.1)';
       ctx.fillRect(0, 0, W, H);
 
       const mouse = mouseRef.current;
       const stars = starsRef.current;
 
-      // Update constellation lines - Enhanced and smoother
-      if (frameRef.current % 3 === 0) { // Update more frequently for smoother transitions
+      // Update constellation lines - less frequent for performance
+      if (frameRef.current % 4 === 0) {
         updateConstellationLines();
       }
 
-      // Draw constellation lines with enhanced rendering
+      // Draw constellation lines - optimized rendering
       constellationLinesRef.current.forEach(line => {
         const star1 = stars[line.star1Index];
         const star2 = stars[line.star2Index];
-        if (star1 && star2) {
-          // Smooth constellation line drawing with better interpolation
+        if (star1 && star2 && line.strength > 0.1) {
           ctx.beginPath();
-          
-          // Use quadratic bezier curves for smoother lines
-          const midX = (star1.x + star2.x) / 2;
-          const midY = (star1.y + star2.y) / 2;
-          
           ctx.moveTo(star1.x, star1.y);
-          ctx.quadraticCurveTo(
-            midX, midY,
-            star2.x, star2.y
-          );
+          ctx.lineTo(star2.x, star2.y);
           
-          // Enhanced gradient with smoother transitions
-          const gradient = ctx.createLinearGradient(star1.x, star1.y, star2.x, star2.y);
-          const baseHue = 200 + Math.random() * 60;
-          gradient.addColorStop(0, `hsla(${baseHue}, 80%, 70%, ${line.strength * 0.6})`);
-          gradient.addColorStop(0.5, `hsla(${baseHue + 20}, 90%, 80%, ${line.strength * 0.8})`);
-          gradient.addColorStop(1, `hsla(${baseHue + 40}, 100%, 90%, ${line.strength})`);
-          
-          ctx.strokeStyle = gradient;
-          ctx.lineWidth = 2 * line.strength;
+          // Simplified coloring for performance
+          ctx.strokeStyle = `hsla(200, 80%, 70%, ${line.strength * 0.6})`;
+          ctx.lineWidth = Math.max(0.5, 1.5 * line.strength);
           ctx.lineCap = 'round';
-          ctx.globalAlpha = 0.8; // Slight transparency for smoother blending
-          
           ctx.stroke();
-          ctx.globalAlpha = 1; // Reset alpha
         }
       });
 
-      // Update and draw stars
+      // Update and draw stars - optimized
       stars.forEach((star) => {
-        // Enhanced twinkle effect with offset
+        // Simplified twinkle effect
         star.brightness += star.twinkleSpeed;
         if (star.brightness > 1 || star.brightness < 0.2) {
           star.twinkleSpeed = -star.twinkleSpeed;
         }
         star.brightness = Math.max(0.2, Math.min(1, star.brightness));
         
-        // Update pulse phase
-        if (star.pulsePhase !== undefined) {
-          star.pulsePhase += 0.02;
-          const pulse = Math.sin(star.pulsePhase) * 0.2 + 1;
-        }
-        
-        // Update color shift
-        if (star.colorShift !== undefined) {
-          star.colorShift += 0.01;
+        // Skip expensive updates if not needed
+        if (frameRef.current % 2 === 0) {
+          // Update pulse phase less frequently
+          if (star.pulsePhase !== undefined) {
+            star.pulsePhase += 0.04;
+          }
+          
+          // Update color shift less frequently  
+          if (star.colorShift !== undefined) {
+            star.colorShift += 0.02;
+          }
         }
 
         // Shape formation
@@ -2297,20 +2280,20 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       }
     }
     
-    // Create mouse trail particles
-    if (frameRef.current % 3 === 0) { // Every 3 frames for performance
+    // Create mouse trail particles - optimized for performance
+    if (frameRef.current % 5 === 0) { // Every 5 frames instead of 3
       createMouseTrail(x, y);
       
-      // Create small particles around mouse (less frequent)
-      if (Math.random() > 0.8) {
+      // Create small particles around mouse (much less frequent)
+      if (Math.random() > 0.9) { // Changed from 0.8 to 0.9
         const particle = createParticle(
           x + (Math.random() - 0.5) * 20,
           y + (Math.random() - 0.5) * 20,
           'trail',
           `hsl(${180 + Math.random() * 60}, 70%, 60%)`
         );
-        particle.maxLife = 15;
-        particle.size = Math.random() * 2 + 0.5;
+        particle.maxLife = 12; // Reduced from 15
+        particle.size = Math.random() * 1.5 + 0.5; // Reduced max size
         particlesRef.current.push(particle);
       }
     }
@@ -2473,13 +2456,13 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       {/* ── Back to Portfolio ── */}
       <div className="absolute top-4 left-4 z-30">
         <Link
-          to="/"
+          to="/ai-lab"
           className="flex items-center gap-1.5 bg-black/60 backdrop-blur-sm border border-white/15 rounded-full px-3 py-1.5 text-xs text-white/70 hover:text-white hover:border-white/35 transition-all duration-200 select-none"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="flex-shrink-0">
             <path d="M8 2L4 6L8 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Portfolio
+          AI Lab
         </Link>
       </div>
 
@@ -2492,8 +2475,8 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
         )}
       </div>
 
-      {/* ── Voice narration pill — bottom-center ── */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
+      {/* ── Voice narration pill — center-screen ── */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
         <VoiceNarration onNarrationChange={onNarrationChange} />
       </div>
     </div>

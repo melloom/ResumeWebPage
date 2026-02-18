@@ -1,11 +1,10 @@
 /**
- * Run once to pre-generate narration audio files:
+ * Run once to pre-generate narration audio:
  *   node scripts/generate-narration.js
  *
- * Saves:  public/narration-1.mp3
- *         public/narration-2.mp3
+ * Saves:  public/narration.mp3
  *
- * After running, the site serves these static files — no ElevenLabs quota used on each visit.
+ * After running, the site serves this static file — no ElevenLabs quota used on each visit.
  */
 
 const fs      = require('fs');
@@ -19,12 +18,12 @@ const MODEL_ID = 'eleven_multilingual_v2';
 const PUBLIC   = path.join(__dirname, '..', 'public');
 
 if (!API_KEY) {
-  console.error('❌  VITE_ELEVENLABS_API_KEY is not set in .env');
+  console.error('❌  VITE_ELEVENLABS_API_KEY is not set in .env.local');
   process.exit(1);
 }
 
-// ─── Text (must match VoiceNarration.tsx exactly) ────────────────────────────
-const part1 = `I'm Melvin Peralta.
+// ─── Full narration text (must match VoiceNarration.tsx exactly) ──────────────
+const fullText = `I'm Melvin Peralta.
 
 I grew up in New York. In the Bronx. With a single parent. We didn't have much. I'm not saying that for sympathy — it's just the truth. When you grow up like that, you learn what pressure feels like early. You learn what it means to hear "no" a lot. You learn how to make things stretch, how to read a room, how to stay tough even when you're tired, and how to keep going... without anyone promising you it's going to work out.
 
@@ -36,9 +35,9 @@ I didn't have a clear map. I didn't have people handing me opportunities. I didn
 
 At first, I tried to do it the normal way. Keep my head down, get through things, hope the right doors appear. But I realized something. Doors don't always open for people like me. Sometimes you have to build your own.
 
-That's what building became for me.`;
+That's what building became for me.
 
-const part2 = `I got pulled into tech because it felt like one of the few places where the work can speak louder than your background. Code doesn't care where you're from. A working product doesn't care what you started with. Either it runs or it doesn't. Either the UI makes sense or it doesn't. Either you shipped or you didn't.
+I got pulled into tech because it felt like one of the few places where the work can speak louder than your background. Code doesn't care where you're from. A working product doesn't care what you started with. Either it runs or it doesn't. Either the UI makes sense or it doesn't. Either you shipped or you didn't.
 
 And I loved that. <chuckle> Because for the first time, effort had a clear outcome. I could put time into something and actually see progress. Even if I was learning slow, even if I messed up, I could keep going and the results would show up right in front of me. That was addictive — in the best way.
 
@@ -68,7 +67,7 @@ If something here matches what you're building — reach out. I'm easy to work w
 
 And no matter what I build next, the goal stays the same: keep turning pressure into progress.`;
 
-// ─── Generate one part ───────────────────────────────────────────────────────
+// ─── Generate ─────────────────────────────────────────────────────────────────
 async function generate(text, filename) {
   console.log(`⏳  Generating ${filename} (${text.length} chars)...`);
 
@@ -104,9 +103,8 @@ async function generate(text, filename) {
 // ─── Run ─────────────────────────────────────────────────────────────────────
 (async () => {
   try {
-    await generate(part1, 'narration-1.mp3');
-    await generate(part2, 'narration-2.mp3');
-    console.log('\n🎉  Done! Add narration-1.mp3 and narration-2.mp3 to git and push.');
+    await generate(fullText, 'narration.mp3');
+    console.log('\n🎉  Done! Add narration.mp3 to git and push.');
   } catch (err) {
     console.error('\n❌ ', err.message);
     process.exit(1);
