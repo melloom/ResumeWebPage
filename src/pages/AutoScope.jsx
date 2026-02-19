@@ -14,22 +14,143 @@ const AutoScope = () => {
     let cancelled = false;
     let audio = null;
     let playAttempts = 0;
+    let volumeEnforcer = null;
     const MAX_ATTEMPTS = 3;
+    
+    // Detect device type once and store it at the top level
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+                    window.innerWidth <= 768;
+
+    const cleanup = () => {
+      cancelled = true;
+      if (volumeEnforcer) clearInterval(volumeEnforcer);
+      if (audio) { 
+        audio.pause(); 
+        audio.src = ''; 
+        audio.removeAttribute('playsinline');
+        audio.removeAttribute('webkit-playsinline');
+        
+        // Clean up Web Audio API resources
+        if (audio.gainNode) {
+          audio.gainNode.disconnect();
+          audio.gainNode = null;
+        }
+        if (audio.audioContext) {
+          audio.audioContext.close();
+          audio.audioContext = null;
+        }
+      }
+      if (blobUrlRef.current) { 
+        URL.revokeObjectURL(blobUrlRef.current); 
+        blobUrlRef.current = null; 
+      }
+      musicRef.current = null;
+    };
 
     const loadAndPlay = async () => {
       try {
-        const res = await fetch('/' + encodeURIComponent(MUSIC_FILE));
+        // Try direct file path first, then encoded fallback
+        let res;
+        try {
+          res = await fetch('/' + MUSIC_FILE);
+        } catch (e) {
+          console.log('[AutoScope] Direct fetch failed, trying encoded path:', e.message);
+          res = await fetch('/' + encodeURIComponent(MUSIC_FILE));
+        }
+        
         if (!res.ok || cancelled) return;
         const blob = await res.blob();
         if (cancelled) return;
+        
+        // Debug: Check if we got valid audio data
+        console.log('[AutoScope] Audio blob size:', blob.size, 'bytes');
+        console.log('[AutoScope] Audio blob type:', blob.type);
+        
         const blobUrl = URL.createObjectURL(blob);
         blobUrlRef.current = blobUrl;
         audio = new Audio(blobUrl);
         audio.loop = true;
-        // Set different volumes for PWA vs web
-        const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
-                     window.navigator.standalone === true;
-        audio.volume = isPWA ? 0.001 : 0.08; // 0.1% for PWA (barely audible), 8% for web (subtle)
+        
+        // Add more debugging
+        audio.addEventListener('error', (e) => {
+          console.error('[AutoScope] Audio element error:', e);
+          console.error('[AutoScope] Audio error code:', audio.error);
+          console.error('[AutoScope] Audio error message:', audio.error?.message);
+          
+          // If mobile and Web Audio API failed, try fallback
+          if (isMobile && audio.gainNode && audio.error?.code === 4) {
+            console.log('[AutoScope] Mobile Web Audio API aborted, switching to regular volume control');
+            // Disconnect Web Audio API and use regular volume
+            if (audio.gainNode) {
+              audio.gainNode.disconnect();
+              audio.gainNode = null;
+            }
+            if (audio.audioContext) {
+              audio.audioContext.close();
+              audio.audioContext = null;
+            }
+            audio.volume = 0.07;
+            console.log('[AutoScope] Mobile fallback applied - Volume set to:', audio.volume);
+            
+            // Try to play again with regular volume
+            setTimeout(() => {
+              if (audio && audio.paused) {
+                audio.play().then(() => {
+                  console.log('[AutoScope] Mobile fallback play successful');
+                }).catch(e => {
+                  console.log('[AutoScope] Mobile fallback play failed:', e.message);
+                });
+              }
+            }, 100);
+          }
+        });
+        
+        audio.addEventListener('loadeddata', () => {
+          console.log('[AutoScope] Audio data loaded successfully');
+          console.log('[AutoScope] Audio duration:', audio.duration);
+          console.log('[AutoScope] Audio readyState:', audio.readyState);
+        });
+        
+        // Create Web Audio API context for better volume control on mobile only
+        let audioContext = null;
+        let gainNode = null;
+        
+        // Only use Web Audio API on mobile devices
+        if (isMobile) {
+          try {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const source = audioContext.createMediaElementSource(audio);
+            gainNode = audioContext.createGain();
+            
+            // Set gain based on device type
+            const targetGain = 0.07;
+            
+            gainNode.gain.value = targetGain;
+            console.log('[AutoScope] Mobile device detected - Using Web Audio API, Gain set to:', targetGain);
+            
+            // Connect audio nodes
+            source.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // Store references for cleanup
+            audio.gainNode = gainNode;
+            audio.audioContext = audioContext;
+            
+            // Also set regular volume as backup for mobile
+            audio.volume = 0.07;
+            console.log('[AutoScope] Mobile backup volume set to:', audio.volume);
+            
+          } catch (e) {
+            console.log('[AutoScope] Web Audio API not available, using fallback');
+            // Fallback to regular volume control
+            audio.volume = 0.07;
+            console.log('[AutoScope] Mobile fallback - Volume set to:', audio.volume);
+          }
+        } else {
+          // Desktop: use regular volume control
+          audio.volume = 0.08;
+          console.log('[AutoScope] Desktop detected - Using regular volume control, Volume set to:', audio.volume);
+        }
         audio.muted = false; // Ensure unmuted
         audio.preload = 'auto';
         
@@ -58,6 +179,15 @@ const AutoScope = () => {
 
             const playPromise = audio.play();
             if (playPromise !== undefined) {
+              // Ensure volume is still set correctly before playing
+              if (isMobile && audio.gainNode) {
+                // Mobile with Web Audio API - gain is already set
+                console.log('[AutoScope] Mobile Web Audio API - volume controlled by gain node');
+              } else {
+                // Desktop or mobile fallback - use regular volume
+                audio.volume = isMobile ? 0.07 : 0.08;
+                console.log('[AutoScope] Setting volume before play:', audio.volume);
+              }
               await playPromise;
               console.log('[AutoScope] Background music playing successfully, volume:', audio.volume);
             }
@@ -67,6 +197,15 @@ const AutoScope = () => {
             // Set up user interaction listeners for subsequent attempts
             const unlock = async () => {
               try {
+                // Ensure volume is still set correctly before playing
+                if (isMobile && audio.gainNode) {
+                  // Mobile with Web Audio API - gain is already set
+                  console.log('[AutoScope] Mobile Web Audio API unlock - volume controlled by gain node');
+                } else {
+                  // Desktop or mobile fallback - use regular volume
+                  audio.volume = isMobile ? 0.07 : 0.08;
+                  console.log('[AutoScope] Setting volume on unlock:', audio.volume);
+                }
                 await audio.play();
                 console.log('[AutoScope] Music unlocked by user interaction, volume:', audio.volume);
                 document.removeEventListener('click', unlock);
@@ -97,6 +236,33 @@ const AutoScope = () => {
           }
         }, 1000);
 
+        // Persistent volume enforcement - only for desktop and mobile fallback
+        volumeEnforcer = setInterval(() => {
+          if (audio && !cancelled) {
+            // Only enforce regular volume if not using Web Audio API
+            if (!isMobile || !audio.gainNode) {
+              const targetVolume = isMobile ? 0.07 : 0.08;
+              audio.volume = targetVolume;
+              // Force volume setting multiple times
+              setTimeout(() => audio.volume = targetVolume, 10);
+              setTimeout(() => audio.volume = targetVolume, 50);
+              setTimeout(() => audio.volume = targetVolume, 100);
+            }
+          }
+        }, 500); // More frequent enforcement
+
+        // Also enforce volume on audio events - only for desktop and mobile fallback
+        const enforceVolume = () => {
+          if (!isMobile || !audio.gainNode) {
+            const targetVolume = isMobile ? 0.07 : 0.08;
+            audio.volume = targetVolume;
+          }
+        };
+
+        audio.addEventListener('play', enforceVolume);
+        audio.addEventListener('playing', enforceVolume);
+        audio.addEventListener('volumechange', enforceVolume);
+
       } catch (_e) {
         console.log('[AutoScope] Music failed to load — not critical');
       }
@@ -104,20 +270,7 @@ const AutoScope = () => {
 
     loadAndPlay();
 
-    return () => {
-      cancelled = true;
-      if (audio) { 
-        audio.pause(); 
-        audio.src = ''; 
-        audio.removeAttribute('playsinline');
-        audio.removeAttribute('webkit-playsinline');
-      }
-      if (blobUrlRef.current) { 
-        URL.revokeObjectURL(blobUrlRef.current); 
-        blobUrlRef.current = null; 
-      }
-      musicRef.current = null;
-    };
+    return cleanup;
   }, []);
 
   return (

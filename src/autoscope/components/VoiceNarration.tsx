@@ -544,10 +544,10 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
             if (audioRef.current) {
               durRef.current = audioRef.current.duration;
               setDuration(audioRef.current.duration);
-              // Set narration volume - lower for PWA, normal for web
-              const isPWA = window.matchMedia('(display-mode: standalone)').matches || 
-                           window.navigator.standalone === true;
-              audioRef.current.volume = isPWA ? 0.4 : 0.8; // 40% for PWA, 80% for web
+              // Set narration volume - louder on mobile, normal on desktop
+              const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+                              window.innerWidth <= 768;
+              audioRef.current.volume = isMobile ? 0.8 : 0.8; // 80% for both mobile and desktop
             }
           }}
           onEnded={onEnded}
