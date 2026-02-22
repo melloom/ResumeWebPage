@@ -336,37 +336,25 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
   }, []);
 
   const createStar = useCallback((x?: number, y?: number): Star => {
-    // Enhanced color variety for more vibrant stars
-    const colorTypes = [
-      { hue: 220 + Math.random() * 40, saturation: 85, lightness: 75 + Math.random() * 25 }, // Blue stars
-      { hue: 280 + Math.random() * 40, saturation: 90, lightness: 70 + Math.random() * 30 }, // Purple stars
-      { hue: 180 + Math.random() * 40, saturation: 85, lightness: 75 + Math.random() * 25 }, // Cyan stars
-      { hue: 30 + Math.random() * 30, saturation: 90, lightness: 70 + Math.random() * 30 },  // Orange stars
-      { hue: 120 + Math.random() * 40, saturation: 85, lightness: 75 + Math.random() * 25 }, // Green stars
-      { hue: 0 + Math.random() * 30, saturation: 90, lightness: 70 + Math.random() * 30 },   // Red stars
-      { hue: 60 + Math.random() * 30, saturation: 85, lightness: 75 + Math.random() * 25 },  // Yellow stars
-      { hue: 300 + Math.random() * 60, saturation: 80, lightness: 80 + Math.random() * 20 },  // Pink/magenta stars
-    ];
-    
-    // Pick a random color type
-    const selectedColor = colorTypes[Math.floor(Math.random() * colorTypes.length)];
-    const baseHue = selectedColor.hue;
-    const saturation = selectedColor.saturation;
-    const lightness = selectedColor.lightness;
+    // Simple white/light blue stars - not colorful blobs
+    const starBrightness = 0.3 + Math.random() * 0.7;
+    const isBlueTint = Math.random() > 0.7; // 30% chance of slight blue tint
     
     return {
       x: x ?? Math.random() * cw(),
       y: y ?? Math.random() * ch(),
-      size: Math.random() * 3 + 0.5,
-      brightness: Math.random(),
-      twinkleSpeed: 0.01 + Math.random() * 0.04,
-      color: `hsl(${baseHue}, ${saturation}%, ${lightness}%)`,
+      size: Math.random() * 1.5 + 0.5, // Smaller, more subtle stars
+      brightness: starBrightness,
+      twinkleSpeed: 0.01 + Math.random() * 0.02, // Slower, gentler twinkle
+      color: isBlueTint 
+        ? `hsl(200, 30%, ${85 + starBrightness * 10}%)`  // Slight blue tint
+        : `hsl(0, 0%, ${85 + starBrightness * 10}%)`,     // White stars
       vx: 0,
       vy: 0,
       isForming: false,
       formationStrength: 0,
-      // Enhanced star properties
-      glowIntensity: Math.random() * 1.5 + 1,
+      // Simplified star properties
+      glowIntensity: starBrightness * 0.5, // Much more subtle glow
       pulsePhase: Math.random() * Math.PI * 2,
       twinkleOffset: Math.random() * Math.PI * 2,
       colorShift: Math.random() * 20 - 10,
@@ -1598,11 +1586,11 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
         
         const dynamicColor = `hsl(${newHue}, ${saturation}%, ${lightness + twinkle * 10}%)`;
         
-        // Draw enhanced halo for all stars
-        if (star.haloSize) {
-          const haloOpacity = 0.3 * twinkle * pulse;
+        // Draw subtle halo for brighter stars only
+        if (star.haloSize && starBrightness > 0.7) {
+          const haloOpacity = 0.1 * twinkle * pulse; // Much more subtle
           ctx.beginPath();
-          ctx.arc(star.x, star.y, star.haloSize * pulse, 0, Math.PI * 2);
+          ctx.arc(star.x, star.y, star.haloSize * pulse * 0.5, 0, Math.PI * 2); // Smaller halo
           ctx.fillStyle = dynamicColor.replace(')', `, ${haloOpacity})`).replace('hsl', 'hsla');
           ctx.fill();
         }
@@ -1614,15 +1602,16 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
         ctx.beginPath();
         ctx.arc(star.x, star.y, actualSize, 0, Math.PI * 2);
         
-        // Enhanced glow effect
-        const glowSize = actualSize * (star.glowIntensity || 1.5);
-        const glowGradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowSize);
-        glowGradient.addColorStop(0, dynamicColor.replace(')', `, ${twinkle})`).replace('hsl', 'hsla'));
-        glowGradient.addColorStop(0.3, dynamicColor.replace(')', `, ${twinkle * 0.8})`).replace('hsl', 'hsla'));
-        glowGradient.addColorStop(1, 'transparent');
-        
-        ctx.fillStyle = glowGradient;
-        ctx.fill();
+        // Simple, subtle glow effect
+        if (star.glowIntensity && star.glowIntensity > 0.3) {
+          const glowSize = actualSize * 1.5;
+          const glowGradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, glowSize);
+          glowGradient.addColorStop(0, dynamicColor.replace(')', `, ${twinkle * 0.3})`).replace('hsl', 'hsla'));
+          glowGradient.addColorStop(1, 'transparent');
+          
+          ctx.fillStyle = glowGradient;
+          ctx.fill();
+        }
         
         // Draw bright core
         ctx.beginPath();
