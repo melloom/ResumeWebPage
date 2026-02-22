@@ -63,7 +63,39 @@ const SENTENCES: string[] = cleanText
   .filter(s => s.length > 0);
 
 // Character-based timing: longer sentences get proportionally more time
-const SENT_CHARS = SENTENCES.map(s => s.length + 1); // +1 for inter-sentence gap
+// Adjusted timing multiplier to speed up first words and match voice pace
+// Decrease this value if text is still too slow, increase if too fast
+// Range: 1.0 (slower) - 2.5 (faster)
+const TIMING_MULTIPLIER = 2.5; // Increased to match faster voice pace
+
+// Enhanced timing calculation that accounts for paragraph structure
+// Short sentences (< 30 chars): get extra time for readability
+// Medium sentences (30-80 chars): normal timing
+// Long sentences (> 80 chars): get proportionally more time
+const SENT_CHARS = SENTENCES.map((s, index) => {
+  const baseLength = s.length + 1; // +1 for inter-sentence gap
+  let adjustedTime = baseLength * TIMING_MULTIPLIER;
+  
+  // Speed up first few sentences to match voice pace
+  if (index < 3) {
+    adjustedTime *= 0.7; // 30% faster for first 3 sentences
+  }
+  // Slightly speed up early sentences
+  else if (index < 8) {
+    adjustedTime *= 0.85; // 15% faster for sentences 4-8
+  }
+  
+  // Add extra time for very short sentences to prevent rushing
+  if (baseLength < 30) {
+    adjustedTime += 15; // Add 15 character-equivalents of time for short sentences
+  }
+  // Add proportional time for very long sentences
+  else if (baseLength > 80) {
+    adjustedTime += (baseLength - 80) * 0.4; // Add 40% extra time for characters beyond 80
+  }
+  
+  return Math.floor(adjustedTime);
+});
 const TOTAL_CHARS = SENT_CHARS.reduce((a, b) => a + b, 0);
 // Cumulative end-position (in chars) for each sentence
 const SENT_END: number[] = SENT_CHARS.reduce((acc: number[], c) => {
@@ -107,6 +139,7 @@ const VoiceNarration = ({ className = '', onNarrationChange }: VoiceNarrationPro
       setCurrentTime(ct);
 
       // Character-based sentence lookup — longer sentences get more time
+      // Apply timing multiplier to sync faster with narration speech pace
       const charPos = (ct / dur) * TOTAL_CHARS;
       let sentIdx = SENTENCES.length - 1;
       for (let i = 0; i < SENT_END.length; i++) {
