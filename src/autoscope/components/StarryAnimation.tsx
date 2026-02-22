@@ -1432,6 +1432,36 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
     // Full constellation update only when needed
     constellationLinesRef.current = [];
     
+    // === OLD RANDOM CONSTELLATION SYSTEM (for density) ===
+    // Only connect stars that are close to each other (within 150px)
+    for (let i = 0; i < stars.length; i++) {
+      for (let j = i + 1; j < stars.length; j++) {
+        const star1 = stars[i];
+        const star2 = stars[j];
+        
+        // Calculate distance between stars
+        const dx = star2.x - star1.x;
+        const dy = star2.y - star1.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // Only connect if stars are close enough (within 150px)
+        if (distance < 150) {
+          // Calculate line strength based on distance (closer = stronger)
+          const strength = 1 - (distance / 150);
+          const baseHue = 200 + Math.random() * 60;
+          
+          // Create constellation line with dynamic properties
+          constellationLinesRef.current.push({
+            star1Index: i,
+            star2Index: j,
+            strength,
+            color: `hsla(${baseHue}, 80%, 70%, ${strength * 0.4})`
+          });
+        }
+      }
+    }
+    
+    // === NEW PATTERN-BASED CONSTELLATION SYSTEM (for shapes) ===
     // Create recognizable constellation patterns instead of random connections
     const maxConnectionsPerStar = 2; // Reduced from 3 for sparser patterns
     const connectionDistance = 120; // Reduced from 150 for smaller groups
@@ -1555,8 +1585,8 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
     );
     
     // Limit total number of constellation lines for performance
-    if (constellationLinesRef.current.length > 35) { // Reduced from 50 for sparser look
-      constellationLinesRef.current = constellationLinesRef.current.slice(-35);
+    if (constellationLinesRef.current.length > 50) { // Increased back to 50 for more density
+      constellationLinesRef.current = constellationLinesRef.current.slice(-50);
     }
   }, []);
 
