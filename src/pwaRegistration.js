@@ -140,6 +140,22 @@ export const clearServiceWorkerCache = () => {
   });
 };
 
+// Force refresh all caches and unregister/re-register service worker
+export const forceRefreshServiceWorker = async () => {
+  try {
+    // First clear all caches
+    await unregisterAllServiceWorkers();
+    
+    // Wait a bit for cleanup
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Reload the page to get fresh service worker
+    window.location.reload();
+  } catch (error) {
+    console.error('Error refreshing service worker:', error);
+  }
+};
+
 // Add theme protection - call on app init
 export const protectThemeSetting = () => {
   // Detect if theme was changed by service worker
