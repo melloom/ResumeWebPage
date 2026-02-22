@@ -57,15 +57,11 @@ function dedupeWhisperResult(text) {
   return t;
 }
 
-// Render message content — converts ElevenLabs sound tags to styled *action* text
+// Render message content — removes ElevenLabs sound tags from display but keeps them for voice
 function renderMessageContent(text) {
   if (!text) return text;
-  const parts = text.split(/(<laugh>|<chuckle>)/gi);
-  return parts.map((part, i) => {
-    if (/^<laugh>$/i.test(part)) return <em key={i} style={{ opacity: 0.75, fontStyle: 'italic' }}>*laughs*</em>;
-    if (/^<chuckle>$/i.test(part)) return <em key={i} style={{ opacity: 0.75, fontStyle: 'italic' }}>*chuckles*</em>;
-    return part;
-  });
+  // Remove sound tags from display but keep the text
+  return text.replace(/<(laugh|chuckle)>/gi, '');
 }
 
 const NAV_PATHS = ['/contact', '/projects', '/about', '/resume', '/ai-lab', '/'];
