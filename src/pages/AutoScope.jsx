@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import StarryAnimation from '../autoscope/components/StarryAnimation';
 import '../autoscope/autoscope.css';
@@ -8,14 +8,14 @@ const MUSIC_FILE = 'The Way Life Goes (instrumental remix slowed reverb).mp3';
 const AutoScope = () => {
   const musicRef = useRef(null);
   const blobUrlRef = useRef(null);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const [audioLoaded, setAudioLoaded] = useState(false);
 
-  // Enhanced music loading for PWA compatibility
+  // Load audio but don't autoplay - wait for user interaction
   useEffect(() => {
     let cancelled = false;
     let audio = null;
-    let playAttempts = 0;
     let volumeEnforcer = null;
-    const MAX_ATTEMPTS = 3;
     
     // Detect device type once and store it at the top level
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
@@ -47,7 +47,7 @@ const AutoScope = () => {
       musicRef.current = null;
     };
 
-    const loadAndPlay = async () => {
+    const loadAudio = async () => {
       try {
         // Try direct file path first, then encoded fallback
         let res;
@@ -62,7 +62,6 @@ const AutoScope = () => {
         const blob = await res.blob();
         if (cancelled) return;
         
-        // Debug: Check if we got valid audio data
         console.log('[AutoScope] Audio blob size:', blob.size, 'bytes');
         console.log('[AutoScope] Audio blob type:', blob.type);
         
@@ -70,45 +69,20 @@ const AutoScope = () => {
         blobUrlRef.current = blobUrl;
         audio = new Audio(blobUrl);
         audio.loop = true;
+        audio.preload = 'auto';
         
         // Add more debugging
         audio.addEventListener('error', (e) => {
           console.error('[AutoScope] Audio element error:', e);
           console.error('[AutoScope] Audio error code:', audio.error);
           console.error('[AutoScope] Audio error message:', audio.error?.message);
-          
-          // If mobile and Web Audio API failed, try fallback
-          if (isMobile && audio.gainNode && audio.error?.code === 4) {
-            console.log('[AutoScope] Mobile Web Audio API aborted, switching to regular volume control');
-            // Disconnect Web Audio API and use regular volume
-            if (audio.gainNode) {
-              audio.gainNode.disconnect();
-              audio.gainNode = null;
-            }
-            if (audio.audioContext) {
-              audio.audioContext.close();
-              audio.audioContext = null;
-            }
-            audio.volume = 0.07;
-            console.log('[AutoScope] Mobile fallback applied - Volume set to:', audio.volume);
-            
-            // Try to play again with regular volume
-            setTimeout(() => {
-              if (audio && audio.paused) {
-                audio.play().then(() => {
-                  console.log('[AutoScope] Mobile fallback play successful');
-                }).catch(e => {
-                  console.log('[AutoScope] Mobile fallback play failed:', e.message);
-                });
-              }
-            }, 100);
-          }
         });
         
         audio.addEventListener('loadeddata', () => {
           console.log('[AutoScope] Audio data loaded successfully');
           console.log('[AutoScope] Audio duration:', audio.duration);
           console.log('[AutoScope] Audio readyState:', audio.readyState);
+          setAudioLoaded(true);
         });
         
         // Create Web Audio API context for better volume control on mobile only
@@ -124,7 +98,6 @@ const AutoScope = () => {
             
             // Set gain based on device type
             const targetGain = 0.07;
-            
             gainNode.gain.value = targetGain;
             console.log('[AutoScope] Mobile device detected - Using Web Audio API, Gain set to:', targetGain);
             
@@ -151,8 +124,8 @@ const AutoScope = () => {
           audio.volume = 0.08;
           console.log('[AutoScope] Desktop detected - Using regular volume control, Volume set to:', audio.volume);
         }
+        
         audio.muted = false; // Ensure unmuted
-        audio.preload = 'auto';
         
         // Set audio attributes for better PWA compatibility
         audio.setAttribute('playsinline', '');
@@ -160,85 +133,9 @@ const AutoScope = () => {
         
         musicRef.current = audio;
 
-        // Enhanced PWA audio playback with multiple fallback strategies
-        const attemptPlay = async () => {
-          if (playAttempts >= MAX_ATTEMPTS) {
-            console.log('[AutoScope] Max play attempts reached, waiting for user interaction');
-            return;
-          }
-          playAttempts++;
-
-          try {
-            // Ensure audio is ready
-            if (audio.readyState < 2) {
-              await new Promise(resolve => {
-                if (audio.readyState >= 2) resolve();
-                else audio.addEventListener('loadeddata', resolve, { once: true });
-              });
-            }
-
-            const playPromise = audio.play();
-            if (playPromise !== undefined) {
-              // Ensure volume is still set correctly before playing
-              if (isMobile && audio.gainNode) {
-                // Mobile with Web Audio API - gain is already set
-                console.log('[AutoScope] Mobile Web Audio API - volume controlled by gain node');
-              } else {
-                // Desktop or mobile fallback - use regular volume
-                audio.volume = isMobile ? 0.07 : 0.08;
-                console.log('[AutoScope] Setting volume before play:', audio.volume);
-              }
-              await playPromise;
-              console.log('[AutoScope] Background music playing successfully, volume:', audio.volume);
-            }
-          } catch (error) {
-            console.log(`[AutoScope] Play attempt ${playAttempts} failed:`, error.message);
-            
-            // Set up user interaction listeners for subsequent attempts
-            const unlock = async () => {
-              try {
-                // Ensure volume is still set correctly before playing
-                if (isMobile && audio.gainNode) {
-                  // Mobile with Web Audio API - gain is already set
-                  console.log('[AutoScope] Mobile Web Audio API unlock - volume controlled by gain node');
-                } else {
-                  // Desktop or mobile fallback - use regular volume
-                  audio.volume = isMobile ? 0.07 : 0.08;
-                  console.log('[AutoScope] Setting volume on unlock:', audio.volume);
-                }
-                await audio.play();
-                console.log('[AutoScope] Music unlocked by user interaction, volume:', audio.volume);
-                document.removeEventListener('click', unlock);
-                document.removeEventListener('touchstart', unlock);
-                document.removeEventListener('keydown', unlock);
-              } catch (e) {
-                console.log('[AutoScope] Still failed after user interaction:', e.message);
-                // Try again on next interaction
-                if (playAttempts < MAX_ATTEMPTS) {
-                  playAttempts++;
-                }
-              }
-            };
-            
-            document.addEventListener('click', unlock, { once: true });
-            document.addEventListener('touchstart', unlock, { once: true });
-            document.addEventListener('keydown', unlock, { once: true });
-          }
-        };
-
-        // Initial play attempt
-        attemptPlay();
-
-        // Also try playing after a short delay (helps with some PWA contexts)
-        setTimeout(() => {
-          if (!cancelled && audio && audio.paused) {
-            attemptPlay();
-          }
-        }, 1000);
-
         // Persistent volume enforcement - only for desktop and mobile fallback
         volumeEnforcer = setInterval(() => {
-          if (audio && !cancelled) {
+          if (audio && !cancelled && !audio.paused) {
             // Only enforce regular volume if not using Web Audio API
             if (!isMobile || !audio.gainNode) {
               const targetVolume = isMobile ? 0.07 : 0.08;
@@ -249,7 +146,7 @@ const AutoScope = () => {
               setTimeout(() => audio.volume = targetVolume, 100);
             }
           }
-        }, 500); // More frequent enforcement
+        }, 500);
 
         // Also enforce volume on audio events - only for desktop and mobile fallback
         const enforceVolume = () => {
@@ -268,10 +165,61 @@ const AutoScope = () => {
       }
     };
 
-    loadAndPlay();
+    loadAudio();
 
     return cleanup;
   }, []);
+
+  // Handle user interaction to start music
+  useEffect(() => {
+    if (!hasUserInteracted || !audioLoaded || !musicRef.current) return;
+
+    const startMusic = async () => {
+      try {
+        const audio = musicRef.current;
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+                        window.innerWidth <= 768;
+
+        console.log('[AutoScope] Starting music after user interaction');
+        
+        // Ensure volume is set correctly before playing
+        if (isMobile && audio.gainNode) {
+          console.log('[AutoScope] Mobile Web Audio API - volume controlled by gain node');
+        } else {
+          audio.volume = isMobile ? 0.07 : 0.08;
+          console.log('[AutoScope] Setting volume before play:', audio.volume);
+        }
+
+        await audio.play();
+        console.log('[AutoScope] Background music started successfully, volume:', audio.volume);
+      } catch (error) {
+        console.log('[AutoScope] Music start failed:', error.message);
+      }
+    };
+
+    startMusic();
+  }, [hasUserInteracted, audioLoaded]);
+
+  // Add user interaction listeners
+  useEffect(() => {
+    if (hasUserInteracted) return;
+
+    const handleUserInteraction = () => {
+      console.log('[AutoScope] User interaction detected');
+      setHasUserInteracted(true);
+    };
+
+    // Add multiple event listeners to catch any user interaction
+    document.addEventListener('click', handleUserInteraction, { once: true });
+    document.addEventListener('touchstart', handleUserInteraction, { once: true });
+    document.addEventListener('keydown', handleUserInteraction, { once: true });
+
+    return () => {
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('touchstart', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
+    };
+  }, [hasUserInteracted]);
 
   return (
     <>
