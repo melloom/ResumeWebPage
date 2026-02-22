@@ -254,6 +254,7 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
   const clickRipplesRef = useRef<ClickRipple[]>([]);
   const mouseTrailsRef = useRef<MouseTrail[]>([]);
   const shootingStarsRef = useRef<ShootingStar[]>([]);
+  const nebulaCloudsRef = useRef<NebulaCloud[]>([]);
   const floatingWordsRef = useRef<FloatingWord[]>([]);
   const drawingLinesRef = useRef<DrawingLine[]>([]);
   const currentDrawingRef = useRef<DrawingLine | null>(null);
@@ -1401,6 +1402,34 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       }
     }, 1500); // Much more frequent (every 1.5 seconds)
 
+    // Create nebula clouds occasionally - beautiful gas clouds
+    const nebulaCloudInterval = setInterval(() => {
+      if (nebulaCloudsRef.current.length < 3 && Math.random() > 0.6) { // 40% chance, max 3 clouds
+        // Create beautiful, colorful nebula clouds
+        const nebulaColors = [
+          { hue: 280, saturation: 70, lightness: 60 }, // Purple nebula
+          { hue: 200, saturation: 80, lightness: 65 }, // Blue nebula
+          { hue: 320, saturation: 60, lightness: 70 }, // Pink nebula
+          { hue: 160, saturation: 50, lightness: 55 }, // Cyan nebula
+          { hue: 30, saturation: 40, lightness: 50 },  // Orange nebula
+        ];
+        
+        const selectedColor = nebulaColors[Math.floor(Math.random() * nebulaColors.length)];
+        
+        nebulaCloudsRef.current.push({
+          x: Math.random() * cw(),
+          y: Math.random() * ch(),
+          size: Math.random() * 200 + 150, // Large clouds
+          color: `hsl(${selectedColor.hue}, ${selectedColor.saturation}%, ${selectedColor.lightness}%)`,
+          opacity: 0.15 + Math.random() * 0.1, // Subtle opacity
+          driftX: (Math.random() - 0.5) * 0.3, // Slow drift
+          driftY: (Math.random() - 0.5) * 0.2, // Slow drift
+          pulsePhase: Math.random() * Math.PI * 2,
+          cloudDensity: 0.3 + Math.random() * 0.4
+        });
+      }
+    }, 8000); // Every 8 seconds
+
     // Create random shapes occasionally - More frequent for better visibility
     const shapeMakerInterval = setInterval(() => {
       if (Math.random() > 0.3) { // 70% chance to form shape (was 30%)
@@ -2104,6 +2133,90 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
         return star.opacity > 0 && star.x < W + 200 && star.y < H + 200 && star.x > -200 && star.y > -200;
       });
 
+      // Draw nebula clouds - beautiful gas clouds
+      nebulaCloudsRef.current = nebulaCloudsRef.current.filter((cloud) => {
+        // Update cloud position with slow drift
+        cloud.x += cloud.driftX;
+        cloud.y += cloud.driftY;
+        cloud.pulsePhase += 0.005; // Slow pulsing
+        
+        // Wrap around screen edges
+        if (cloud.x < -cloud.size) cloud.x = W + cloud.size;
+        if (cloud.x > W + cloud.size) cloud.x = -cloud.size;
+        if (cloud.y < -cloud.size) cloud.y = H + cloud.size;
+        if (cloud.y > H + cloud.size) cloud.y = -cloud.size;
+        
+        // Create pulsing effect
+        const pulseFactor = 1 + Math.sin(cloud.pulsePhase) * 0.2;
+        const currentSize = cloud.size * pulseFactor;
+        
+        // Draw nebula cloud with multiple layers for depth
+        for (let layer = 0; layer < 3; layer++) {
+          const layerOpacity = cloud.opacity * (0.3 - layer * 0.1) * (1 + Math.sin(cloud.pulsePhase + layer * 0.5) * 0.3);
+          const layerSize = currentSize * (1 + layer * 0.3);
+          const layerOffset = layer * 15;
+          
+          // Create radial gradient for each layer
+          const gradient = ctx.createRadialGradient(
+            cloud.x, cloud.y, 0,
+            cloud.x, cloud.y, layerSize
+          );
+          
+          // Add color variations for depth
+          const hueShift = layer * 20;
+          const saturationShift = layer * 10;
+          const lightnessShift = layer * 5;
+          
+          gradient.addColorStop(0, cloud.color.replace('hsl', 'hsla').replace(/\d+/, (match) => {
+            const baseHue = parseInt(match) + hueShift;
+            return baseHue.toString();
+          }).replace(/\d+/, (match) => {
+            const baseSat = parseInt(match) + saturationShift;
+            return baseSat.toString();
+          }).replace(/\d+/, (match) => {
+            const baseLight = parseInt(match) + lightness;
+            return baseLight.toString();
+          }).replace(`, ${layerOpacity})`));
+          gradient.addColorStop(0.5, cloud.color.replace('hsl', 'hsla').replace(/\d+/, (match) => {
+            const baseHue = parseInt(match) + hueShift;
+            return baseHue.toString();
+          }).replace(/\d+/, (match) => {
+            const baseSat = parseInt(match) + saturationShift;
+            return baseSat.toString();
+          }).replace(/\d+/, (match) => {
+            const baseLight = parseInt(match) + lightness;
+            return baseLight.toString();
+          }).replace(`, ${layerOpacity * 0.5})`));
+          gradient.addColorStop(1, 'transparent');
+          
+          ctx.fillStyle = gradient;
+          ctx.fillRect(
+            cloud.x - layerSize + layerOffset,
+            cloud.y - layerSize + layerOffset,
+            layerSize * 2,
+            layerSize * 2
+          );
+        }
+        
+        // Add subtle glow effect
+        const glowGradient = ctx.createRadialGradient(
+          cloud.x, cloud.y, currentSize * 0.5,
+          cloud.x, cloud.y, currentSize
+        );
+        glowGradient.addColorStop(0, cloud.color.replace('hsl', 'hsla').replace(`, ${cloud.opacity * 0.3})`));
+        glowGradient.addColorStop(1, 'transparent');
+        
+        ctx.fillStyle = glowGradient;
+        ctx.fillRect(
+          cloud.x - currentSize,
+          cloud.y - currentSize,
+          currentSize * 2,
+          currentSize * 2
+        );
+        
+        return true; // Nebula clouds don't fade out, they just drift
+      });
+
       animId = requestAnimationFrame(animate);
     };
 
@@ -2113,6 +2226,7 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       cancelAnimationFrame(animId);
       clearInterval(ambientWordInterval);
       clearInterval(shootingStarInterval);
+      clearInterval(nebulaCloudInterval);
       clearInterval(shapeMakerInterval);
       window.removeEventListener("resize", resize);
     };
