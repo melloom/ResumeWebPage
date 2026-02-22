@@ -1377,21 +1377,29 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       }
     }, 4000); // Increased from 3000ms to 4000ms
     
-    // Create shooting stars occasionally - optimized
+    // Create shooting stars frequently - enhanced
     const shootingStarInterval = setInterval(() => {
-      if (shootingStarsRef.current.length < 2 && Math.random() > 0.8) { // Reduced max and increased threshold
+      if (shootingStarsRef.current.length < 5 && Math.random() > 0.3) { // More frequent (70% chance)
+        // Create more varied shooting stars
+        const startX = Math.random() < 0.5 ? -50 : cw() + 50; // Start from edges
+        const startY = Math.random() * ch() * 0.4; // Upper portion of screen
+        
+        // Random direction across sky
+        const angle = Math.random() * Math.PI * 0.5 + Math.PI * 0.25; // 45-135 degrees
+        const speed = Math.random() * 12 + 8; // Faster shooting stars
+        
         shootingStarsRef.current.push({
-          x: Math.random() * cw(),
-          y: Math.random() * ch() * 0.3,
-          vx: Math.random() * 8 + 4,
-          vy: Math.random() * 4 + 2,
-          length: Math.random() * 30 + 20,
+          x: startX,
+          y: startY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          length: Math.random() * 60 + 40, // Longer trails
           opacity: 1,
-          color: `hsl(${200 + Math.random() * 60}, 90%, 80%)`,
+          color: `hsl(${200 + Math.random() * 80}, ${70 + Math.random() * 30}%, ${80 + Math.random() * 20}%)`,
           trail: []
         });
       }
-    }, 5000); // Increased from 3000ms to 5000ms
+    }, 1500); // Much more frequent (every 1.5 seconds)
 
     // Create random shapes occasionally - More frequent for better visibility
     const shapeMakerInterval = setInterval(() => {
@@ -2028,19 +2036,19 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       // Update autonomous stars
       updateAutonomousStars();
       
-      // Draw shooting stars
+      // Draw shooting stars - enhanced
       shootingStarsRef.current = shootingStarsRef.current.filter((star) => {
         star.x += star.vx;
         star.y += star.vy;
-        star.opacity -= 0.01;
+        star.opacity -= 0.008; // Slower fade for longer visibility
         
-        // Update trail
+        // Update trail with more points
         star.trail.unshift({ x: star.x, y: star.y, opacity: star.opacity });
-        if (star.trail.length > 20) {
+        if (star.trail.length > 30) { // Longer trail
           star.trail.pop();
         }
         
-        // Draw trail
+        // Draw enhanced trail with gradient
         ctx.beginPath();
         star.trail.forEach((point, index) => {
           if (index === 0) {
@@ -2050,24 +2058,50 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
           }
         });
         
+        // Create more impressive gradient
         const gradient = ctx.createLinearGradient(
-          star.x - star.length, star.y,
-          star.x, star.y
+          star.x - star.length * 1.5, star.y,
+          star.x + star.length * 0.5, star.y
         );
         gradient.addColorStop(0, star.color.replace(')', `, 0)`).replace('hsl', 'hsla'));
+        gradient.addColorStop(0.3, star.color.replace(')', `, ${star.opacity * 0.6})`).replace('hsl', 'hsla'));
+        gradient.addColorStop(0.7, star.color.replace(')', `, ${star.opacity * 0.3})`).replace('hsl', 'hsla'));
         gradient.addColorStop(1, star.color.replace(')', `, ${star.opacity})`).replace('hsl', 'hsla'));
         
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 3; // Thicker trail
+        ctx.lineCap = 'round';
         ctx.stroke();
         
-        // Draw bright head
+        // Draw bright head with glow
+        const headGradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, 8);
+        headGradient.addColorStop(0, star.color.replace(')', `, ${star.opacity})`).replace('hsl', 'hsla'));
+        headGradient.addColorStop(0.5, star.color.replace(')', `, ${star.opacity * 0.5})`).replace('hsl', 'hsla'));
+        headGradient.addColorStop(1, 'transparent');
+        
         ctx.beginPath();
-        ctx.arc(star.x, star.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = star.color.replace(')', `, ${star.opacity})`).replace('hsl', 'hsla');
+        ctx.arc(star.x, star.y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = headGradient;
         ctx.fill();
         
-        return star.opacity > 0 && star.x < W + 100 && star.y < H + 100;
+        // Add sparkle particles around the head
+        if (Math.random() > 0.7) {
+          for (let i = 0; i < 2; i++) {
+            const sparkle = createParticle(
+              star.x + (Math.random() - 0.5) * 10,
+              star.y + (Math.random() - 0.5) * 10,
+              'spark',
+              star.color
+            );
+            sparkle.vx = (Math.random() - 0.5) * 2;
+            sparkle.vy = (Math.random() - 0.5) * 2;
+            sparkle.maxLife = 15;
+            sparkle.size = Math.random() * 1.5 + 0.5;
+            particlesRef.current.push(sparkle);
+          }
+        }
+        
+        return star.opacity > 0 && star.x < W + 200 && star.y < H + 200 && star.x > -200 && star.y > -200;
       });
 
       animId = requestAnimationFrame(animate);
