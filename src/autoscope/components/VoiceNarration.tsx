@@ -66,7 +66,7 @@ const SENTENCES: string[] = cleanText
 // Adjusted timing multiplier to speed up first words and match voice pace
 // Decrease this value if text is still too slow, increase if too fast
 // Range: 1.0 (slower) - 2.5 (faster)
-const TIMING_MULTIPLIER = 3.5; // Increased to 3.5x for much faster text display
+const TIMING_MULTIPLIER = 3.0; // Reduced from 3.5x for more balanced pacing
 
 // Enhanced timing calculation that accounts for paragraph structure
 // Short sentences (< 30 chars): get extra time for readability
@@ -78,11 +78,11 @@ const SENT_CHARS = SENTENCES.map((s, index) => {
   
   // Speed up first few sentences to match voice pace
   if (index < 3) {
-    adjustedTime *= 0.5; // 50% faster for first 3 sentences
+    adjustedTime *= 0.6; // 40% faster for first 3 sentences (was 50%)
   }
   // Slightly speed up early sentences
   else if (index < 8) {
-    adjustedTime *= 0.7; // 30% faster for sentences 4-8
+    adjustedTime *= 0.8; // 20% faster for sentences 4-8 (was 30%)
   }
   
   // Add extra time for very short sentences to prevent rushing
