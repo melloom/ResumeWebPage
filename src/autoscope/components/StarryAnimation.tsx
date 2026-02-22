@@ -19,8 +19,6 @@ interface Star {
   // Enhanced star properties
   glowIntensity?: number;
   pulsePhase?: number;
-  constellationId?: number;
-  isConstellationStar?: boolean;
   twinkleOffset?: number;
   colorShift?: number;
   coreSize?: number;
@@ -129,13 +127,6 @@ interface FloatingWord {
   rotationY?: number;
   rotationZ?: number;
   shadowBlur?: number;
-}
-
-interface ConstellationLine {
-  star1Index: number;
-  star2Index: number;
-  strength: number;
-  color: string;
 }
 
 interface Planet {
@@ -260,7 +251,6 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
   const mouseRef = useRef({ x: -999, y: -999, active: false, isAttracting: false, isDrawing: false, stationaryTime: 0 });
   const starsRef = useRef<Star[]>([]);
   const particlesRef = useRef<Particle[]>([]);
-  const constellationLinesRef = useRef<ConstellationLine[]>([]);
   const clickRipplesRef = useRef<ClickRipple[]>([]);
   const mouseTrailsRef = useRef<MouseTrail[]>([]);
   const shootingStarsRef = useRef<ShootingStar[]>([]);
@@ -346,11 +336,9 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
   }, []);
 
   const createStar = useCallback((x?: number, y?: number): Star => {
-    const isConstellation = Math.random() > 0.7; // 30% chance to be constellation star
-    
     // Enhanced color variety for more vibrant stars
     const colorTypes = [
-      { hue: 220 + Math.random() * 40, saturation: 85, lightness: 75 + Math.random() * 25 }, // Blue constellation stars
+      { hue: 220 + Math.random() * 40, saturation: 85, lightness: 75 + Math.random() * 25 }, // Blue stars
       { hue: 280 + Math.random() * 40, saturation: 90, lightness: 70 + Math.random() * 30 }, // Purple stars
       { hue: 180 + Math.random() * 40, saturation: 85, lightness: 75 + Math.random() * 25 }, // Cyan stars
       { hue: 30 + Math.random() * 30, saturation: 90, lightness: 70 + Math.random() * 30 },  // Orange stars
@@ -378,16 +366,14 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       isForming: false,
       formationStrength: 0,
       // Enhanced star properties
-      glowIntensity: isConstellation ? 2.5 : 1.5,
+      glowIntensity: Math.random() * 1.5 + 1,
       pulsePhase: Math.random() * Math.PI * 2,
-      constellationId: isConstellation ? Math.floor(Math.random() * 5) : undefined,
-      isConstellationStar: isConstellation,
       twinkleOffset: Math.random() * Math.PI * 2,
       colorShift: Math.random() * 20 - 10,
       coreSize: Math.random() * 1.5 + 0.5,
       haloSize: Math.random() * 8 + 4,
       // Autonomous behavior properties
-      isAutonomous: isConstellation && Math.random() > 0.5, // 50% of constellation stars are autonomous
+      isAutonomous: Math.random() > 0.8, // 20% of stars are autonomous
       wanderAngle: Math.random() * Math.PI * 2,
       wanderSpeed: Math.random() * 0.5 + 0.1,
       orbitRadius: Math.random() * 50 + 20,
@@ -1369,227 +1355,6 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
     });
   }, [createParticle, createStar]);
 
-  const updateConstellationLines = useCallback(() => {
-    // Only update constellations if star positions have changed significantly
-    // This prevents rapid reorganization
-    const stars = starsRef.current;
-    const currentLines = constellationLinesRef.current;
-    
-    // Check if we need to update (only if there are no lines or stars have moved significantly)
-    let needsUpdate = currentLines.length === 0;
-    
-    if (!needsUpdate) {
-      // Check if stars have moved too much from their constellation positions
-      for (const line of currentLines) {
-        const star1 = stars[line.star1Index];
-        const star2 = stars[line.star2Index];
-        
-        if (!star1 || !star2) {
-          needsUpdate = true;
-          break;
-        }
-        
-        const distance = Math.sqrt(
-          Math.pow(star2.x - star1.x, 2) + 
-          Math.pow(star2.y - star1.y, 2)
-        );
-        
-        // If stars have moved too far apart, break the constellation
-        if (distance > 250) { // Increased threshold for more stability
-          needsUpdate = true;
-          break;
-        }
-      }
-    }
-    
-    // If no update needed, keep existing constellations
-    if (!needsUpdate) {
-      // Just update line strengths based on current positions
-      currentLines.forEach(line => {
-        const star1 = stars[line.star1Index];
-        const star2 = stars[line.star2Index];
-        
-        if (star1 && star2) {
-          const distance = Math.sqrt(
-            Math.pow(star2.x - star1.x, 2) + 
-            Math.pow(star2.y - star1.y, 2)
-          );
-          
-          // Update strength based on current distance
-          line.strength = Math.max(0, 1 - (distance / 150)); // Increased distance threshold
-          
-          // Update color based on strength
-          const brightness = 0.3 + line.strength * 0.4;
-          line.color = `rgba(${200 + line.strength * 30}, ${70 + line.strength * 20}%, ${brightness})`;
-        }
-      });
-      
-      // Remove lines that are too weak
-      constellationLinesRef.current = currentLines.filter(line => line.strength > 0.1); // Lower threshold
-      return;
-    }
-    
-    // Full constellation update only when needed
-    constellationLinesRef.current = [];
-    
-    // === OLD RANDOM CONSTELLATION SYSTEM (for density) ===
-    // Only connect stars that are close to each other (within 80px for stability)
-    for (let i = 0; i < stars.length; i++) {
-      for (let j = i + 1; j < stars.length; j++) {
-        const star1 = stars[i];
-        const star2 = stars[j];
-        
-        // Calculate distance between stars
-        const dx = star2.x - star1.x;
-        const dy = star2.y - star1.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        // Only connect if stars are very close (within 80px) for stability
-        if (distance < 80) {
-          // Calculate line strength based on distance (closer = stronger)
-          const strength = 1 - (distance / 80);
-          const baseHue = 200 + Math.random() * 60;
-          
-          // Create constellation line with dynamic properties
-          constellationLinesRef.current.push({
-            star1Index: i,
-            star2Index: j,
-            strength,
-            color: `hsla(${baseHue}, 80%, 70%, ${strength * 0.4})`
-          });
-        }
-      }
-    }
-    
-    // === NEW PATTERN-BASED CONSTELLATION SYSTEM (for shapes) ===
-    // Create recognizable constellation patterns instead of random connections
-    const maxConnectionsPerStar = 2; // Reduced from 3 for sparser patterns
-    const connectionDistance = 80; // Reduced from 120 for tighter clusters
-    const starConnections = new Map<number, number>();
-    
-    // Create specific constellation patterns
-    const constellationPatterns = [
-      // Triangle pattern
-      { type: 'triangle', stars: [0, 1, 2], connections: [[0, 1], [1, 2], [0, 2]] },
-      // Square pattern
-      { type: 'square', stars: [0, 1, 2, 3], connections: [[0, 1], [1, 2], [2, 3], [3, 0]] },
-      // Diamond pattern
-      { type: 'diamond', stars: [0, 1, 2, 3], connections: [[0, 1], [1, 2], [2, 3], [3, 0]] },
-      // Line pattern
-      { type: 'line', stars: [0, 1], connections: [[0, 1]] },
-      // Cross pattern
-      { type: 'cross', stars: [0, 1, 2, 3, 4], connections: [[0, 2], [1, 3], [2, 4], [3, 1]] },
-      // Big dipper pattern (simplified)
-      { type: 'dipper', stars: [0, 1, 2, 3, 4, 5, 6], connections: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6]] },
-    ];
-    
-    // Group stars into constellation regions and assign patterns
-    const constellationGroups = [];
-    const usedStars = new Set<number>();
-    
-    // Create constellation groups based on star density
-    for (let i = 0; i < stars.length; i++) {
-      if (usedStars.has(i)) continue;
-      
-      // Start a new constellation group with this star as center
-      const group = [i];
-      usedStars.add(i);
-      
-      // Find nearby stars to form this constellation
-      const nearbyStars = [];
-      for (let j = 0; j < stars.length; j++) {
-        if (i === j || usedStars.has(j)) continue;
-        
-        const star1 = stars[i];
-        const star2 = stars[j];
-        const distance = Math.sqrt(
-          Math.pow(star2.x - star1.x, 2) + 
-          Math.pow(star2.y - star1.y, 2)
-        );
-        
-        if (distance < connectionDistance) {
-          nearbyStars.push({ index: j, distance, star1, star2 });
-        }
-      }
-      
-      // Sort by distance and add closest stars to form constellation
-      nearbyStars.sort((a, b) => a.distance - b.distance);
-      
-      // Add 2-3 nearby stars to create a small constellation (smaller groups)
-      const groupSize = 2 + Math.floor(Math.random() * 2); // 2-3 stars total
-      const connectionsToAdd = Math.min(groupSize - 1, nearbyStars.length);
-      
-      for (let k = 0; k < connectionsToAdd; k++) {
-        const { index: j } = nearbyStars[k];
-        group.push(j);
-        usedStars.add(j);
-      }
-      
-      // Assign a pattern type to this group
-      const pattern = constellationPatterns[Math.floor(Math.random() * constellationPatterns.length)];
-      constellationGroups.push({
-        stars: group,
-        pattern: pattern.type,
-        connections: pattern.connections.map(conn => [conn[0], conn[1]])
-      });
-    }
-    
-    // Create constellation lines based on assigned patterns
-    constellationGroups.forEach(group => {
-      const pattern = constellationPatterns.find(p => p.type === group.pattern);
-      if (!pattern) return;
-      
-      // Map group stars to pattern positions
-      const starMap = new Map<number, number>();
-      group.stars.forEach((starIndex, index) => {
-        starMap.set(starIndex, index);
-      });
-      
-      // Create connections based on the pattern
-      group.connections.forEach(([from, to]) => {
-        const star1Index = group.stars[from];
-        const star2Index = group.stars[to];
-        
-        if (star1Index !== undefined && star2Index !== undefined) {
-          const star1 = stars[star1Index];
-          const star2 = stars[star2Index];
-          
-          const distance = Math.sqrt(
-            Math.pow(star2.x - star1.x, 2) + 
-            Math.pow(star2.y - star1.y, 2)
-          );
-          
-          // Calculate line strength based on distance
-          const strength = 1 - (distance / connectionDistance);
-          
-          // Use consistent blue-white color for realistic constellation look
-          const brightness = 0.3 + strength * 0.4;
-          
-          constellationLinesRef.current.push({
-            star1Index: star1Index,
-            star2Index: star2Index,
-            strength: strength,
-            color: `rgba(${200 + strength * 30}, ${70 + strength * 20}%, ${brightness})`
-          });
-          
-          // Update connection counts
-          starConnections.set(star1Index, (starConnections.get(star1Index) || 0) + 1);
-          starConnections.set(star2Index, (starConnections.get(star2Index) || 0) + 1);
-        }
-      });
-    });
-    
-    // Remove very weak lines
-    constellationLinesRef.current = constellationLinesRef.current.filter(line => 
-      line.strength > 0.1
-    );
-    
-    // Limit total number of constellation lines for performance
-    if (constellationLinesRef.current.length > 30) { // Reduced from 50 for cleaner look
-      constellationLinesRef.current = constellationLinesRef.current.slice(-30);
-    }
-  }, []);
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -1665,28 +1430,6 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
 
       const mouse = mouseRef.current;
       const stars = starsRef.current;
-
-      // Update constellation lines - less frequent for performance
-      if (frameRef.current % 20 === 0) { // Every 20 frames for better performance
-        updateConstellationLines();
-      }
-
-      // Draw constellation lines - optimized rendering
-      constellationLinesRef.current.forEach(line => {
-        const star1 = stars[line.star1Index];
-        const star2 = stars[line.star2Index];
-        if (star1 && star2 && line.strength > 0.1) {
-          ctx.beginPath();
-          ctx.moveTo(star1.x, star1.y);
-          ctx.lineTo(star2.x, star2.y);
-          
-          // Simplified coloring for performance
-          ctx.strokeStyle = `hsla(200, 80%, 70%, ${line.strength * 0.6})`;
-          ctx.lineWidth = Math.max(0.5, 1.5 * line.strength);
-          ctx.lineCap = 'round';
-          ctx.stroke();
-        }
-      });
 
       // Update and draw stars - optimized
       stars.forEach((star) => {
@@ -1850,13 +1593,13 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
         // Calculate dynamic color
         const baseHue = parseInt(star.color.match(/\d+/)[0]);
         const newHue = baseHue + colorShift;
-        const saturation = star.isConstellationStar ? 85 : 80;
-        const lightness = star.isConstellationStar ? 75 : 70;
+        const saturation = 80;
+        const lightness = 70;
         
         const dynamicColor = `hsl(${newHue}, ${saturation}%, ${lightness + twinkle * 10}%)`;
         
-        // Draw halo for constellation stars
-        if (star.isConstellationStar && star.haloSize) {
+        // Draw enhanced halo for all stars
+        if (star.haloSize) {
           const haloOpacity = 0.3 * twinkle * pulse;
           ctx.beginPath();
           ctx.arc(star.x, star.y, star.haloSize * pulse, 0, Math.PI * 2);
@@ -2384,7 +2127,7 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       
       // Add mouse attraction effect when stationary for 3+ seconds
       if (mouseRef.current.stationaryTime > 180) { // 3 seconds at 60fps
-        // Start pulling all stars and constellations toward mouse
+        // Start pulling all stars toward mouse
         starsRef.current.forEach(star => {
           const dx = x - star.x;
           const dy = y - star.y;
@@ -2420,31 +2163,6 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
           }
         });
         
-        // Also pull constellation lines
-        constellationLinesRef.current.forEach(line => {
-          const star1 = starsRef.current[line.star1Index];
-          const star2 = starsRef.current[line.star2Index];
-          if (star1 && star2) {
-            const dx = x - (star1.x + star2.x) / 2;
-            const dy = y - (star1.y + star2.y) / 2;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance > 0) {
-              const attractionForce = 1.5; // STRONGER attraction for lines
-              const force = attractionForce / distance;
-              star1.vx += dx * force;
-              star1.vy += dy * force;
-              star2.vx += dx * force;
-              star2.vy += dy * force;
-              
-              // Add damping
-              star1.vx *= 0.95;
-              star1.vy *= 0.95;
-              star2.vx *= 0.95;
-              star2.vy *= 0.95;
-            }
-          }
-        });
       }
     } else {
       // Mouse moved, reset stationary time
