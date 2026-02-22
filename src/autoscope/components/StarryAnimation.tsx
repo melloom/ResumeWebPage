@@ -2093,7 +2093,7 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       clearInterval(shapeMakerInterval);
       window.removeEventListener("resize", resize);
     };
-  }, [createStar, updateConstellationLines]);
+  }, [createStar]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = canvasRef.current?.getBoundingClientRect();
