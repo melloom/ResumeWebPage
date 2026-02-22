@@ -1637,7 +1637,7 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       const stars = starsRef.current;
 
       // Update constellation lines - less frequent for performance
-      if (frameRef.current % 4 === 0) {
+      if (frameRef.current % 20 === 0) { // Every 20 frames for better performance
         updateConstellationLines();
       }
 
@@ -1781,13 +1781,13 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
           }
         }
 
-        // Apply velocity
+        // Apply velocity with optimized physics for performance
         star.x += star.vx;
         star.y += star.vy;
         
-        // Enhanced damping for smoother movement
-        star.vx *= 0.92; // Reduced damping for more responsive movement
-        star.vy *= 0.92;
+        // Enhanced damping for smoother movement - optimized for performance
+        star.vx *= 0.95; // Increased damping for faster settling
+        star.vy *= 0.95;
         
         // Add slight momentum preservation for smoother feel
         if (mouse.active) {
@@ -2445,7 +2445,7 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
     }
     
     // Create mouse trail particles - optimized for performance
-    if (frameRef.current % 5 === 0) { // Every 5 frames instead of 3
+    if (frameRef.current % 8 === 0) { // Every 8 frames for better performance
       createMouseTrail(x, y);
       
       // Create small particles around mouse (much less frequent)
