@@ -1587,7 +1587,7 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
         const dynamicColor = `hsl(${newHue}, ${saturation}%, ${lightness + twinkle * 10}%)`;
         
         // Draw subtle halo for brighter stars only
-        if (star.haloSize && starBrightness > 0.7) {
+        if (star.haloSize && star.brightness > 0.7) {
           const haloOpacity = 0.1 * twinkle * pulse; // Much more subtle
           ctx.beginPath();
           ctx.arc(star.x, star.y, star.haloSize * pulse * 0.5, 0, Math.PI * 2); // Smaller halo
