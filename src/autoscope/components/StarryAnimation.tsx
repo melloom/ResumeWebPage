@@ -245,8 +245,8 @@ interface BlackHole {
 
 type ShapePattern = 'circle' | 'heart' | 'spiral' | 'infinity' | 'star' | 'random';
 
-const MAX_STARS = 250; // Reduced from 300 for performance
-const MAX_PARTICLES = 60; // Reduced from 100 for performance
+const MAX_STARS = 500; // Increased from 350 for denser starfield
+const MAX_PARTICLES = 100; // Increased from 60 for more effects
 const MAX_FLOATING_WORDS = 10; // Reduced from 12 for performance
 const CURSOR_RADIUS = 120;
 const FORMATION_RADIUS = 100;
