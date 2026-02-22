@@ -255,7 +255,7 @@ const ContactForm = ({ isContactPage = false }) => {
               <p>{submitMessage}</p>
               <div className={styles.errorDirectContact}>
                 <span>You can also reach me directly at:</span>
-                <a href="mailto:Melvin.a.p.cruz@gmail.com">Melvin.a.p.cruz@gmail.com</a>
+                <a href="mailto:contact@mellowsites.com">contact@mellowsites.com</a>
               </div>
             </div>
           )}

@@ -18,8 +18,8 @@ const Contact = () => {
       id: 'email',
       icon: <FaEnvelope />,
       title: 'Email',
-      value: 'Melvin.a.p.cruz@gmail.com',
-      link: 'mailto:Melvin.a.p.cruz@gmail.com',
+      value: 'contact@mellowsites.com',
+      link: 'mailto:contact@mellowsites.com',
       description: 'For any inquiries, feel free to email me'
     },
     {
@@ -126,7 +126,7 @@ const Contact = () => {
             "mainEntity": {
               "@type": "Person",
               "name": "Melvin Peralta",
-              "email": "Melvin.a.p.cruz@gmail.com",
+              "email": "contact@mellowsites.com",
               "telephone": "+1-667-200-9784",
               "address": {
                 "@type": "PostalAddress",

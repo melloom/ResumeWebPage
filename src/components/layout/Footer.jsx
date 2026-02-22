@@ -105,8 +105,8 @@ const Footer = () => {
               Experienced professional in sales development, team leadership, and business growth.
             </p>
             <div className={styles.contactInfo}>
-              <a href="mailto:Melvin.a.p.cruz@gmail.com" className={styles.contactLink}>
-                <FaEnvelope /> Melvin.a.p.cruz@gmail.com
+              <a href="mailto:contact@mellowsites.com" className={styles.contactLink}>
+                <FaEnvelope /> contact@mellowsites.com
               </a>
               <a href="tel:6672009784" className={styles.contactLink}>
                 <FaPhoneAlt /> (667) 200-9784
@@ -236,7 +236,7 @@ const Footer = () => {
             <a href="https://www.linkedin.com/in/melvin-peralta-de-la-cruz-077557215" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <FaLinkedin />
             </a>
-            <a href="mailto:Melvin.a.p.cruz@gmail.com" aria-label="Email">
+            <a href="mailto:contact@mellowsites.com" aria-label="Email">
               <FaEnvelope />
             </a>
             {/* Replace ShareButton component with styled anchor/button that matches others */}

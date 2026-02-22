@@ -27,9 +27,9 @@ const ResumeHeader = () => {
 
         <div className={styles.contactSection}>
           <div className={styles.contactGrid}>
-            <a href="mailto:Melvin.a.p.cruz@gmail.com" className={styles.contactItem}>
+            <a href="mailto:contact@mellowsites.com" className={styles.contactItem}>
               <FaEnvelope className={styles.contactIcon} />
-              <span>Melvin.a.p.cruz@gmail.com</span>
+              <span>contact@mellowsites.com</span>
             </a>
 
             <a href="tel:6672009784" className={styles.contactItem}>

@@ -252,7 +252,7 @@ const Contact = () => {
                   </div>
                   <div className={styles.contactCardContent}>
                     <h4>Email</h4>
-                    <a href="mailto:Melvin.a.p.cruz@gmail.com">Melvin.a.p.cruz@gmail.com</a>
+                    <a href="mailto:contact@mellowsites.com">contact@mellowsites.com</a>
                   </div>
                 </div>
 
