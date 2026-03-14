@@ -26,8 +26,16 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete, index = 0 })
   const [isHovered, setIsHovered] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Use the appropriate image source
+  // Use the appropriate image source with cache-busting
   const projectImage = imageUrl || image || '/screenshots/portfolio-portfolio-thumbnail.png';
+  
+  // Add cache-busting parameter to prevent image caching
+  const getImageWithCacheBust = (imageSrc) => {
+    if (!imageSrc) return imageSrc;
+    const timestamp = Date.now();
+    const separator = imageSrc.includes('?') ? '&' : '?';
+    return `${imageSrc}${separator}_t=${timestamp}`;
+  };
   
   // Use the appropriate links
   const projectLink = liveLink || link || '';
@@ -47,7 +55,7 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete, index = 0 })
     const shouldPreload = typeof window !== 'undefined' && window.innerWidth > 1024 && index === 0;
     if (projectImage && shouldPreload) {
       const img = new Image();
-      img.src = projectImage;
+      img.src = getImageWithCacheBust(projectImage);
     }
   }, [projectImage, index]);
 
@@ -124,7 +132,7 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete, index = 0 })
         ) : (
           projectImage && (
             <img 
-              src={projectImage} 
+              src={getImageWithCacheBust(projectImage)} 
               alt={title} 
               className={styles.image} 
               onLoad={handleImageLoad}

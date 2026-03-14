@@ -31,7 +31,7 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
       description: 'A community-centered organization dedicated to care, connection, and support in Baltimore. Features mission statement, impact statistics, values showcase, program descriptions, and community service information. Built with responsive design and modern web technologies.',
       image: '/charm-city-collective.png',
       technologies: ['React', 'HTML5', 'CSS3', 'JavaScript', 'Responsive Design'],
-      link: 'https://charm-city-collective.org',
+      link: 'https://charmcity.shop',
       github: '',
       category: 'Websites'
     },
