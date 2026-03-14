@@ -6,10 +6,7 @@
 
 [build.environment]
   NODE_VERSION = "18"
-
-# Secrets scanning configuration - omit API keys from detection
-[build.secrets]
-  omit_keys = ["VITE_OPENAI_API_KEY", "VITE_ELEVENLABS_API_KEY", "VITE_GITHUB_TOKEN"]
+  SECRETS_SCAN_OMIT_KEYS = "VITE_OPENAI_API_KEY,VITE_ELEVENLABS_API_KEY,VITE_GITHUB_TOKEN"
 
 # Functions directory
 [functions]
