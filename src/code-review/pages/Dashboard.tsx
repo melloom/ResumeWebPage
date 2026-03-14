@@ -63,19 +63,11 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const remote = await loadReviews();
-        setReviews(remote);
-        // Cache to localStorage for offline fallback
-        localStorage.setItem('reviews', JSON.stringify(remote));
+        const reviews = await loadReviews();
+        setReviews(reviews);
       } catch (error) {
-        console.warn('Failed to load from Firestore, using localStorage fallback:', error);
-        try {
-          const storedReviews = JSON.parse(localStorage.getItem('reviews') || '[]');
-          setReviews(storedReviews);
-        } catch (err) {
-          console.error('Error loading local fallback reviews:', err);
-          setReviews([]);
-        }
+        console.error('Error loading reviews:', error);
+        setReviews([]);
       } finally {
         setLoading(false);
       }

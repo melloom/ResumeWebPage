@@ -26,6 +26,16 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
   // Static projects data - moved outside component to prevent recreation
   const staticProjects = useMemo(() => [
     {
+      id: 20,
+      title: 'Charm City Collective',
+      description: 'A community-centered organization dedicated to care, connection, and support in Baltimore. Features mission statement, impact statistics, values showcase, program descriptions, and community service information. Built with responsive design and modern web technologies.',
+      image: '/charm-city-collective.png',
+      technologies: ['React', 'HTML5', 'CSS3', 'JavaScript', 'Responsive Design'],
+      link: 'https://charm-city-collective.org',
+      github: '',
+      category: 'Websites'
+    },
+    {
       id: 19,
       title: 'CodeGuardian',
       description: 'AI-Powered Code Review & Debugging Platform - An intelligent platform designed to streamline code review and debugging processes using artificial intelligence to help developers identify and resolve code issues more efficiently.',

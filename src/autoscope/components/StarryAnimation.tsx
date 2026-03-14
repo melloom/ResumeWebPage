@@ -1402,32 +1402,31 @@ const StarryAnimation = ({ onNarrationChange }: StarryAnimationProps) => {
       }
     }, 1500); // Much more frequent (every 1.5 seconds)
 
-    // Create nebula clouds occasionally - DISABLED for performance
+    // Create nebula clouds occasionally - simplified and performance-friendly
     const nebulaCloudInterval = setInterval(() => {
-      // Temporarily disabled to prevent crashes
-      // if (nebulaCloudsRef.current.length < 2 && Math.random() > 0.7) {
-      //   // Simple, performance-friendly nebula clouds
-      //   const nebulaColors = [
-      //     { hue: 280, saturation: 50, lightness: 50 }, // Purple
-      //     { hue: 200, saturation: 60, lightness: 55 }, // Blue
-      //     { hue: 320, saturation: 40, lightness: 60 }, // Pink
-      //   ];
-      //   
-      //   const selectedColor = nebulaColors[Math.floor(Math.random() * nebulaColors.length)];
-      //   
-      //   nebulaCloudsRef.current.push({
-      //     x: Math.random() * cw(),
-      //     y: Math.random() * ch(),
-      //     size: Math.random() * 100 + 80, // Smaller clouds for performance
-      //     color: `hsl(${selectedColor.hue}, ${selectedColor.saturation}%, ${selectedColor.lightness}%)`,
-      //     opacity: 0.08 + Math.random() * 0.04, // Much more subtle
-      //     driftX: (Math.random() - 0.5) * 0.2, // Slower drift
-      //     driftY: (Math.random() - 0.5) * 0.15, // Slower drift
-      //     pulsePhase: Math.random() * Math.PI * 2,
-      //     cloudDensity: 0.2 + Math.random() * 0.2
-      //   });
-      // }
-    }, 12000); // Every 12 seconds (less frequent)
+      if (nebulaCloudsRef.current.length < 1 && Math.random() > 0.8) { // Only 20% chance, max 1 cloud
+        // Simple, performance-friendly nebula clouds
+        const nebulaColors = [
+          { hue: 280, saturation: 40, lightness: 45 }, // Purple
+          { hue: 200, saturation: 50, lightness: 50 }, // Blue
+          { hue: 320, saturation: 30, lightness: 55 }, // Pink
+        ];
+        
+        const selectedColor = nebulaColors[Math.floor(Math.random() * nebulaColors.length)];
+        
+        nebulaCloudsRef.current.push({
+          x: Math.random() * cw(),
+          y: Math.random() * ch(),
+          size: Math.random() * 60 + 40, // Much smaller clouds
+          color: `hsl(${selectedColor.hue}, ${selectedColor.saturation}%, ${selectedColor.lightness}%)`,
+          opacity: 0.05 + Math.random() * 0.03, // Very subtle
+          driftX: (Math.random() - 0.5) * 0.1, // Very slow drift
+          driftY: (Math.random() - 0.5) * 0.1, // Very slow drift
+          pulsePhase: Math.random() * Math.PI * 2,
+          cloudDensity: 0.1 + Math.random() * 0.1
+        });
+      }
+    }, 15000); // Every 15 seconds (much less frequent)
 
     // Create random shapes occasionally - More frequent for better visibility
     const shapeMakerInterval = setInterval(() => {
