@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FaGithub, FaExternalLinkAlt, FaCode, FaTag, FaTrash } from 'react-icons/fa';
 import { useAuth } from '../../../context/AuthContext';
 import { deleteProject } from '../../../services/projectService';
@@ -21,21 +21,13 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete, index = 0 })
   } = project;
   
   const [imageError, setImageError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const imgRef = useRef(null);
 
-  // Use the appropriate image source with cache-busting
+  // Use the appropriate image source — no cache-busting so browser caches work
   const projectImage = imageUrl || image || '/screenshots/portfolio-portfolio-thumbnail.png';
-  
-  // Add cache-busting parameter to prevent image caching
-  const getImageWithCacheBust = (imageSrc) => {
-    if (!imageSrc) return imageSrc;
-    const timestamp = Date.now();
-    const separator = imageSrc.includes('?') ? '&' : '?';
-    return `${imageSrc}${separator}_t=${timestamp}`;
-  };
   
   // Use the appropriate links
   const projectLink = liveLink || link || '';
@@ -50,31 +42,22 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete, index = 0 })
   // Check if this is a user-added project (has an id that's not a number)
   const isUserProject = project.id && typeof project.id === 'string' && project.id.length > 10;
 
-  // Preload only the first card on large screens to avoid mobile bandwidth spikes
+  // If the image is already in the browser cache, mark it loaded immediately
   useEffect(() => {
-    const shouldPreload = typeof window !== 'undefined' && window.innerWidth > 1024 && index === 0;
-    if (projectImage && shouldPreload) {
-      const img = new Image();
-      img.src = getImageWithCacheBust(projectImage);
-    }
-  }, [projectImage, index]);
-
-  useEffect(() => {
-    if (projectImage) {
-      setIsLoading(true);
-      setImageError(false);
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth > 0) {
+      setImageLoaded(true);
     }
   }, [projectImage]);
 
-  const handleImageLoad = () => {
-    setIsLoading(false);
+  const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
-  };
+  }, []);
 
-  const handleImageError = () => {
+  const handleImageError = useCallback(() => {
     setImageError(true);
-    setIsLoading(false);
-  };
+    setImageLoaded(true); // stop showing spinner on error too
+  }, []);
 
 
   const handleDelete = async (e) => {
@@ -118,10 +101,9 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete, index = 0 })
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className={styles.imageContainer}>
-        {!imageLoaded && (isLoading || parentLoading) && (
+        {!imageLoaded && (
           <div className={styles.imageLoader}>
             <div className={styles.spinner}></div>
-            <span className={styles.loadingText}>Loading project preview...</span>
           </div>
         )}
         {imageError ? (
@@ -132,15 +114,15 @@ const ProjectCard = ({ project, isLoading: parentLoading, onDelete, index = 0 })
         ) : (
           projectImage && (
             <img 
-              src={getImageWithCacheBust(projectImage)} 
+              ref={imgRef}
+              src={projectImage} 
               alt={title} 
-              className={styles.image} 
+              className={`${styles.image} ${imageLoaded ? styles.imageVisible : ''}`}
               onLoad={handleImageLoad}
               onError={handleImageError}
-              loading="lazy"
+              loading={index < 3 ? "eager" : "lazy"}
               decoding="async"
-              fetchpriority={index === 0 ? "high" : "auto"}
-              style={{ objectFit: 'contain' }}
+              fetchpriority={index < 3 ? "high" : "auto"}
             />
           )
         )}

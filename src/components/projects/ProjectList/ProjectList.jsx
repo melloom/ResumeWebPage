@@ -26,6 +26,26 @@ const ProjectList = ({ userProjects = [], isLoading: userProjectsLoading = false
   // Static projects data - moved outside component to prevent recreation
   const staticProjects = useMemo(() => [
     {
+      id: 22,
+      title: 'Tunora Player',
+      description: 'A Chrome browser extension that turns your browser into a professional-grade music player — with a 7-band EQ, 4-band multiband compressor, stereo widener, convolution reverb, true-peak limiter, and a live 256-bin FFT visualizer. Features a draggable floating overlay that follows you tab-to-tab, full keyboard shortcuts, and zero network calls. 40+ Web Audio API nodes in real time. No accounts, no cloud, no tracking — just your files and your ears. Coming soon to the Chrome Web Store.',
+      image: '/30f62e47-4d84-4803-8f91-85a7650ab018.png',
+      technologies: ['Chrome Extension', 'Manifest V3', 'Vanilla JS', 'Web Audio API', 'HTML5 Canvas', 'Shadow DOM', 'IndexedDB'],
+      link: '',
+      github: '',
+      category: 'Tools'
+    },
+    {
+      id: 21,
+      title: 'Dat3Night',
+      description: 'AI-powered date ideas and venue recommendations tailored to your preferences. Discover romantic restaurants, fun activities, and unique date spots with smart filtering by budget, vibe, time, and party size. Includes location-aware search, saved favorites, PWA install support, and offline access.',
+      image: '/24907c47-7a9c-478b-b2e6-5ca52c169325.png',
+      technologies: ['Next.js 16', 'TypeScript', 'Tailwind CSS v4', 'Radix UI', 'shadcn/ui', 'Google Gemini API', 'Firebase', 'Stripe'],
+      link: 'https://dat3night.com/',
+      github: '',
+      category: 'Apps'
+    },
+    {
       id: 20,
       title: 'Charm City Collective',
       description: 'A community-centered organization dedicated to care, connection, and support in Baltimore. Features mission statement, impact statistics, values showcase, program descriptions, and community service information. Built with responsive design and modern web technologies.',
