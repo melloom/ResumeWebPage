@@ -1,8 +1,8 @@
 .installContainer {
   position: fixed;
-  bottom: 100px;
+  bottom: 160px;
   right: 30px;
-  z-index: 100;
+  z-index: 95;
   animation: slideIn 0.5s ease forwards;
 }
 
@@ -55,7 +55,7 @@
 /* Responsive styles */
 @media (max-width: 768px) {
   .installContainer {
-    bottom: 80px;
+    bottom: 140px;
     right: 20px;
   }
   
