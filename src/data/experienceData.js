@@ -1,5 +1,32 @@
 export const experienceData = [
   {
+    id: 'us-navy',
+    title: 'Master-at-Arms (MA)',
+    company: 'United States Navy',
+    location: 'Active Duty',
+    period: '2026 - Present',
+    description: 'Serving as a Master-at-Arms in the United States Navy, responsible for law enforcement, security operations, and force protection.',
+    color: '#1e3a5f',
+    image: '/assets/images/navy.jpg',
+    achievements: [
+      'Selected for the Master-at-Arms (MA) rating, the Navy\'s primary law enforcement and security force',
+      'Training in force protection, physical security, and law enforcement operations',
+      'Committed to serving and protecting fellow service members and naval installations'
+    ],
+    highlights: 'Transitioned from civilian sales career to active duty military service in the United States Navy.',
+    skills: [
+      'Law Enforcement',
+      'Security Operations',
+      'Force Protection',
+      'Physical Security',
+      'Military Discipline',
+      'Team Operations',
+      'Leadership'
+    ],
+    summary: "Serving as a Master-at-Arms in the United States Navy, combining discipline, leadership, and a commitment to service. The MA rating is the Navy's primary law enforcement and security community, responsible for protecting personnel, property, and installations.",
+    relevance: "military service, law enforcement, security, and leadership"
+  },
+  {
     id: 'long-home',
     title: 'Contact Agent → Confirmer',
     company: 'Long Home Products',

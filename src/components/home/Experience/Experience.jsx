@@ -175,7 +175,8 @@ const Experience = React.forwardRef((props, forwardedRef) => {
                   background: `linear-gradient(135deg, ${job.color || '#6366f1'} 60%, #a855f7 100%)`
                 }}>
                   <span className={styles.companyInitial}>
-                    {job.id === 'long-home' ? 'LHP' :
+                    {job.id === 'us-navy' ? 'USN' :
+                     job.id === 'long-home' ? 'LHP' :
                      job.id === 'baltimore-health' ? 'BCHD' :
                      job.id === 'aerotek' ? 'ATK' :
                      job.company?.trim()?.charAt(0) || '?'}

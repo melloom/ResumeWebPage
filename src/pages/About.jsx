@@ -99,6 +99,11 @@ const About = () => {
   // Enhanced timeline with more detailed events
   const timelineEvents = [
     {
+      year: "2026",
+      title: "United States Navy",
+      description: "Began active duty service in the United States Navy as a Master-at-Arms (MA), the Navy's primary law enforcement and security rating. Responsible for force protection and security operations."
+    },
+    {
       year: "2024",
       title: "Web Development Journey",
       description: "Started building websites with React, JavaScript, and modern frontend tools. Completed personal projects and began developing a portfolio showcasing technical skills alongside professional experience."
