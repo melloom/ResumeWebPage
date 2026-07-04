@@ -2,7 +2,7 @@
 
 /* Base Header Styles */
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -14,6 +14,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   /* Add safe area insets for notch support */
   padding-top: env(safe-area-inset-top);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .headerScrolled {
@@ -23,7 +24,7 @@
 }
 
 .headerHidden {
-  opacity: 0.95;
+  /* Header always visible — no hiding on scroll */
 }
 
 .container {
@@ -751,6 +752,32 @@
   .mobileMenuWrapper {
     display: block;
   }
+}
+
+/* Navy / Military Link Styles */
+.militaryLink {
+  background: linear-gradient(135deg, #001F3F, #003B6F);
+  color: #FFD700 !important;
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem !important;
+  letter-spacing: 0.5px;
+}
+
+.militaryLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 31, 63, 0.4);
+  background: linear-gradient(135deg, #002B56, #004080);
+  color: #FFD700 !important;
+}
+
+.militaryLink .navIcon,
+.militaryLink .sidebarIcon {
+  color: #FFD700;
 }
 
 /* Blog Link Styles */

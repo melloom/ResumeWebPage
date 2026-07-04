@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaFileAlt, FaEnvelope, FaUser, FaCode, FaShareAlt, FaSignOutAlt, FaPlus, FaBlog, FaRobot, FaShieldAlt } from 'react-icons/fa';
+import { FaSun, FaMoon, FaBars, FaTimes, FaHome, FaFileAlt, FaEnvelope, FaUser, FaCode, FaShareAlt, FaSignOutAlt, FaPlus, FaBlog, FaRobot, FaShieldAlt, FaAnchor } from 'react-icons/fa';
 import { preloadRouteComponent } from '../../utils/routePreloader';
 import ShareButton from '../common/ShareButton';
 import { useAuth } from '../../context/AuthContext';
@@ -35,16 +35,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
       // Apply scrolled styling
       setIsScrolled(currentScrollY > scrollThreshold);
 
-      // Show/hide header based on scroll direction
-      if (Math.abs(currentScrollY - lastScrollY) > scrollDifference) {
-        // Don't hide when near the top
-        if (currentScrollY < 150) {
-          setIsHeaderVisible(true);
-        } else {
-          setIsHeaderVisible(currentScrollY < lastScrollY);
-        }
-        setLastScrollY(currentScrollY);
-      }
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -200,6 +191,22 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 </Link>
               </li>
               <li className={styles.navItem}>
+                <Link
+                  to="/resume#military"
+                  className={`${styles.navLink} ${styles.militaryLink}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/resume');
+                    setTimeout(() => {
+                      const el = document.getElementById('military');
+                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
+                  }}
+                >
+                  <FaAnchor className={styles.navIcon} /> Navy
+                </Link>
+              </li>
+              <li className={styles.navItem}>
                 <Link 
                   to="/contact" 
                   className={`${styles.navLink} ${isActive('/contact') ? styles.active : ''}`}
@@ -349,6 +356,21 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 >
                   <FaFileAlt className={styles.sidebarIcon} /> Resume
                 </Link>
+              </li>
+              <li className={styles.sidebarItem}>
+                <button
+                  className={`${styles.sidebarLink} ${styles.militaryLink}`}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    navigate('/resume');
+                    setTimeout(() => {
+                      const el = document.getElementById('military');
+                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 400);
+                  }}
+                >
+                  <FaAnchor className={styles.sidebarIcon} /> Navy
+                </button>
               </li>
               <li className={styles.sidebarItem}>
                 <Link 

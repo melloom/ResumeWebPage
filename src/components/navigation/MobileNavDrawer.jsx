@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaHome, FaUser, FaBriefcase, FaGraduationCap, FaEnvelope, FaFileAlt, FaTools, FaCertificate, FaChevronRight } from 'react-icons/fa';
+import { FaHome, FaUser, FaBriefcase, FaGraduationCap, FaEnvelope, FaFileAlt, FaTools, FaCertificate, FaChevronRight, FaAnchor } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import { preloadRouteComponent } from '../../utils/routePreloader';
 import styles from './MobileNavDrawer.module.css';
@@ -19,6 +19,7 @@ const MobileNavDrawer = () => {
         { id: 'experience', icon: <FaBriefcase />, label: 'Experience' },
         { id: 'skills', icon: <FaTools />, label: 'Skills' },
         { id: 'education', icon: <FaGraduationCap />, label: 'Education' },
+        { id: 'military', icon: <FaAnchor />, label: 'Military' },
         { id: 'certifications', icon: <FaCertificate />, label: 'Certifications' }
       ]
     : [
