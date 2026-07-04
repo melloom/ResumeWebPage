@@ -1,5 +1,5 @@
 // Cache names
-const CACHE_NAME = 'melvin-peralta-portfolio-v9'; // Increment version to force cache refresh
+const CACHE_NAME = 'melvin-peralta-portfolio-v10'; // Increment version to force cache refresh
 const RUNTIME_CACHE = 'runtime-cache-v1';
 const OFFLINE_URL = '/offline.html';
 
@@ -77,6 +77,13 @@ self.addEventListener('fetch', (event) => {
   // CRITICAL: Skip ALL navigation requests - let browser/Netlify handle routing
   if (event.request.mode === 'navigate') {
     return; // Don't intercept at all
+  }
+
+  // Skip SPA route paths (no file extension) - these are client-side routes
+  // that should be handled by the browser/Netlify, not the service worker
+  const pathname = url.pathname;
+  if (pathname !== '/' && !pathname.includes('.') && url.origin === self.location.origin) {
+    return;
   }
   
   // Skip external API calls - pass them through directly
