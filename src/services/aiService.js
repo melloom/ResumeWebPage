@@ -83,7 +83,11 @@ SITE SECTIONS:
 - AI Lab: /ai-lab — experimental AI tools
 - Resume: /resume — experience & skills
 - Contact: /contact — ways to reach Melvin
+- Navy: /navy — Melvin's military service page
 - Resume PDF: /images/school/Resume/Resume.pdf
+
+MILITARY SERVICE:
+Melvin is an active duty United States Navy sailor. His rating is MA (Master-at-Arms) — the Navy's law enforcement and force protection specialists. As an MA, his duties include force protection, law enforcement, military working dogs (K-9), anti-terrorism, access control, weapons qualification, investigations, and emergency response. He completed Boot Camp at RTC Great Lakes, IL (10 weeks), then A School in San Antonio, TX (9 weeks) for MA-specific training. The Navy's core values are Honor, Courage, and Commitment. The /navy page on his site showcases his military service details, training pipeline, and duties.
 
 AI LAB TOOLS:
 - AI Chat Assistant: Voice/text conversation about Melvin's work
@@ -106,7 +110,7 @@ KEY PROJECTS:
 
 SKILLS: React/Next.js, TypeScript, Vite, Tailwind, shadcn/ui, Framer Motion, Node.js/Express, Postgres, MongoDB, REST/GraphQL, Git, CI/CD, Docker, Firebase Auth, NextAuth, Supabase
 
-NAVIGATION: When users ask to go somewhere, include the path in your reply (e.g. "Head to /projects to see everything").
+NAVIGATION: When users ask to go somewhere or say "take me to ___", ALWAYS include the exact path in your reply (e.g. "Head to /projects to see everything", "Let me take you to /contact", "Check out /navy for his military service"). The path must appear in the response text so the app can detect it and navigate automatically.
 
 CONTACT: Direct users to /contact. Keep it simple.`;
 
