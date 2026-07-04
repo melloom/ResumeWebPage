@@ -336,7 +336,7 @@ body.contact-page .overlay {
   flex: 1;
   min-height: 0;
   overflow: hidden;
-  padding: 0 1rem 1rem;
+  padding: 0;
   display: flex;
   flex-direction: column;
 }
@@ -346,12 +346,12 @@ body.contact-page .overlay {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
-  background: var(--bg-accent, #f8fafc);
+  border-radius: 0;
+  background: transparent;
 }
 
 [data-theme="dark"] .chatWrap > div {
-  background: var(--bg-accent);
+  background: transparent;
 }
 
 /* ========== Responsive ========== */
@@ -379,7 +379,7 @@ body.contact-page .overlay {
   }
 
   .chatWrap {
-    padding: 0 0.6rem 0.6rem;
+    padding: 0;
   }
 
   .cardHeader {
@@ -442,7 +442,7 @@ body.contact-page .overlay {
   }
 
   .chatWrap {
-    padding: 0 0.4rem 0.4rem;
+    padding: 0;
   }
 
   .fab {
