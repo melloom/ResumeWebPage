@@ -78,8 +78,8 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
         // Logout successful
         setIsMenuOpen(false);
       }
-    } catch (error) {
-      console.error('Logout error:', error);
+    } catch (error) { // eslint-disable-line no-unused-vars
+      // logout failed
     } finally {
       setIsLoggingOut(false);
     }
@@ -116,7 +116,7 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
         text: 'Explore MellowSites web design and development work',
         url: window.location.href,
       })
-      .catch((error) => console.log('Error sharing', error));
+      .catch(() => {});
     } else {
       // Fallback - copy URL to clipboard
       navigator.clipboard.writeText(window.location.href);

@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import {
   FaGraduationCap, FaUniversity, FaCalendarAlt, FaMapMarkerAlt,
-  FaMedal, FaBook, FaAward, FaTimes, FaTrophy, FaUsers, FaSchool
+  FaMedal, FaAward, FaTimes, FaTrophy, FaSchool
 } from 'react-icons/fa';
 import styles from './Education.module.css';
-import { educationData } from '../../../data/educationData'; // Import from data file
+import { educationData } from '../../../data/educationData';
 
 const honors = [
   {
@@ -123,63 +123,14 @@ const Education = () => {
     }
   }, [showModal]);
 
-  // Add this inside the Education component, before the return statement:
-  useEffect(() => {
-    // Special handling for Meade High School image which seems problematic
-    const meadeSchool = educationData.find(s => s.id === 'meade');
-    if (meadeSchool) {
-      // Force load the image to check if it works
-      const img = new Image();
-      img.onload = () => {
-        console.log(`Successfully loaded Meade image: ${img.src}`);
-      };
-      img.onerror = () => {
-        console.error(`Failed to load Meade image: ${meadeSchool.image}`);
-        console.log("Trying to load with direct path...");
-        
-        // Try the exact path as specified by the user
-        const directPath = "/images/school/Meade-High-school.jpg";
-        const directImg = new Image();
-        directImg.onload = () => {
-          console.log(`Successfully loaded with direct path: ${directPath}`);
-          // Update the path in the educationData array
-          educationData.find(s => s.id === 'meade').image = directPath;
-          // Force a re-render
-          setImageErrors({...imageErrors});
-        };
-        directImg.src = directPath;
-      };
-      img.src = meadeSchool.image;
-    }
-  }, []);
-
   const handleImageError = (schoolId) => {
-    console.error(`Failed to load image for school: ${schoolId}`);
-    
-    // Special handling for Meade High School
-    if (schoolId === 'meade') {
-      const school = educationData.find(s => s.id === schoolId);
-      if (school && school.imageFallbacks && school.imageFallbacks.length > 0) {
-        // Try the first fallback
-        console.log(`Trying fallback image for ${schoolId}: ${school.imageFallbacks[0]}`);
-        school.image = school.imageFallbacks.shift();
-        
-        // Force re-render to try the new image
-        setImageErrors({...imageErrors});
-        return;
-      }
-    }
-    
-    // If no fallbacks or not Meade, mark as error
     setImageErrors(prev => ({
       ...prev,
       [schoolId]: true
     }));
   };
 
-  // Add this function before the return statement
   const handleModalImageError = () => {
-    console.error(`Failed to load modal image for: ${selectedSchool?.name}`);
     setModalImageError(true);
   };
 

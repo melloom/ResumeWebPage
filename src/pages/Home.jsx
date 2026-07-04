@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+
 import { preloadRouteComponent } from '../utils/routePreloader';
 import Hero from '../components/home/Hero/Hero';
 import AboutMe from '../components/home/AboutMe/AboutMe';
@@ -8,23 +8,12 @@ import Experience from '../components/home/Experience/Experience';
 import Education from '../components/home/Education/Education';
 import Contact from '../components/home/Contact/Contact';
 import SideNav from '../components/navigation/SideNav';
-import BackToTop from '../components/common/BackToTop';
 import MobileNavDrawer from '../components/navigation/MobileNavDrawer';
 
 function Home() {
   // Reset scroll position on page load
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
-  // Make sure sections have proper IDs matching what SideNav is looking for
-  useEffect(() => {
-    // Log all section containers to help debugging
-    console.log("Hero section:", document.getElementById('hero'));
-    console.log("About section:", document.getElementById('about'));
-    console.log("Experience container:", document.getElementById('experience-container'));
-    console.log("Education container:", document.getElementById('education-container'));
-    console.log("Contact container:", document.getElementById('contact-container'));
   }, []);
 
   // Define custom job titles - updated to show broader professional skills
@@ -115,7 +104,6 @@ function Home() {
       </Helmet>
       
       <SideNav />
-      <BackToTop /> 
       <MobileNavDrawer />
       <main id="top">
         {/* Hero section with prefetch */}
@@ -143,29 +131,7 @@ function Home() {
             onNavigationIntent={handleNavigationIntent} // Pass down the prefetch handler
           />
         </div>
-        
-        {/* Add a navigation preview section */}
-        <section className="nav-preview-section">
-          <div className="container">
-            <div className="nav-preview-grid">
-              {[
-                { path: '/about', label: 'About Me', icon: 'FaUser' },
-                { path: '/resume', label: 'Resume', icon: 'FaFileAlt' },
-                { path: '/contact', label: 'Contact', icon: 'FaEnvelope' }
-              ].map(item => (
-                <Link 
-                  key={item.path}
-                  to={item.path}
-                  className="nav-preview-card"
-                  onMouseEnter={() => handleNavigationIntent(item.path)}
-                  onTouchStart={() => handleNavigationIntent(item.path)}
-                >
-                  {/* Add content here */}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+
       </main>
     </>
   );

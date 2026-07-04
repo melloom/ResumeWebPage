@@ -76,7 +76,7 @@ const Hero = ({ name, profileImage, jobTitles = [], onNavigationIntent }) => {
               </div>
               
               <p className={styles.description}>
-                Versatile professional with expertise across multiple domains. Combining technical knowledge with excellent communication skills to deliver exceptional results in any role.
+                Building modern, performant websites and digital experiences. Combining strong technical skills with a passion for clean design to deliver solutions that work.
               </p>
               
               {/* Mobile only image */}

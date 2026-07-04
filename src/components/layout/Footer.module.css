@@ -3,15 +3,7 @@
     position: relative;
     overflow: hidden;
     z-index: 1;
-    opacity: 1; /* Changed from 0 to 1 to make footer visible immediately */
-    transform: none; /* Remove the initial transform */
-    transition: none; /* Remove the transition effect */
     padding-top: 60px;
-  }
-
-  .footer.visible {
-    opacity: 1;
-    transform: none; /* Changed to ensure no movement */
   }
 
   .footerGradient {
@@ -493,45 +485,3 @@
     }
   }
 
-  /* Remove all decorative circles/dots in footer */
-  .footer *::before,
-  .footer *::after {
-    content: none !important;
-  }
-
-  .footer [class*="circle"],
-  .footer [class*="dot"],
-  .footer [class*="badge"],
-  .footer [class*="indicator"] {
-    display: none !important;
-    opacity: 0 !important;
-  }
-
-  /* Target specific blue elements with border-radius (circles) */
-  .footer [style*="border-radius: 50%"][style*="background"],
-  .footer div[style*="width: 10px"][style*="height: 10px"],
-  .footer div[style*="width: 20px"][style*="height: 20px"],
-  .footer div[style*="width: 30px"][style*="height: 30px"],
-  .footer div[style*="width: 40px"][style*="height: 40px"],
-  .footer div[style*="width: 50px"][style*="height: 50px"] {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-  }
-
-  /* Exceptions for the elements we actually want to keep */
-  .footerHeading::after,
-  .footerLogo::after,
-  .footerLinks a::before,
-  .footerLinkButton::before,
-  .footerButton::after,
-  .social a::after {
-    content: '' !important;
-    display: block !important;
-  }
-
-  .social a {
-    display: flex !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
