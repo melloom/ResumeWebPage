@@ -34,6 +34,13 @@
   status = 301
   force = true
 
+# Return 404 for missing hashed asset files instead of serving index.html
+# This prevents MIME type mismatches when old cached pages reference stale asset filenames
+[[redirects]]
+  from = "/assets/*"
+  to = "/404.html"
+  status = 404
+
 # Redirect all routes to index.html for SPA routing
 # Static files (like favicon.ico, images, etc.) are automatically served directly by Netlify
 [[redirects]]

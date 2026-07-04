@@ -1,6 +1,5 @@
 // Cache names
-const CACHE_NAME = 'melvin-peralta-portfolio-v10'; // Increment version to force cache refresh
-const RUNTIME_CACHE = 'runtime-cache-v1';
+const CACHE_NAME = 'melvin-peralta-portfolio-v11';
 const OFFLINE_URL = '/offline.html';
 
 // Error handling for service worker
@@ -12,10 +11,8 @@ self.addEventListener('unhandledrejection', (event) => {
   console.error('Service Worker unhandled promise rejection:', event.reason);
 });
 
-// Assets to cache immediately on install
+// Assets to cache immediately on install (static assets only, NOT index.html)
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
   '/offline.html',
   '/photo-1.jpg',
   '/icons/favicon.ico',
@@ -32,9 +29,16 @@ const ASSETS_TO_CACHE = [
   '/images/school/Resume/Resume.pdf'
 ];
 
-// Install event - cache critical files but don't make it blocking
+// Map of request destinations to expected MIME type prefixes
+const EXPECTED_MIME_TYPES = {
+  script: 'application/javascript',
+  style: 'text/css',
+  font: 'font/',
+  image: 'image/',
+};
+
+// Install event - cache critical files
 self.addEventListener('install', (event) => {
-  // Use waitUntil to ensure the service worker won't install until caching is complete
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
@@ -42,7 +46,6 @@ self.addEventListener('install', (event) => {
         return cache.addAll(ASSETS_TO_CACHE);
       })
       .then(() => {
-        // Skip waiting to ensure the new service worker activates immediately
         return self.skipWaiting();
       })
   );
@@ -61,13 +64,41 @@ self.addEventListener('activate', (event) => {
         })
       );
     }).then(() => {
-      // Take control of all clients immediately
       return self.clients.claim();
     })
   );
 });
 
-// Fetch event - only cache assets, skip ALL navigation requests
+/**
+ * Check if a response has the correct MIME type for its request.
+ * Prevents caching HTML fallback pages as JS/CSS assets.
+ */
+function hasValidMimeType(request, response) {
+  const contentType = response.headers.get('content-type') || '';
+  const destination = request.destination;
+
+  // If we know what type is expected, validate it
+  if (destination && EXPECTED_MIME_TYPES[destination]) {
+    const expected = EXPECTED_MIME_TYPES[destination];
+    if (!contentType.includes(expected)) {
+      return false;
+    }
+  }
+
+  // Also check by URL extension as a fallback
+  const url = new URL(request.url);
+  const ext = url.pathname.split('.').pop();
+  if (ext === 'js' && !contentType.includes('javascript') && !contentType.includes('ecmascript')) {
+    return false;
+  }
+  if (ext === 'css' && !contentType.includes('css')) {
+    return false;
+  }
+
+  return true;
+}
+
+// Fetch event - network-first with MIME validation
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') return;
@@ -76,24 +107,22 @@ self.addEventListener('fetch', (event) => {
   
   // CRITICAL: Skip ALL navigation requests - let browser/Netlify handle routing
   if (event.request.mode === 'navigate') {
-    return; // Don't intercept at all
+    return;
   }
 
-  // Skip SPA route paths (no file extension) - these are client-side routes
-  // that should be handled by the browser/Netlify, not the service worker
+  // Skip SPA route paths (no file extension)
   const pathname = url.pathname;
   if (pathname !== '/' && !pathname.includes('.') && url.origin === self.location.origin) {
     return;
   }
   
-  // Skip external API calls - pass them through directly
+  // Skip external API calls
   const isExternalAPI = url.hostname.includes('firebaseapp.com') ||
                        url.hostname.includes('googleapis.com') ||
                        url.hostname.includes('firebase.googleapis.com') ||
                        url.hostname.includes('identitytoolkit.googleapis.com') ||
                        url.hostname.includes('emailjs.com');
   
-  // Also skip the dev server's own requests when in development
   const isDevServerRequest = url.hostname === 'localhost' || 
                             url.hostname === '127.0.0.1' ||
                             url.hostname.includes('.app.github.dev');
@@ -113,18 +142,15 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-first strategy with cache fallback for assets only
+  // Network-first strategy with MIME type validation
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // Clone the response as it can only be consumed once
-        const responseToCache = response.clone();
-        
-        // Only cache successful responses from our origin
-        if (response.status === 200 && url.origin === self.location.origin) {
+        // Validate MIME type before caching
+        if (response.status === 200 && hasValidMimeType(event.request, response)) {
+          const responseToCache = response.clone();
           caches.open(CACHE_NAME)
             .then(cache => {
-              // Don't cache localStorage access or API responses
               if (!url.pathname.includes('localStorage') && 
                   !url.pathname.includes('/api/')) {
                 cache.put(event.request, responseToCache);
@@ -133,17 +159,22 @@ self.addEventListener('fetch', (event) => {
             .catch(err => console.warn('Cache write failed:', err));
         }
         
+        // Even if MIME is wrong, return the network response as-is
+        // (the browser will handle the error naturally)
         return response;
       })
       .catch((error) => {
-        // Log error for debugging
         console.warn('Fetch failed for', event.request.url, error);
         
-        // Try to get from cache if network fails
         return caches.match(event.request)
           .then(cachedResponse => {
             if (cachedResponse) {
-              return cachedResponse;
+              // Double-check cached response MIME type
+              if (hasValidMimeType(event.request, cachedResponse)) {
+                return cachedResponse;
+              }
+              // Bad cached response — delete it
+              caches.open(CACHE_NAME).then(cache => cache.delete(event.request));
             }
             
             // For navigation requests, return the offline page
@@ -159,14 +190,6 @@ self.addEventListener('fetch', (event) => {
               });
             }
             
-            // For script requests that fail, try to return a basic response
-            if (event.request.destination === 'script') {
-              return new Response('console.warn("Script failed to load, ServiceWorker fallback");', {
-                status: 200,
-                headers: { 'Content-Type': 'application/javascript' }
-              });
-            }
-            
             return new Response('Network error happened', {
               status: 408,
               headers: { 'Content-Type': 'text/plain' }
@@ -176,7 +199,7 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Add message handler to force cache refresh when needed
+// Message handler for cache management
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
@@ -189,8 +212,9 @@ self.addEventListener('message', (event) => {
       );
     }).then(() => {
       console.log('All caches cleared');
-      // Notify client that caches were cleared
-      event.ports[0].postMessage('Caches cleared successfully');
+      if (event.ports[0]) {
+        event.ports[0].postMessage('Caches cleared successfully');
+      }
     });
   }
 });
