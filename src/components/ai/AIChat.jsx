@@ -205,7 +205,6 @@ const AIChat = forwardRef((props, ref) => {
 
   // ---- Resume listening (works for both paths) ----
   const resumeListening = useCallback(() => {
-    console.log('[Voice] resumeListening called — active:', voiceActiveRef.current, 'speaking:', isSpeakingRef.current, 'loading:', isLoadingRef.current);
     if (!voiceActiveRef.current) { setStatus('idle'); return; }
     if (isSpeakingRef.current || isLoadingRef.current) {
       // If still busy, retry shortly
@@ -217,10 +216,8 @@ const AIChat = forwardRef((props, ref) => {
       return;
     }
     if (useLiveMode && startListeningRef.current) {
-      console.log('[Voice] Resuming SpeechRecognition');
       startListeningRef.current();
     } else if (!useLiveMode && startFallbackRef.current) {
-      console.log('[Voice] Resuming fallback recording');
       startFallbackRef.current();
     } else {
       setStatus('idle');
@@ -230,7 +227,6 @@ const AIChat = forwardRef((props, ref) => {
   // ---- Speech synthesis ----
   const speakMessage = async (text) => {
     if (!voiceEnabled) {
-      console.log('[Voice] speakMessage skipped — voice disabled');
       resumeListening();
       return;
     }
@@ -238,16 +234,13 @@ const AIChat = forwardRef((props, ref) => {
       setIsSpeaking(true);
       isSpeakingRef.current = true;
       setStatus('speaking');
-      console.log('[Voice] Speaking:', text.slice(0, 60) + '...');
-      const result = await synthesizeSpeech(text);
-      console.log('[Voice] Speech finished:', result);
-    } catch (error) {
-      console.error('[Voice] Speech synthesis error:', error);
+      await synthesizeSpeech(text);
+    } catch (error) { // eslint-disable-line no-unused-vars
+      // speech synthesis failed
     } finally {
       setIsSpeaking(false);
       isSpeakingRef.current = false;
       setStatus('idle');
-      console.log('[Voice] Will resume listening in', RESUME_AFTER_SPEECH_MS, 'ms');
       setTimeout(() => resumeListening(), RESUME_AFTER_SPEECH_MS);
     }
   };
@@ -340,17 +333,13 @@ const AIChat = forwardRef((props, ref) => {
       if (shouldSpeak) {
         // Re-activate voice if it was lost during processing
         if (!voiceActiveRef.current) {
-          console.log('[Voice] Re-activating voice session (was deactivated during processing)');
           voiceActiveRef.current = true;
         }
-        console.log('[Voice] AI responded, speaking now...');
         speakMessage(responseContent);
       } else {
-        console.log('[Voice] AI responded, voice is disabled');
         resumeListening();
       }
-    } catch (error) {
-      console.error('Error sending message:', error);
+    } catch (error) { // eslint-disable-line no-unused-vars
       setMessages(prev => [...prev, {
         id: Date.now() + 1, type: 'ai',
         content: "Something went wrong. Please try again later or explore Melvin's portfolio directly.",
@@ -447,7 +436,7 @@ const AIChat = forwardRef((props, ref) => {
         }
         return;
       }
-      console.error('Speech recognition error:', event.error);
+
       if (voiceActiveRef.current) startFallbackRef.current?.();
     };
 
@@ -455,8 +444,7 @@ const AIChat = forwardRef((props, ref) => {
       recognition.start();
       recognitionRef.current = recognition;
       setStatus('listening');
-    } catch (e) {
-      console.error('Could not start recognition:', e);
+    } catch (e) { // eslint-disable-line no-unused-vars
       if (recognitionSilenceTimerRef.current) {
         clearInterval(recognitionSilenceTimerRef.current);
         recognitionSilenceTimerRef.current = null;
@@ -574,7 +562,7 @@ const AIChat = forwardRef((props, ref) => {
           };
         });
       } catch (e) {
-        console.error('Mic access error:', e);
+        // Mic access error
         setMicError(e?.name === 'NotAllowedError'
           ? 'Microphone access denied. Allow the mic in your browser settings.'
           : 'Couldn\'t access microphone. Check that a mic is connected.');
@@ -585,7 +573,6 @@ const AIChat = forwardRef((props, ref) => {
 
     const mime = pickMimeType();
     if (!mime) {
-      console.error('No supported audio MIME type');
       setStatus('idle');
       return;
     }
@@ -593,8 +580,7 @@ const AIChat = forwardRef((props, ref) => {
     let mediaRecorder;
     try {
       mediaRecorder = new MediaRecorder(stream, { mimeType: mime });
-    } catch (e) {
-      console.error('Could not create MediaRecorder:', e);
+    } catch (e) { // eslint-disable-line no-unused-vars
       // Stream probably died — clear it and retry once
       streamRef.current = null;
       if (voiceActiveRef.current) {
@@ -635,7 +621,6 @@ const AIChat = forwardRef((props, ref) => {
 
       // Skip tiny blobs or very short recordings (avoids Whisper hallucinations)
       if (blob.size < 500 || recordDuration < MIN_USEFUL_RECORD_MS) {
-        console.log(`[Voice] Discarding short recording: ${recordDuration}ms, ${blob.size} bytes`);
         setLiveTranscript('');
         restartListening();
         return;
@@ -658,8 +643,7 @@ const AIChat = forwardRef((props, ref) => {
         } else {
           restartListening();
         }
-      } catch (err) {
-        console.error('[Voice] Transcription error:', err);
+      } catch (err) { // eslint-disable-line no-unused-vars
         setLiveTranscript('');
         restartListening();
       }
@@ -667,14 +651,11 @@ const AIChat = forwardRef((props, ref) => {
 
     try {
       // No timeslice — collect all data in one chunk on stop()
-      // Using timeslice (e.g. start(200)) causes Firefox to produce multiple OGG segments
-      // that, when concatenated, have multiple container headers and Whisper rejects them
       mediaRecorder.start();
       mediaRecorderRef.current = mediaRecorder;
       setStatus('listening');
       setMicError(null);
-    } catch (err) {
-      console.error('MediaRecorder.start() error:', err);
+    } catch (err) { // eslint-disable-line no-unused-vars
       // Stream is dead — clear and retry
       stream.getTracks().forEach(t => { try { t.stop(); } catch {} });
       streamRef.current = null;
@@ -711,7 +692,6 @@ const AIChat = forwardRef((props, ref) => {
         };
       });
     } catch (e) {
-      console.error('Mic access error:', e);
       voiceActiveRef.current = false;
       setStatus('idle');
       setMicError(e?.name === 'NotAllowedError'
@@ -728,7 +708,6 @@ const AIChat = forwardRef((props, ref) => {
   }, [startListening, useLiveMode, startFallbackRecording, getMicStream, startViz]);
 
   const stopVoiceSession = useCallback(() => {
-    console.log('[Voice] stopVoiceSession called', new Error().stack?.split('\n')[2]?.trim());
     voiceActiveRef.current = false;
     setMicError(null);
     stopSilenceDetection();

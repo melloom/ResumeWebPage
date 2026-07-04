@@ -62,7 +62,6 @@ export const synthesizeSpeech = async (text, options = {}) => {
   const apiKey = import.meta.env.VITE_ELEVENLABS_API_KEY;
 
   if (!apiKey || !apiKey.startsWith('sk_')) {
-    console.log('[TTS] No ElevenLabs key, using browser speech');
     return useBrowserSpeech(text);
   }
 
@@ -73,7 +72,6 @@ export const synthesizeSpeech = async (text, options = {}) => {
   const voiceSettings = profile?.voice_settings || options.voiceSettings || ELEVENLABS_CONFIG.VOICE_SETTINGS;
 
   try {
-    console.log('[TTS] Calling ElevenLabs v3 API with profile:', options.profile || 'default');
     const response = await fetch(
       `${ELEVENLABS_CONFIG.API_URL}/${voiceId}`,
       {
@@ -98,10 +96,7 @@ export const synthesizeSpeech = async (text, options = {}) => {
     }
 
     const audioBlob = await response.blob();
-    console.log(`[TTS] ElevenLabs audio received: ${audioBlob.size} bytes`);
-
     if (audioBlob.size < 100) {
-      console.warn('[TTS] ElevenLabs returned tiny audio, falling back');
       throw new Error('ElevenLabs returned empty audio');
     }
 
@@ -112,7 +107,6 @@ export const synthesizeSpeech = async (text, options = {}) => {
     return new Promise((resolve) => {
       // Safety timeout — if audio doesn't end/error within 30s, resolve anyway
       const safetyTimer = setTimeout(() => {
-        console.warn('[TTS] Safety timeout — audio did not finish in 30s');
         URL.revokeObjectURL(audioUrl);
         if (currentAudio === audio) currentAudio = null;
         resolve({ success: false, method: 'elevenlabs' });
@@ -120,30 +114,24 @@ export const synthesizeSpeech = async (text, options = {}) => {
 
       audio.onended = () => {
         clearTimeout(safetyTimer);
-        console.log('[TTS] ElevenLabs playback finished');
         URL.revokeObjectURL(audioUrl);
         if (currentAudio === audio) currentAudio = null;
         resolve({ success: true, method: 'elevenlabs' });
       };
-      audio.onerror = (e) => {
+      audio.onerror = () => {
         clearTimeout(safetyTimer);
-        console.error('[TTS] Audio element error:', e);
         URL.revokeObjectURL(audioUrl);
         if (currentAudio === audio) currentAudio = null;
         resolve({ success: false, method: 'elevenlabs' });
       };
-      audio.play().then(() => {
-        console.log('[TTS] ElevenLabs audio playing...');
-      }).catch((err) => {
+      audio.play().then(() => {}).catch(() => {
         clearTimeout(safetyTimer);
-        console.error('[TTS] Audio play() blocked:', err);
         URL.revokeObjectURL(audioUrl);
         if (currentAudio === audio) currentAudio = null;
         resolve({ success: false, method: 'elevenlabs' });
       });
     });
-  } catch (error) {
-    console.error('[TTS] ElevenLabs error, falling back to browser speech:', error.message);
+  } catch (error) { // eslint-disable-line no-unused-vars
     return useBrowserSpeech(text);
   }
 };

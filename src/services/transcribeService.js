@@ -15,18 +15,13 @@ function extForMime(mime) {
 export const transcribeAudio = async (audioBlob) => {
   try {
     const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-    if (!apiKey) { console.error('[Whisper] No API key'); return ''; }
+    if (!apiKey) return '';
 
-    if (!audioBlob || audioBlob.size < 500) {
-      console.log('[Whisper] Skipping tiny/empty blob:', audioBlob?.size);
-      return '';
-    }
+    if (!audioBlob || audioBlob.size < 500) return '';
 
     const mimeType = audioBlob.type || '';
     const ext = extForMime(mimeType);
     const fileName = `recording.${ext}`;
-
-    console.log(`[Whisper] Sending: size=${audioBlob.size}, mime="${mimeType}", file="${fileName}"`);
 
     // Use File object directly — don't re-wrap with new Blob (avoids corrupting container headers)
     const file = new File([audioBlob], fileName, { type: mimeType || `audio/${ext}` });
@@ -49,10 +44,8 @@ export const transcribeAudio = async (audioBlob) => {
     }
 
     const data = await response.json();
-    console.log('[Whisper] Result:', data.text?.slice(0, 60) || '(empty)');
     return data.text || '';
-  } catch (error) {
-    console.error('[Whisper] Transcription error:', error);
+  } catch {
     return '';
   }
 };
