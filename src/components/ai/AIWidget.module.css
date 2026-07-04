@@ -111,7 +111,7 @@ body.contact-page .overlay {
 .card {
   position: relative;
   width: 100%;
-  max-width: 380px;
+  max-width: 440px;
   height: 0;
   max-height: min(88vh, 720px);
   min-height: 520px;
@@ -359,7 +359,7 @@ body.contact-page .overlay {
 /* Tablets / smaller screens */
 @media (max-width: 768px) {
   .card {
-    max-width: 340px;
+    max-width: 400px;
     max-height: min(70vh, 560px);
     min-height: 340px;
   }
