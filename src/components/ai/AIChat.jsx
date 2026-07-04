@@ -827,7 +827,8 @@ const AIChat = forwardRef((props, ref) => {
   };
 
   const getStatusLabel = () => {
-    if (status === 'listening') return liveTranscript ? 'Listening...' : 'Go ahead, I\'m listening...';
+    if (status === 'listening' && liveTranscript) return '';
+    if (status === 'listening') return compact ? 'Listening...' : 'Go ahead, I\'m listening...';
     if (status === 'processing') return 'Thinking...';
     if (status === 'speaking' && !compact) return 'Speaking...';
     if (status === 'speaking' && compact) return '';
@@ -970,26 +971,20 @@ const AIChat = forwardRef((props, ref) => {
 
           {micError && <div className={styles.micError} role="alert">{micError}</div>}
 
-          {(status === 'listening' || liveTranscript) && (
+          {liveTranscript && (
             <div className={compact ? styles.liveTranscriptCompact : styles.liveTranscript}>
-              {liveTranscript ? `"${liveTranscript}"` : (useLiveMode ? 'Speak now...' : 'Listening... speak and I\'ll hear you.')}
+              {`"${liveTranscript}"`}
             </div>
           )}
 
-          {status === 'listening' && (
-            compact ? (
-              <div className={styles.levelHintCompact} aria-hidden="true">
-                {level > 0.03 ? 'Hearing you' : 'Speak into your mic'}
-              </div>
-            ) : (
-              <div className={styles.levelBarWrap} aria-hidden="true">
-                <div className={styles.levelBar} style={{ width: `${Math.round(level * 100)}%` }} />
-                <span className={styles.levelHint}>{level > 0.03 ? 'Hearing you' : 'Speak into your mic'}</span>
-              </div>
-            )
+          {status === 'listening' && !liveTranscript && !compact && (
+            <div className={styles.levelBarWrap} aria-hidden="true">
+              <div className={styles.levelBar} style={{ width: `${Math.round(level * 100)}%` }} />
+              <span className={styles.levelHint}>{level > 0.03 ? 'Hearing you' : 'Speak into your mic'}</span>
+            </div>
           )}
 
-          <div className={styles.voiceStatusText}>{getStatusLabel()}</div>
+          {getStatusLabel() && <div className={styles.voiceStatusText}>{getStatusLabel()}</div>}
 
           {compact && (
             <div className={styles.voicePanelActions}>
