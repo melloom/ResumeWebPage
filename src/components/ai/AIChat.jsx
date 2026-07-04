@@ -3,6 +3,7 @@ import { FaRobot, FaPaperPlane, FaSpinner, FaMicrophone, FaVolumeUp, FaVolumeMut
 import { sendMessageToAI } from '../../services/aiService';
 import { synthesizeSpeech, stopSpeaking } from '../../services/voiceService';
 import { transcribeAudio } from '../../services/transcribeService';
+import { sendContactEmail } from '../../services/emailService';
 import styles from './AIChat.module.css';
 
 // Detect SpeechRecognition support once
@@ -62,6 +63,25 @@ function renderMessageContent(text) {
   if (!text) return text;
   // Remove sound tags from display but keep the text
   return text.replace(/<(laugh|chuckle)>/gi, '');
+}
+
+// Extract [SEND_MESSAGE:{...}] marker from AI response
+const SEND_MESSAGE_RE = /\[SEND_MESSAGE:(\{.*?\})\]/s;
+function extractSendMessage(text) {
+  if (!text) return null;
+  const match = text.match(SEND_MESSAGE_RE);
+  if (!match) return null;
+  try {
+    const data = JSON.parse(match[1]);
+    if (data.name && data.email && data.message) return data;
+  } catch {
+    // invalid JSON
+  }
+  return null;
+}
+
+function stripSendMessageMarker(text) {
+  return text.replace(SEND_MESSAGE_RE, '').trim();
 }
 
 const NAV_PATHS = ['/contact', '/projects', '/about', '/resume', '/ai-lab', '/navy', '/code-review', '/scout-crawler', '/'];
@@ -314,9 +334,34 @@ const AIChat = forwardRef((props, ref) => {
     try {
       const history = messagesRef.current.filter(m => m.type !== 'system');
       const result = await sendMessageToAI(text, history, pageContext);
-      const responseContent = result.success
+      const rawResponse = result.success
         ? result.response
         : (result.demoResponse || "I'm having trouble connecting right now. Please try again later.");
+
+      // Check for [SEND_MESSAGE:...] marker and send email if found
+      const sendData = extractSendMessage(rawResponse);
+      if (sendData) {
+        const emailResult = await sendContactEmail({
+          name: sendData.name,
+          email: sendData.email,
+          message: sendData.message,
+          subject: 'Message from AI Chat',
+        });
+        if (!emailResult.success) {
+          setMessages(prev => [...prev, {
+            id: Date.now() + 1, type: 'ai',
+            content: "I tried to send your message but something went wrong. You can also reach Melvin directly at /contact.",
+            timestamp: new Date()
+          }]);
+          setIsTyping(false);
+          setIsLoading(false);
+          isLoadingRef.current = false;
+          resumeListening();
+          return;
+        }
+      }
+
+      const responseContent = stripSendMessageMarker(rawResponse);
 
       setMessages(prev => [...prev, { id: Date.now() + 1, type: 'ai', content: responseContent, timestamp: new Date() }]);
       setIsTyping(false);

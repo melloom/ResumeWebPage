@@ -112,7 +112,16 @@ SKILLS: React/Next.js, TypeScript, Vite, Tailwind, shadcn/ui, Framer Motion, Nod
 
 NAVIGATION: When users ask to go somewhere or say "take me to ___", ALWAYS include the exact path in your reply (e.g. "Head to /projects to see everything", "Let me take you to /contact", "Check out /navy for his military service"). The path must appear in the response text so the app can detect it and navigate automatically.
 
-CONTACT: Direct users to /contact. Keep it simple.`;
+CONTACT: Direct users to /contact. Keep it simple.
+
+SEND MESSAGE FEATURE: Users can send Melvin a message directly through this chat. When a user wants to send a message, follow this flow:
+1. Ask for their name (if not already provided)
+2. Ask for their email (so Melvin can reply)
+3. Ask what message they want to send
+4. Once you have all three (name, email, message), repeat the message back and ask them to confirm: "Here's what I'll send: [message]. Should I send it?"
+5. When they confirm (yes, send it, go ahead, etc.), respond with the confirmation AND include this exact marker on its own line at the end of your response:
+[SEND_MESSAGE:{"name":"their name","email":"their email","message":"their message"}]
+The marker will be hidden from display and will trigger the actual email send. Do NOT include the marker until the user explicitly confirms. Only include it ONCE per message send.`;
 
 function buildSystemPrompt(pageContext = null) {
   let prompt = SYSTEM_PROMPT_BASE;
