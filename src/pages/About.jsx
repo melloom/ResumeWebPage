@@ -29,7 +29,7 @@ const About = () => {
     {
       title: "Professional Background",
       icon: <FaBriefcase />,
-      content: "My professional journey combines extensive experience in sales development with emerging skills in web development. I've consistently exceeded targets in revenue generation and lead conversion while building my technical skills through self-directed learning and practical projects. I take pride in my ability to understand client needs and develop solutions that drive business growth."
+      content: "My professional journey combines experience in sales and client engagement with growing skills in web development. Starting as a contact agent at Long Home Products, I worked my way up to confirmer while building my technical skills through self-directed learning and practical projects. I take pride in my ability to understand client needs and connect with people."
     },
     {
       title: "Education & Learning",
@@ -99,29 +99,29 @@ const About = () => {
   // Enhanced timeline with more detailed events
   const timelineEvents = [
     {
-      year: "2022",
+      year: "2024",
       title: "Web Development Journey",
-      description: "Started building websites with React and modern JavaScript while continuing to excel in my sales role. Completed several personal projects and began contributing to open source."
+      description: "Started building websites with React, JavaScript, and modern frontend tools. Completed personal projects and began developing a portfolio showcasing technical skills alongside professional experience."
+    },
+    {
+      year: "2022",
+      title: "Long Home Products",
+      description: "Joined Long Home Products as a contact agent, handling inbound and outbound client communications. Promoted to confirmer role and grew into leading the outbound texting team."
     },
     {
       year: "2021",
-      title: "Sales Team Leadership",
-      description: "Promoted to lead a team of 8 representatives, implementing innovative strategies that increased conversion rates by 35% and streamlined communication processes."
+      title: "Customer Service & Claims",
+      description: "Worked with Aerotek on contracts for Kaiser Permanente and Element Fleet, handling customer inquiries and processing insurance claims."
     },
     {
-      year: "2019",
-      title: "Sales Excellence Award",
-      description: "Recognized for generating over $10M in revenue through strategic client engagement and relationship building. Developed new outreach techniques that were adopted company-wide."
+      year: "2020",
+      title: "COVID Response & Community Service",
+      description: "Joined the Baltimore City Health Department's COVID response team. Also volunteered with local community organizations to support vulnerable populations during the pandemic."
     },
     {
       year: "2018",
-      title: "Advanced Sales Training",
-      description: "Completed specialized training in consultative selling and complex sales methodologies. Started mentoring new sales representatives."
-    },
-    {
-      year: "2016",
       title: "Career Start",
-      description: "Began professional journey in sales development, quickly establishing myself as a top performer through dedication and a natural ability to connect with clients."
+      description: "Began professional journey at Dunkin' Donuts and Cinnabon, building foundational skills in customer service, team collaboration, and shift management."
     }
   ];
 

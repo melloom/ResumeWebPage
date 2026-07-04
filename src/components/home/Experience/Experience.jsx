@@ -150,7 +150,7 @@ const Experience = React.forwardRef((props, forwardedRef) => {
           </h2>
           <div className={styles.titleUnderline}></div>
           <p className={styles.sectionSubtitle}>
-            My journey building exceptional client relationships and driving revenue growth
+            My professional journey from customer service to sales and web development
           </p>
         </div>
 

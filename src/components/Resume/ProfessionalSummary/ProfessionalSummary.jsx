@@ -15,11 +15,11 @@ const ProfessionalSummary = () => {
         <div className={styles.summaryTextContainer}>
           <div className={styles.summaryText}>
             <p className={styles.leadText}>
-              Results-driven <span className={styles.accentText}>Sales Development Professional</span> with a proven 
-              track record of generating over <span className={styles.highlight}>$10 million in revenue</span> within 
-              just two years. Skilled in building strong client relationships and 
-              implementing effective lead generation strategies that have consistently 
-              increased conversion rates by <span className={styles.highlight}>35%</span>.
+              Results-driven <span className={styles.accentText}>Sales & Web Development Professional</span> with a proven 
+              track record of generating over <span className={styles.highlight}>$2 million in revenue</span> through 
+              strategic client engagement. Skilled in building strong client relationships and 
+              implementing effective lead generation strategies while transitioning into 
+              modern web development with <span className={styles.highlight}>React</span>.
             </p>
             <p>
               Experienced in team leadership, having successfully supervised and mentored 
@@ -62,20 +62,20 @@ const ProfessionalSummary = () => {
           </div>
           <ul className={styles.highlightsList}>
             <li>
-              <span className={styles.achievementMetric}>$10M+</span>
+              <span className={styles.achievementMetric}>$2M+</span>
               <span className={styles.achievementDesc}>Revenue generated through strategic client engagement</span>
             </li>
             <li>
-              <span className={styles.achievementMetric}>35%</span>
-              <span className={styles.achievementDesc}>Increase in lead conversion with personalized nurturing</span>
+              <span className={styles.achievementMetric}>Promoted</span>
+              <span className={styles.achievementDesc}>From contact agent to confirmer at Long Home Products</span>
             </li>
             <li>
               <span className={styles.achievementMetric}>25%</span>
               <span className={styles.achievementDesc}>Above-average conversion rate for 8-person texting team</span>
             </li>
             <li>
-              <span className={styles.achievementMetric}>40%</span>
-              <span className={styles.achievementDesc}>Improvement in client retention with innovative follow-up systems</span>
+              <span className={styles.achievementMetric}>2024</span>
+              <span className={styles.achievementDesc}>Started web development journey with React and modern JS</span>
             </li>
           </ul>
         </div>

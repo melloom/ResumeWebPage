@@ -1,21 +1,21 @@
 export const experienceData = [
   {
     id: 'long-home',
-    title: 'Sales Development Representative (SDR)',
+    title: 'Contact Agent → Confirmer',
     company: 'Long Home Products',
     location: 'Savage, MD',
-    period: 'June 2022 - Present',
-    description: 'Driving revenue growth through strategic client engagement and team leadership as a top-performing SDR and outbound texting team lead.',
+    period: 'June 2022 - 2025',
+    description: 'Started as a contact agent handling inbound and outbound client communications, then promoted to confirmer role. Drove revenue growth through strategic client engagement and team leadership.',
     color: '#6366f1',
     image: '/assets/images/long-home.jpg',
     achievements: [
-      'Generated over $10 million in revenue within 2 years through strategic sales processes and client relationship management',
+      'Generated over $2 million in revenue through strategic sales processes and client relationship management',
       'Led and mentored a team of 8 representatives, providing training and implementing performance optimization strategies',
-      'Developed and managed outbound text campaigns resulting in a 25% conversion rate, significantly above industry average',
-      'Implemented multi-channel client engagement strategies that increased appointment-setting efficiency by 30%',
-      'Created innovative follow-up protocols that improved client retention by 40% compared to previous methodologies'
+      'Developed and managed outbound text campaigns with strong conversion rates',
+      'Implemented multi-channel client engagement strategies that increased appointment-setting efficiency',
+      'Promoted from contact agent to confirmer based on consistent performance'
     ],
-    highlights: 'Increased lead-to-appointment conversion by 35% through implementation of a personalized lead nurturing system, recognized as a company-wide best practice.',
+    highlights: 'Promoted from contact agent to confirmer through consistent performance and strong client engagement skills.',
     skills: [
       'Sales Strategy',
       'Team Leadership',
@@ -25,7 +25,7 @@ export const experienceData = [
       'Performance Analytics',
       'Process Optimization'
     ],
-    summary: "As a high-performing Sales Development Representative at Long Home Products, I developed expertise in generating qualified leads, nurturing client relationships, and optimizing sales processes. My role encompasses both individual sales excellence and team leadership, having been promoted to lead our outbound texting team within my first year.",
+    summary: "Starting as a contact agent at Long Home Products, I developed expertise in client communications and sales processes. Through consistent performance, I was promoted to confirmer, taking on greater responsibility in qualifying leads and driving appointments. My role grew to include team leadership of our outbound texting team.",
     relevance: "sales leadership, team management, and revenue generation"
   },
   {
