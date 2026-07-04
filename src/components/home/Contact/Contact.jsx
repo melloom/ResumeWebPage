@@ -62,12 +62,9 @@ const Contact = () => {
     try {
       if (publicKey) {
         emailjs.init(publicKey);
-        console.log("EmailJS initialized successfully");
-      } else {
-        console.error("EmailJS Public Key is missing");
       }
     } catch (error) {
-      console.error("EmailJS initialization error:", error);
+      // EmailJS init failed silently
     }
   }, []);
 
@@ -156,8 +153,7 @@ const Contact = () => {
     try {
       // Check if email configuration is available
       if (!serviceId || !templateId || !publicKey) {
-        console.error('Missing EmailJS configuration:', { serviceId, templateId, publicKey });
-        throw new Error('Email configuration is incomplete. Please check your settings.');
+        throw new Error('Email configuration is incomplete.');
       }
 
       // Format template parameters
@@ -168,18 +164,12 @@ const Contact = () => {
         message: formData.message
       });
 
-      console.log('Sending email with params:', templateParams);
-      console.log('Using service:', serviceId, 'template:', templateId);
-
-      // Send the email
       const result = await emailjs.send(
         serviceId,
         templateId,
         templateParams,
         publicKey
       );
-
-      console.log('EmailJS Response:', result);
 
       if (result.status === 200) {
         setSubmitResult({
@@ -198,9 +188,6 @@ const Contact = () => {
         throw new Error(`Failed with status: ${result.status}`);
       }
     } catch (error) {
-      console.error('Contact Form Error:', error);
-
-      // More user-friendly error message
       setSubmitResult({
         success: false,
         message: "I'm having trouble sending your message right now. Please try again or reach out directly via email or phone."

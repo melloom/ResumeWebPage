@@ -1,12 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { FaRocket, FaHandshake, FaChartLine, FaUsers, FaLightbulb } from 'react-icons/fa';
+import { FaRocket, FaCode, FaPaintBrush, FaUsers, FaLightbulb } from 'react-icons/fa';
 import styles from './AboutMe.module.css';
 
 const AboutMe = React.forwardRef((_, ref) => {
-  // State for image and animation handling
-  // const [activeImageIndex, setActiveImageIndex] = useState(0);
-
   // InView hook for animation triggers
   const [inViewRef] = useInView({
     threshold: 0.1,
@@ -81,17 +78,6 @@ const AboutMe = React.forwardRef((_, ref) => {
     }
   }, [isMobile]);
 
-  // Remove the image carousel rotation effect
-  // useEffect(() => {
-  //   if (!isMobile) {
-  //     const interval = setInterval(() => {
-  //       setActiveImageIndex(prevIndex => (prevIndex + 1) % 2);
-  //     }, 4000);
-  //
-  //     return () => clearInterval(interval);
-  //   }
-  // }, [isMobile]);
-
   return (
     <section className={styles.aboutWrapper} id="about">
       <div
@@ -125,9 +111,8 @@ const AboutMe = React.forwardRef((_, ref) => {
                   className={`${styles.profileImage} ${styles.active}`}
                   draggable="false"
                   onError={(e) => {
-                    e.target.onerror = null; // Prevent infinite loop
-                    console.log("Image failed to load, trying alternative path");
-                    e.target.src = "/photo-1.jpg"; // Try first photo as fallback
+                    e.target.onerror = null;
+                    e.target.src = "/photo-1.jpg";
                   }}
                 />
                 <div className={styles.imageOverlay}></div>
@@ -187,29 +172,29 @@ const AboutMe = React.forwardRef((_, ref) => {
                 <div className={styles.cardIcon}>
                   <FaRocket />
                 </div>
-                <h4 className={styles.cardTitle}>Sales Excellence</h4>
+                <h4 className={styles.cardTitle}>Fast & Performant</h4>
                 <p className={styles.cardText}>
-                  Generated over $10 million in revenue through strategic engagement and solution-focused selling techniques.
+                  Focused on speed and performance from the start — optimized builds, lazy loading, and efficient rendering for a snappy user experience.
                 </p>
               </div>
 
               <div className={styles.strengthCard}>
                 <div className={styles.cardIcon}>
-                  <FaHandshake />
+                  <FaCode />
                 </div>
-                <h4 className={styles.cardTitle}>Client Relationships</h4>
+                <h4 className={styles.cardTitle}>Clean Code</h4>
                 <p className={styles.cardText}>
-                  Built and maintained strong connections with 5,000+ clients, delivering high satisfaction and retention rates.
+                  Writing readable, maintainable code with clear structure. Component-based architecture and thoughtful abstractions keep projects scalable.
                 </p>
               </div>
 
               <div className={styles.strengthCard}>
                 <div className={styles.cardIcon}>
-                  <FaChartLine />
+                  <FaPaintBrush />
                 </div>
-                <h4 className={styles.cardTitle}>Growth Strategy</h4>
+                <h4 className={styles.cardTitle}>Polished Design</h4>
                 <p className={styles.cardText}>
-                  Developed and implemented growth strategies that boosted conversion rates by 35% and outperformed targets.
+                  Attention to detail in every interaction — smooth animations, responsive layouts, and consistent styling across all screen sizes.
                 </p>
               </div>
 
@@ -217,9 +202,9 @@ const AboutMe = React.forwardRef((_, ref) => {
                 <div className={styles.cardIcon}>
                   <FaUsers />
                 </div>
-                <h4 className={styles.cardTitle}>Team Leadership</h4>
+                <h4 className={styles.cardTitle}>User-Centered</h4>
                 <p className={styles.cardText}>
-                  Led and mentored a team of 8 sales representatives, optimizing campaigns and improving process efficiency.
+                  Building with accessibility and usability in mind. Every feature is designed to serve real users with intuitive, inclusive interfaces.
                 </p>
               </div>
             </div>
@@ -233,7 +218,7 @@ const AboutMe = React.forwardRef((_, ref) => {
               </div>
               <h3 className={styles.philosophyTitle}>My Professional Philosophy</h3>
               <blockquote className={styles.philosophyQuote}>
-                "I believe successful sales development comes from genuinely understanding client needs and building trusting, long-term relationships. My approach combines data-driven insights with authentic human connection to create value for both clients and organizations."
+                "I believe great software comes from genuinely understanding the problem and caring about the people who use it. My approach combines technical rigor with a focus on simplicity to build things that are both powerful and intuitive."
               </blockquote>
             </div>
           </div>

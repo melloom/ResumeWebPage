@@ -1,8 +1,8 @@
-import React, { useState, useCallback, useRef, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useCallback, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import {
-  FaBriefcase, FaBuilding, FaCalendarAlt, FaMapMarkerAlt, FaMedal
+  FaBriefcase, FaBuilding, FaCalendarAlt, FaMapMarkerAlt
 } from 'react-icons/fa';
 import { experienceData } from '../../../data/experienceData';
 import styles from './Experience.module.css';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   FaGithub,
@@ -11,7 +11,7 @@ import {
   FaCalendarAlt,
   FaGraduationCap,
   FaTools,
-  FaShareAlt // Keep the ShareAlt icon for consistent styling
+  FaShareAlt
 } from 'react-icons/fa';
 import styles from './Footer.module.css';
 
@@ -20,60 +20,17 @@ const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isContactPage = location.pathname === '/contact';
-  const [isVisible, setIsVisible] = useState(true); // Always visible now
 
-  // Remove the scroll effect logic or keep it just for element tracking
-  useEffect(() => {
-    const handleScroll = () => {
-      // Keep this for debugging but don't change visibility
-      const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 100;
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    // Set visible right away
-    setIsVisible(true);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  // Handler for smooth scroll to sections if on the same page
   const handleSectionNavigation = (sectionId, fallbackPath) => {
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     } else {
-      // Mark as internal navigation
-      sessionStorage.setItem('internalNavigation', 'true');
-      sessionStorage.setItem('forceScrollTop', 'true');
-      // Use React Router navigation to keep PWA in standalone mode
       const path = fallbackPath.split('#')[0];
       navigate(path);
       setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 0);
     }
   };
-
-  // Remove any blue circles (performance improvement to eliminate animation glitches)
-  useEffect(() => {
-    const removeUnwantedElements = () => {
-      const elementsToRemove = document.querySelectorAll(
-        'footer [class*="circle"], footer [class*="dot"], footer [style*="border-radius: 50%"], footer [style*="background-color: #"], footer [style*="background: #"]'
-      );
-
-      elementsToRemove.forEach(el => {
-        if (el.tagName !== 'BUTTON' && el.tagName !== 'A') {
-          el.style.display = 'none';
-          el.style.opacity = '0';
-          el.style.visibility = 'hidden';
-        }
-      });
-    };
-
-    removeUnwantedElements();
-    // Run again after a slight delay to catch any elements added by animations
-    setTimeout(removeUnwantedElements, 500);
-  }, []);
 
   // Simple share function to match styling approach of other links
   const handleShare = () => {
@@ -83,7 +40,7 @@ const Footer = () => {
         text: 'Check out Melvin Peralta\'s professional portfolio',
         url: window.location.href,
       })
-      .catch((error) => console.log('Error sharing', error));
+      .catch(() => {});
     } else {
       // Fallback - copy URL to clipboard
       navigator.clipboard.writeText(window.location.href);
@@ -102,7 +59,7 @@ const Footer = () => {
               <span>Melvin Peralta</span>
             </Link>
             <p className={styles.footerTagline}>
-              Experienced professional in sales development, team leadership, and business growth.
+              Full-stack developer crafting modern web experiences with React, JavaScript, and a focus on clean design.
             </p>
             <div className={styles.contactInfo}>
               <a href="mailto:contact@mellowsites.com" className={styles.contactLink}>
@@ -239,7 +196,6 @@ const Footer = () => {
             <a href="mailto:contact@mellowsites.com" aria-label="Email">
               <FaEnvelope />
             </a>
-            {/* Replace ShareButton component with styled anchor/button that matches others */}
             <button 
               onClick={handleShare} 
               className={styles.socialBtn} 
