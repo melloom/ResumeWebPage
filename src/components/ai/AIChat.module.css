@@ -115,12 +115,12 @@
   width: 100%;
   min-width: 0;
   padding: 24px 20px 20px;
-  max-height: 50vh;
+  max-height: none;
   overflow-y: auto;
   min-height: 0;
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary, rgba(0, 0, 0, 0.03));
+  border-radius: 0;
+  border: none;
+  background: transparent;
   gap: 16px;
   flex: 1;
   justify-content: center;
