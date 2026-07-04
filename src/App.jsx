@@ -28,6 +28,7 @@ const AILab = lazy(() => import('./pages/AILab'));
 const CodeReview = lazy(() => import('./pages/CodeReview'));
 const ScoutCrawler = lazy(() => import('./pages/ScoutCrawler'));
 const AutoScope = lazy(() => import('./pages/AutoScope'));
+const Navy = lazy(() => import('./pages/Navy/Navy'));
 
 function AppContent() {
   const { isAuthenticated } = useAuth();
@@ -163,6 +164,7 @@ function AppContent() {
               <Route path="/scout-crawler" element={<ScoutCrawler />} />
               <Route path="/autoscope" element={<AutoScope />} />
                 <Route path="/resume" element={<Resume />} />
+                <Route path="/navy" element={<Navy />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
