@@ -213,6 +213,9 @@ export const sendMessageToAI = async (message, conversationHistory = [], pageCon
       { role: 'user', content: message }
     ];
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
     const response = await fetch(AI_SERVICE_CONFIG.API_URL, {
       method: 'POST',
       headers: {
@@ -227,8 +230,11 @@ export const sendMessageToAI = async (message, conversationHistory = [], pageCon
         presence_penalty: AI_SERVICE_CONFIG.PRESENCE_PENALTY,
         frequency_penalty: AI_SERVICE_CONFIG.FREQUENCY_PENALTY,
         stream: false
-      })
+      }),
+      signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const errorMessage = handleApiError(response.status);
@@ -253,10 +259,21 @@ export const sendMessageToAI = async (message, conversationHistory = [], pageCon
       throw new Error('Invalid API response format');
     }
   } catch (error) {
+    let userMessage;
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      userMessage = "Couldn't reach the AI service — check your internet connection and try again.";
+    } else if (error.name === 'AbortError' || error.message.includes('timeout')) {
+      userMessage = "The request timed out. Please try again.";
+    } else if (error.message === 'Invalid API response format') {
+      userMessage = "Got an unexpected response from the AI. Please try again.";
+    } else {
+      userMessage = "Something went wrong. Please try again in a moment.";
+    }
+
     return {
       success: false,
       error: error.message,
-      demoResponse: "I'm having trouble connecting right now. Please try again, or explore Melvin's portfolio directly — check out /projects or /contact."
+      demoResponse: userMessage
     };
   }
 };
