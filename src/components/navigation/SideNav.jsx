@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaHome, FaUser, FaBriefcase, FaGraduationCap, FaEnvelope, FaFileAlt, FaTools, FaAward, FaCertificate } from 'react-icons/fa';
+import { FaHome, FaUser, FaBriefcase, FaGraduationCap, FaEnvelope, FaFileAlt, FaTools, FaAward, FaCertificate, FaAnchor } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 import styles from './SideNav.module.css';
 
@@ -17,6 +17,7 @@ const SideNav = () => {
         { id: 'experience', icon: <FaBriefcase />, label: 'Experience' },
         { id: 'skills', icon: <FaTools />, label: 'Skills' },
         { id: 'education', icon: <FaGraduationCap />, label: 'Education' },
+        { id: 'military', icon: <FaAnchor />, label: 'Military' },
         { id: 'certifications', icon: <FaCertificate />, label: 'Certifications' }
       ]
     : [

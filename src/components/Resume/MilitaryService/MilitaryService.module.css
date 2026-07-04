@@ -1,0 +1,915 @@
+/* ============================================
+   MILITARY SERVICE - NAVY THEMED COMPONENT
+   Colors: Navy Blue #001F3F, Gold #FFD700
+   ============================================ */
+
+.militarySection {
+  margin-bottom: 3.5rem;
+  background: linear-gradient(145deg, rgba(0, 31, 63, 0.95), rgba(0, 20, 45, 0.98));
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle anchor watermark */
+.navyWatermark {
+  position: absolute;
+  bottom: -60px;
+  right: -40px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.04), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Gold accent stripe along top */
+.navyStripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 215, 0, 0.6) 20%,
+    #FFD700 50%,
+    rgba(255, 215, 0, 0.6) 80%,
+    transparent
+  );
+  z-index: 2;
+}
+
+/* ---- Section Header ---- */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 2rem;
+  color: #ffffff;
+  padding-bottom: 1rem;
+  position: relative;
+  margin: 0;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, #FFD700, #FFA500);
+  border-radius: 3px;
+}
+
+.titleIcon {
+  color: #FFD700;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+}
+
+.editButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: #FFD700;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.editButton:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: #FFD700;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.15);
+}
+
+/* ---- Branch Banner ---- */
+.branchBanner {
+  background: linear-gradient(135deg, rgba(0, 40, 80, 0.8), rgba(0, 25, 55, 0.9));
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.bannerContent {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.bannerEmblem {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow:
+    0 0 20px rgba(255, 215, 0, 0.25),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.emblemIcon {
+  font-size: 1.8rem;
+  color: #001F3F;
+}
+
+.bannerText {
+  flex: 1;
+}
+
+.branchName {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 0.3rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.branchMotto {
+  font-size: 0.85rem;
+  color: rgba(255, 215, 0, 0.8);
+  font-style: italic;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.bannerFlag {
+  flex-shrink: 0;
+}
+
+.flagIcon {
+  font-size: 1.6rem;
+  color: rgba(255, 215, 0, 0.5);
+}
+
+/* ---- Service Grid (Rating, Rank, Status cards) ---- */
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.ratingCard,
+.rankCard,
+.statusCard {
+  background: rgba(0, 40, 80, 0.6);
+  border: 1px solid rgba(255, 215, 0, 0.12);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.ratingCard:hover,
+.rankCard:hover,
+.statusCard:hover {
+  border-color: rgba(255, 215, 0, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.cardGlow {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.cardLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 215, 0, 0.7);
+  margin-bottom: 1rem;
+}
+
+.cardLabelIcon {
+  font-size: 0.75rem;
+}
+
+.ratingBadge {
+  margin-bottom: 0.75rem;
+}
+
+.ratingCode {
+  display: inline-block;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #FFD700;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+}
+
+.ratingTitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.rankBadge {
+  margin-bottom: 0.75rem;
+}
+
+.rankGrade {
+  display: inline-block;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rankTitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 20px;
+  color: #4ade80;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+}
+
+/* ---- Service Details (Duty Station, Start Date) ---- */
+.serviceDetails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  background: rgba(0, 40, 80, 0.4);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 215, 0, 0.08);
+  position: relative;
+  z-index: 1;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.detailIcon {
+  color: #FFD700;
+  font-size: 0.85rem;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: rgba(255, 215, 0, 0.8);
+}
+
+.detailValue {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ---- Duties Section ---- */
+.dutiesSection {
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.dutiesTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.15rem;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+}
+
+.dutiesTitleIcon {
+  color: #FFD700;
+}
+
+.dutiesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.dutyItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 40, 80, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 215, 0, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  transition: all 0.3s ease;
+}
+
+.dutyItem:hover {
+  border-color: rgba(255, 215, 0, 0.15);
+  background: rgba(0, 45, 90, 0.6);
+}
+
+.dutyBullet {
+  color: #FFD700;
+  font-size: 0.65rem;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+/* ---- Core Values Bar ---- */
+.coreValuesBar {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.06), rgba(255, 165, 0, 0.04));
+  border-radius: 10px;
+  border: 1px solid rgba(255, 215, 0, 0.12);
+  position: relative;
+  z-index: 1;
+}
+
+.coreValue {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #FFD700;
+}
+
+.coreValueStar {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+/* ============================================
+   EDIT MODAL
+   ============================================ */
+.editOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.editModal {
+  background: linear-gradient(145deg, #0a1628, #0f1f3a);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+  background: rgba(0, 31, 63, 0.6);
+}
+
+.modalHeader h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.15rem;
+  color: #ffffff;
+  margin: 0;
+  font-weight: 700;
+}
+
+.modalHeaderIcon {
+  color: #FFD700;
+}
+
+.modalClose {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.modalClose:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modalBody {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formLabel {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 215, 0, 0.8);
+  margin-bottom: 0.6rem;
+}
+
+.formSearch {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(0, 40, 80, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  outline: none;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.2s ease;
+}
+
+.formSearch::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.formSearch:focus {
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.ratingList {
+  max-height: 180px;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
+  background: rgba(0, 25, 55, 0.5);
+}
+
+.ratingList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ratingList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ratingList::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.2);
+  border-radius: 3px;
+}
+
+.ratingOption {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  font-size: 0.85rem;
+}
+
+.ratingOption:last-child {
+  border-bottom: none;
+}
+
+.ratingOption:hover {
+  background: rgba(255, 215, 0, 0.08);
+}
+
+.ratingOptionActive {
+  background: rgba(255, 215, 0, 0.12);
+  color: #FFD700;
+}
+
+.ratingOptionCode {
+  font-weight: 800;
+  min-width: 40px;
+  color: #FFD700;
+  font-size: 0.85rem;
+}
+
+.ratingOptionTitle {
+  font-size: 0.82rem;
+  opacity: 0.85;
+}
+
+.rankOptions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.rankOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 6px;
+  background: rgba(0, 40, 80, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rankOption:hover {
+  border-color: rgba(255, 215, 0, 0.3);
+  background: rgba(0, 50, 100, 0.6);
+}
+
+.rankOptionActive {
+  border-color: #FFD700;
+  background: rgba(255, 215, 0, 0.1);
+  color: #FFD700;
+}
+
+.rankOptionGrade {
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.rankOptionTitle {
+  font-size: 0.65rem;
+  text-align: center;
+  opacity: 0.75;
+  line-height: 1.2;
+}
+
+.formSelect,
+.formInput {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(0, 40, 80, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.formSelect:focus,
+.formInput:focus {
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.formSelect option {
+  background: #0a1628;
+  color: #ffffff;
+}
+
+.formInput::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(255, 215, 0, 0.15);
+  background: rgba(0, 31, 63, 0.4);
+}
+
+.cancelBtn,
+.saveBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.cancelBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.saveBtn {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #001F3F;
+}
+
+.saveBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+/* ============================================
+   LIGHT THEME OVERRIDES
+   ============================================ */
+[data-theme="light"] .militarySection {
+  background: linear-gradient(145deg, #f0f4f8, #e8edf5);
+  border-color: rgba(0, 31, 63, 0.15);
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(0, 31, 63, 0.08);
+}
+
+[data-theme="light"] .navyStripe {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 31, 63, 0.4) 20%,
+    #001F3F 50%,
+    rgba(0, 31, 63, 0.4) 80%,
+    transparent
+  );
+}
+
+[data-theme="light"] .sectionTitle {
+  color: #001F3F;
+}
+
+[data-theme="light"] .sectionTitle::after {
+  background: linear-gradient(to right, #001F3F, #003B6F);
+}
+
+[data-theme="light"] .titleIcon {
+  color: #001F3F;
+}
+
+[data-theme="light"] .editButton {
+  background: rgba(0, 31, 63, 0.06);
+  border-color: rgba(0, 31, 63, 0.2);
+  color: #001F3F;
+}
+
+[data-theme="light"] .editButton:hover {
+  background: rgba(0, 31, 63, 0.12);
+  border-color: #001F3F;
+}
+
+[data-theme="light"] .branchBanner {
+  background: linear-gradient(135deg, #001F3F, #002B56);
+}
+
+[data-theme="light"] .ratingCard,
+[data-theme="light"] .rankCard,
+[data-theme="light"] .statusCard {
+  background: #ffffff;
+  border-color: rgba(0, 31, 63, 0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .cardLabel {
+  color: #001F3F;
+}
+
+[data-theme="light"] .ratingCode {
+  color: #001F3F;
+  text-shadow: none;
+}
+
+[data-theme="light"] .ratingTitle,
+[data-theme="light"] .rankTitle {
+  color: #334155;
+}
+
+[data-theme="light"] .rankGrade {
+  background: linear-gradient(135deg, #001F3F, #003B6F);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+[data-theme="light"] .serviceDetails {
+  background: rgba(0, 31, 63, 0.04);
+  border-color: rgba(0, 31, 63, 0.08);
+}
+
+[data-theme="light"] .detailIcon {
+  color: #001F3F;
+}
+
+[data-theme="light"] .detailLabel {
+  color: #001F3F;
+}
+
+[data-theme="light"] .detailValue {
+  color: #334155;
+}
+
+[data-theme="light"] .dutiesTitle {
+  color: #001F3F;
+}
+
+[data-theme="light"] .dutiesTitleIcon {
+  color: #001F3F;
+}
+
+[data-theme="light"] .dutyItem {
+  background: #ffffff;
+  border-color: rgba(0, 31, 63, 0.08);
+  color: #334155;
+}
+
+[data-theme="light"] .dutyItem:hover {
+  border-color: rgba(0, 31, 63, 0.2);
+  background: #f8fafc;
+}
+
+[data-theme="light"] .dutyBullet {
+  color: #001F3F;
+}
+
+[data-theme="light"] .coreValuesBar {
+  background: linear-gradient(135deg, rgba(0, 31, 63, 0.04), rgba(0, 59, 111, 0.03));
+  border-color: rgba(0, 31, 63, 0.1);
+}
+
+[data-theme="light"] .coreValue {
+  color: #001F3F;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .militarySection {
+    padding: 2rem 1.25rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+
+  .bannerContent {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .bannerFlag {
+    display: none;
+  }
+
+  .branchName {
+    font-size: 1.2rem;
+  }
+
+  .serviceGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .dutiesList {
+    grid-template-columns: 1fr;
+  }
+
+  .coreValuesBar {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .rankOptions {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .editModal {
+    max-height: 90vh;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .militarySection {
+    padding: 1.5rem 1rem;
+  }
+
+  .ratingCode {
+    font-size: 2rem;
+  }
+
+  .rankGrade {
+    font-size: 1.8rem;
+  }
+
+  .branchName {
+    font-size: 1rem;
+  }
+
+  .branchMotto {
+    font-size: 0.75rem;
+  }
+}
