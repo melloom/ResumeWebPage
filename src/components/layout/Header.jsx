@@ -192,16 +192,10 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
               </li>
               <li className={styles.navItem}>
                 <Link
-                  to="/resume#military"
-                  className={`${styles.navLink} ${styles.militaryLink}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate('/resume');
-                    setTimeout(() => {
-                      const el = document.getElementById('military');
-                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 300);
-                  }}
+                  to="/navy"
+                  className={`${styles.navLink} ${styles.militaryLink} ${isActive('/navy') ? styles.active : ''}`}
+                  onMouseEnter={() => handleLinkHover('/navy')}
+                  onFocus={() => handleLinkHover('/navy')}
                 >
                   <FaAnchor className={styles.navIcon} /> Navy
                 </Link>
@@ -358,19 +352,13 @@ const Header = ({ theme = 'dark', toggleTheme, onAddProject }) => {
                 </Link>
               </li>
               <li className={styles.sidebarItem}>
-                <button
-                  className={`${styles.sidebarLink} ${styles.militaryLink}`}
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    navigate('/resume');
-                    setTimeout(() => {
-                      const el = document.getElementById('military');
-                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 400);
-                  }}
+                <Link
+                  to="/navy"
+                  className={`${styles.sidebarLink} ${styles.militaryLink} ${isActive('/navy') ? styles.active : ''}`}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   <FaAnchor className={styles.sidebarIcon} /> Navy
-                </button>
+                </Link>
               </li>
               <li className={styles.sidebarItem}>
                 <Link 

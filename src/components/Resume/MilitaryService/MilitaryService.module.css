@@ -913,3 +913,30 @@
     font-size: 0.75rem;
   }
 }
+
+/* View Full Page Link */
+.viewFullPage {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.viewFullLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 2rem;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #001F3F;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.25);
+}
+
+.viewFullLink:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+  background: linear-gradient(135deg, #FFE033, #FFB733);
+}
