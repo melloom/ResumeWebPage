@@ -12,6 +12,7 @@ import ResumeSkills from '../components/Resume/ResumeSkills/ResumeSkills';
 import ResumeExperience from '../components/Resume/ResumeExperience/ResumeExperience';
 import ResumeEducation from '../components/Resume/ResumeEducation/ResumeEducation';
 import ResumeCertifications from '../components/Resume/ResumeCertifications/ResumeCertifications';
+import MilitaryService from '../components/Resume/MilitaryService/MilitaryService';
 import styles from './Resume.module.css';
 
 const Resume = () => {
@@ -158,6 +159,11 @@ const Resume = () => {
             {/* Education Section - Ensure ID matches what SideNav expects */}
             <motion.div variants={sectionVariants} id="education">
               <ResumeEducation />
+            </motion.div>
+
+            {/* Military Service Section */}
+            <motion.div variants={sectionVariants} id="military">
+              <MilitaryService />
             </motion.div>
 
             {/* Certifications Section - Ensure ID matches what SideNav expects */}
