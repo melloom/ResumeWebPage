@@ -64,7 +64,7 @@ function renderMessageContent(text) {
   return text.replace(/<(laugh|chuckle)>/gi, '');
 }
 
-const NAV_PATHS = ['/contact', '/projects', '/about', '/resume', '/ai-lab', '/'];
+const NAV_PATHS = ['/contact', '/projects', '/about', '/resume', '/ai-lab', '/navy', '/code-review', '/scout-crawler', '/'];
 function extractPathFromResponse(text) {
   if (!text || typeof text !== 'string') return null;
   const t = text.trim();
@@ -323,7 +323,7 @@ const AIChat = forwardRef((props, ref) => {
       setIsLoading(false);
       isLoadingRef.current = false;
 
-      if (compact && onSuggestNavigation) {
+      if (onSuggestNavigation) {
         const path = extractPathFromResponse(responseContent);
         if (path) onSuggestNavigation(path);
       }

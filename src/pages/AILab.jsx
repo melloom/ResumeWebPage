@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AIChat from '../components/ai/AIChat';
 import AILabHub from '../components/ai/AILabHub';
 import { FaArrowLeft } from 'react-icons/fa';
 import styles from './AILab.module.css';
 
 const AILab = () => {
+  const navigate = useNavigate();
+
   // Use hash to determine view - default to hub
   const [currentView, setCurrentView] = useState(() => {
     return window.location.hash === '#chat' ? 'chat' : 'hub';
@@ -42,7 +45,7 @@ const AILab = () => {
           >
             <FaArrowLeft /> Back to AI Lab Hub
           </button>
-          <AIChat />
+          <AIChat onSuggestNavigation={(path) => navigate(path)} />
         </div>
       )}
     </section>
